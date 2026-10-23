@@ -85,11 +85,18 @@ const run = promisify(execFile);
  * (pg_class, pg_policies…). Usa la CLI de Supabase: necesita `supabase login` y `supabase link`.
  */
 export async function sql<T = Record<string, unknown>>(query: string): Promise<T[]> {
-  const { stdout } = await run(
-    'supabase',
-    ['db', 'query', '--linked', '--output-format', 'json', query],
-    { maxBuffer: 10 * 1024 * 1024 },
-  );
+  let stdout: string;
+  try {
+    ({ stdout } = await run(
+      'supabase',
+      ['db', 'query', '--linked', '--output-format', 'json', query],
+      { maxBuffer: 10 * 1024 * 1024 },
+    ));
+  } catch (e) {
+    // La CLI deja el error de Postgres en stderr/stdout; sin esto solo se vería "Command failed".
+    const err = e as { stdout?: string; stderr?: string; message: string };
+    throw new Error(`${err.message}\n${err.stderr ?? ''}\n${err.stdout ?? ''}`);
+  }
   // Sin --output-format la CLI imprime una tabla en un terminal normal y un JSON envuelto
   // cuando detecta un agente. Con él: un array (terminal) o { rows } (agente). Se aceptan ambos.
   const start = stdout.search(/^[[{]/m);

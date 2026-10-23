@@ -16,7 +16,7 @@ async function setup(poolTile: number): Promise<TestGame> {
      where game_id = '${game.id}' and (owner_id = '${owner}' or place = 'pool');
     update public.game_tiles set place = 'support', owner_id = '${owner}', slot = (number / 10) - 1
      where game_id = '${game.id}' and number in (10, 20, 30, 40, 50);
-    update public.game_tiles set place = 'pool' where game_id = '${game.id}' and number = ${poolTile};
+    update public.game_tiles set place = 'pool', owner_id = null, slot = null where game_id = '${game.id}' and number = ${poolTile};
     update public.games set phase = 'clue', current_seat = 0 where id = '${game.id}';`);
   return game;
 }

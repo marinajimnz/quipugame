@@ -120,39 +120,39 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 
 *Deja funcionando: `deal_game`, `reveal_tile`, `ask_clue`, `declare_code`, `get_game_state` con los tests de integración en verde, incluido el grupo de fuga.*
 
-- [ ] **T020** Ayudantes internos: `game_internal.lock_game(p_game_id)` (hace el `select ... for update` y devuelve la fila), `emit_event(...)` (incrementa `event_seq` y escribe en `game_events`; exige el bloqueo tomado), `caller_player(p_game_id)` (`auth.uid()` → `game_players.id`). 🔒R3
+- [x] **T020** Ayudantes internos: `game_internal.lock_game(p_game_id)` (hace el `select ... for update` y devuelve la fila), `emit_event(...)` (incrementa `event_seq` y escribe en `game_events`; exige el bloqueo tomado), `caller_player(p_game_id)` (`auth.uid()` → `game_players.id`). 🔒R3
   - Ficheros: `supabase/migrations/<ts>_engine_helpers.sql`
   - Hecho cuando: test que comprueba que `emit_event` produce `seq` correlativos sin huecos tras 20 llamadas.
 
-- [ ] **T021** `game_internal.advance_turn(game)`: siguiente asiento `active`, `phase = 'reveal'`, nuevo `turn_deadline`, `revealed_tile = null`; detecta fin de partida por último en pie y por reserva agotada + ronda completa (C5a). 🔒R3 (lo llaman funciones que ya tienen el bloqueo; comprueba que lo tienen).
+- [x] **T021** `game_internal.advance_turn(game)`: siguiente asiento `active`, `phase = 'reveal'`, nuevo `turn_deadline`, `revealed_tile = null`; detecta fin de partida por último en pie y por reserva agotada + ronda completa (C5a). 🔒R3 (lo llaman funciones que ya tienen el bloqueo; comprueba que lo tienen).
   - Ficheros: `supabase/migrations/<ts>_engine_turn.sql`
   - Hecho cuando: tests de salto de eliminados, vuelta al asiento 0 y empate por reserva agotada.
 
-- [ ] **T022** `game_internal.deal_game(p_game_id)`. 🔒R1 🔒R3
+- [x] **T022** `game_internal.deal_game(p_game_id)`. 🔒R1 🔒R3
   - Ficheros: `supabase/migrations/<ts>_engine_deal.sql`, `tests/db/engine/deal.test.ts`
   - Hecho cuando (grupo **reparto**, repetido 50 veces con semillas distintas): 60 fichas; 5 por jugador, una de cada color; `slot` ascendente por número; sin repetidos; 5 en `pool`, una de cada color; evento `game_started` cuyo `payload` **no** contiene números de soportes.
 
-- [ ] **T023** `reveal_tile(p_game_id, p_color)` (público) → `game_internal.reveal_tile_as(p_player_id, ...)`. 🔒R3
+- [x] **T023** `reveal_tile(p_game_id, p_color)` (público) → `game_internal.reveal_tile_as(p_player_id, ...)`. 🔒R3
   - Ficheros: `supabase/migrations/<ts>_engine_reveal.sql`, `tests/db/engine/turn.test.ts`
   - Hecho cuando (grupo **turno**): error fuera de turno; error en fase `clue`; `no_tiles_of_color` con color agotado; con reserva vacía emite `turn_skipped` y pasa a `clue`; guarda `revealed_tile`.
 
-- [ ] **T024** `ask_clue(p_game_id, p_tile, p_kind, p_slot)` → `ask_clue_as`. 🔒R3
+- [x] **T024** `ask_clue(p_game_id, p_tile, p_kind, p_slot)` → `ask_clue_as`. 🔒R3
   - Ficheros: `supabase/migrations/<ts>_engine_clue.sql`, `tests/db/engine/clue.test.ts`
   - Hecho cuando (grupo **pistas**): `classify` devuelve 0, 1, 2, 3, 4 y 5 en seis montajes fijos; `compare` responde bien con fichas de 1, 2 y 3 puntos, en sí y en no; la ficha pasa a `spent`; error si la ficha no está en `pool`, si `classify` trae `p_slot` o si `compare` no lo trae; el turno avanza. El evento `clue_asked` lleva solo ficha, tipo, ranura y respuesta.
 
-- [ ] **T025** `declare_code(p_game_id, p_numbers)` → `declare_code_as`. Devuelve solo `{ correct: boolean }`. Llama a `advance_turn` si el declarante era el activo (C9). 🔒R2 🔒R3
+- [x] **T025** `declare_code(p_game_id, p_numbers)` → `declare_code_as`. Devuelve solo `{ correct: boolean }`. Llama a `advance_turn` si el declarante era el activo (C9). 🔒R2 🔒R3
   - Ficheros: `supabase/migrations/<ts>_engine_declare.sql`, `tests/db/engine/declare.test.ts`
   - Hecho cuando (grupo **declaración**): acierto → `finished` + ganador; fallo → `eliminated` y `has_declared = true`; segunda declaración rechazada; declarar fuera de turno funciona; último en pie gana; todos eliminados → sin ganador; el valor de retorno y el evento `eliminated` no contienen los números reales; tras eliminarse, `get_game_state` sí los devuelve a ese jugador (C1).
 
-- [ ] **T026** `abandon_game(p_game_id)` → `abandon_as`. Comprueba último en pie y avanza turno si toca (C9). 🔒R3
+- [x] **T026** `abandon_game(p_game_id)` → `abandon_as`. Comprueba último en pie y avanza turno si toca (C9). 🔒R3
   - Ficheros: `supabase/migrations/<ts>_engine_abandon.sql`, `tests/db/engine/abandon.test.ts`
   - Hecho cuando: abandonar deja `state = 'abandoned'`; con 2 jugadores el otro gana.
 
-- [ ] **T027** `game_internal.state_for_player(p_game_id, p_player_id) → jsonb` y `get_game_state(p_game_id)` como envoltorio. Es el **único** constructor de estado; los bots lo usarán también (T042). 🔒R1 🔒R2
+- [x] **T027** `game_internal.state_for_player(p_game_id, p_player_id) → jsonb` y `get_game_state(p_game_id)` como envoltorio. Es el **único** constructor de estado; los bots lo usarán también (T042). 🔒R1 🔒R2
   - Ficheros: `supabase/migrations/<ts>_engine_state.sql`
   - Hecho cuando: devuelve la forma JSON del plan §3; `me.support[].resolved_number` es `null` con la partida activa y se rellena al terminar.
 
-- [ ] **T028** Grupo **fuga (parte 2)** — obligatorio, se ejecuta en cada commit. 🔒R1 🔒R2
+- [x] **T028** Grupo **fuga (parte 2)** — obligatorio, se ejecuta en cada commit. 🔒R1 🔒R2
   - Ficheros: `tests/db/fuga/state.test.ts`, `tests/db/fuga/events.test.ts`, `tests/db/fuga/surface.test.ts`
   - Hecho cuando, en una partida simulada de 3 jugadores y 15 turnos, para cada jugador y después de cada turno:
     - ningún valor bajo las claves `number`, `tile_number` o `resolved_number` del JSON de `get_game_state` pertenece a sus propias fichas;
@@ -160,7 +160,7 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
     - como `authenticated`, ejecutar cualquier función de `game_internal` falla por permisos;
     - **lista blanca**: las funciones `security definer` de `public` son exactamente las aprobadas. Una función nueva sin añadir a la lista rompe el test.
 
-- [ ] **T029** Grupo **concurrencia**: dos declaraciones correctas casi simultáneas producen un solo ganador. Dos clientes reales declaran a la vez con `Promise.all`.
+- [x] **T029** Grupo **concurrencia**: dos declaraciones correctas casi simultáneas producen un solo ganador. Dos clientes reales declaran a la vez con `Promise.all`.
   - Ficheros: `tests/db/engine/concurrency.test.ts`
   - Hecho cuando: 20 repeticiones, siempre exactamente un `game_ended` y un ganador; la segunda declaración recibe "partida no activa".
 
