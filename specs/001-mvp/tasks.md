@@ -93,11 +93,11 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
   - Ficheros: `supabase/migrations/<ts>_policies.sql`
   - Hecho cuando: los tests de T011 pasan.
 
-- [ ] **T010** Montar Vitest para integración con la base de datos: ayudantes para crear usuarios anónimos reales (`supabase-js`), clientes autenticados por usuario, una partida de N jugadores y limpieza al final. Una conexión de administración (`SUPABASE_SERVICE_ROLE_KEY`, solo en `.env.local`) para sembrar y limpiar datos de prueba. Los tests rechazan ejecutarse si `SUPABASE_URL` no es el de la lista permitida.
+- [x] **T010** Montar Vitest para integración con la base de datos: ayudantes para crear usuarios anónimos reales (`supabase-js`), clientes autenticados por usuario, una partida de N jugadores y limpieza al final. Una conexión de administración (`SUPABASE_SERVICE_ROLE_KEY`, solo en `.env.local`) para sembrar y limpiar datos de prueba. Los tests rechazan ejecutarse si `SUPABASE_URL` no es el de la lista permitida.
   - Ficheros: `tests/db/helpers.ts`
   - Hecho cuando: `npm run test:db` ejecuta un test trivial en verde y limpia lo que crea.
 
-- [ ] **T011** Tests de esquema y del grupo **fuga (parte 1)**. 🔒R1
+- [x] **T011** Tests de esquema y del grupo **fuga (parte 1)**. 🔒R1
   - Ficheros: `tests/db/schema.test.ts`, `tests/db/fuga/game_tiles.test.ts`
   - Hecho cuando, todo en verde:
     - toda tabla de `public` tiene `relrowsecurity = true` (consulta a `pg_class`, así una tabla nueva sin RLS rompe el test);
