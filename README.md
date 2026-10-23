@@ -32,3 +32,36 @@ Toda migración es un fichero versionado en `supabase/migrations/`. No se toca e
 ```bash
 python3 scripts/generate_points_table.py
 ```
+
+## Despliegue (Vercel + Supabase)
+
+El cliente (Next.js) va en Vercel, región `fra1` (`vercel.json`); la base de datos, la autenticación
+y los bots (pg_cron) viven en Supabase, región `eu-central-1`. Los bots juegan desde la base de
+datos, así que no dependen de Vercel.
+
+1. **Importar el repo** en vercel.com → *Add New → Project* → `marinajimnz/quipugame`. Framework
+   Next.js (se detecta solo), directorio raíz `./`, comandos por defecto.
+2. **Variables de entorno** (*Settings → Environment Variables*, en Production, Preview y
+   Development). Se incrustan al compilar: ponerlas **antes** del primer despliegue, o redesplegar.
+
+   | Variable | Valor |
+   |---|---|
+   | `NEXT_PUBLIC_SUPABASE_URL` | URL del proyecto Supabase |
+   | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | clave `anon` / publishable (es pública por diseño) |
+
+   **No** añadas `SUPABASE_SERVICE_ROLE_KEY` a Vercel: la app no la usa y salta toda la seguridad.
+   Por la misma razón, no se recomienda instalar la integración de Supabase del Marketplace, que
+   la copia a Vercel.
+3. **Rama de producción.** Vercel despliega `main`. Mientras el MVP esté en `001-mvp`, esa rama
+   genera un *Preview deployment* con su propia URL; para que sea la de producción, cámbiala en
+   *Settings → Git → Production Branch* o fusiona `001-mvp` en `main`.
+4. **Supabase → Authentication → URL Configuration.** *Site URL* = la URL de producción. En
+   *Redirect URLs*: `https://<tu-dominio>/**`, `https://*-<tu-equipo>.vercel.app/**` (previews),
+   `http://localhost:3000/**` y `http://localhost:3100/**`. Sin esto, los enlaces de confirmación
+   por correo (registro y conversión de invitado) no vuelven a la app.
+5. **Probar** en el móvil: *Jugar como invitado* → *Practicar* → jugar una partida.
+
+Notas: el plan *Hobby* de Vercel es solo para uso no comercial. Los *Preview deployments* llevan
+por defecto *Vercel Authentication* (solo ven la URL los miembros del equipo): para enseñar una
+preview a otras personas, desactívala en *Settings → Deployment Protection*. En el plan gratuito
+de Supabase el proyecto se pausa tras una semana sin actividad.

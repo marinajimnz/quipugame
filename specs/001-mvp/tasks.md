@@ -369,7 +369,7 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
   - Ficheros: `supabase/migrations/<ts>_bot_hard.sql`, `tests/db/bots/hard.test.ts`
   - Hecho cuando: gana al `normal` en más del 60 % de 200 partidas.
 
-- [ ] **T087** Despliegue: proyecto Supabase gestionado (migraciones por CLI, nunca desde el panel), Vercel, variables de entorno.
+- [ ] **T087** (preparado: `vercel.json`, cabeceras, CI de app y pasos en el README; falta importar en Vercel y configurar las URLs de Auth) Despliegue: proyecto Supabase gestionado (migraciones por CLI, nunca desde el panel), Vercel, variables de entorno.
   - Ficheros: `README.md`, `.github/workflows/deploy.yml`
   - Hecho cuando: la URL pública funciona y la CI de fuga corre también contra la base desplegada.
 
