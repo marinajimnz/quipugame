@@ -81,10 +81,15 @@ const run = promisify(execFile);
  * (pg_class, pg_policies…). Usa la CLI de Supabase: necesita `supabase login` y `supabase link`.
  */
 export async function sql<T = Record<string, unknown>>(query: string): Promise<T[]> {
-  const { stdout } = await run('supabase', ['db', 'query', '--linked', query], {
-    maxBuffer: 10 * 1024 * 1024,
-  });
-  const start = stdout.indexOf('{');
-  const parsed = JSON.parse(stdout.slice(start, stdout.lastIndexOf('}') + 1));
-  return parsed.rows as T[];
+  const { stdout } = await run(
+    'supabase',
+    ['db', 'query', '--linked', '--output-format', 'json', query],
+    { maxBuffer: 10 * 1024 * 1024 },
+  );
+  // Sin --output-format la CLI imprime una tabla en un terminal normal y un JSON envuelto
+  // cuando detecta un agente. Con él: un array (terminal) o { rows } (agente). Se aceptan ambos.
+  const start = stdout.search(/^[[{]/m);
+  if (start === -1) throw new Error(`Respuesta inesperada de supabase db query:\n${stdout}`);
+  const parsed = JSON.parse(stdout.slice(start).trim());
+  return (Array.isArray(parsed) ? parsed : parsed.rows) as T[];
 }
