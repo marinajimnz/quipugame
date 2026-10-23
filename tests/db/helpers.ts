@@ -128,6 +128,11 @@ export interface TestGame {
   seats: TestSeat[];
 }
 
+/** Registra una partida creada por otra vía (p. ej. start_practice_game) para borrarla al limpiar. */
+export function trackGame(id: string): void {
+  createdGameIds.push(id);
+}
+
 /** Crea una partida y la reparte con el motor real (game_internal.deal_game). */
 export async function createGame(players: Player[], mode = 'private'): Promise<TestGame> {
   const id = randomUUID();

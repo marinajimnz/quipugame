@@ -36,6 +36,7 @@ describe('esquema', () => {
       'is_participant',
       'is_room_member',
       'reveal_tile',
+      'start_practice_game',
       'sync_guest_flag',
     ]);
   });
