@@ -57,7 +57,7 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 
 *Deja funcionando: base de datos (proyecto Supabase enlazado) con las 60 fichas y todas las políticas puestas.*
 
-- [ ] **T001** Inicializar la carpeta `supabase/` y enlazarla al proyecto `nbgtutrcleupqlnzruhb` (`supabase link`). Sin Docker: no hay base local.
+- [ ] **T001** Inicializar la carpeta `supabase/` y enlazarla al proyecto `xxyigxrjaflwnehztdsr` (`supabase link`). Sin Docker: no hay base local.
   - Ficheros: `supabase/config.toml`, `.gitignore`, `README.md`
   - Hecho cuando: `supabase db push --dry-run` lista las migraciones sin errores; `config.toml` apunta la semilla a `./seed/points_table.sql`; `pg_cron` y `citext` están habilitadas en el proyecto.
 
