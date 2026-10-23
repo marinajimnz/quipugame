@@ -204,19 +204,19 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 
 *Deja funcionando: el primer bucle completo, tú contra el servidor. **Es el hito que dice si el juego engancha**: llegar pronto y jugarlo mucho.*
 
-- [ ] **T040** `start_practice_game(p_bots, p_difficulty) → uuid`: crea partida `practice` con 1 humano + 1–3 bots y llama a `deal_game`. Invitados permitidos. 🔒R3
+- [x] **T040** `start_practice_game(p_bots, p_difficulty) → uuid`: crea partida `practice` con 1 humano + 1–3 bots y llama a `deal_game`. Invitados permitidos. 🔒R3
   - Ficheros: `supabase/migrations/<ts>_practice.sql`, `tests/db/engine/practice.test.ts`
   - Hecho cuando: test que crea la partida y comprueba asientos, bots y reparto.
 
-- [ ] **T041** Candidatos del bot: `game_internal.bot_candidates(p_state jsonb) → jsonb`. Recibe **el JSON de `state_for_player`**, no un `game_id`, así que no puede leer `game_tiles` aunque quiera. 🔒R1 🔒R2
+- [x] **T041** Candidatos del bot: `game_internal.bot_candidates(p_state jsonb) → jsonb`. Recibe **el JSON de `state_for_player`**, no un `game_id`, así que no puede leer `game_tiles` aunque quiera. 🔒R1 🔒R2
   - Ficheros: `supabase/migrations/<ts>_bot_candidates.sql`, `tests/db/bots/candidates.test.ts`
   - Hecho cuando: tests con estados fijos (color por ranura, números vistos, orden ascendente, pistas `classify` y `compare`); test de fuga que comprueba en `pg_proc.prosrc` que ninguna función `bot_*` menciona `game_tiles`.
 
-- [ ] **T042** Decisión del bot `easy` (pista al azar; declara con ≤ 2 candidatos por ranura) y `normal` (pista que más descarta en el peor caso; declara con un único candidato en las 5). Juega a través de `reveal_tile_as`, `ask_clue_as` y `declare_code_as`. 🔒R3
+- [x] **T042** Decisión del bot `easy` (pista al azar; declara con ≤ 2 candidatos por ranura) y `normal` (pista que más descarta en el peor caso; declara con un único candidato en las 5). Juega a través de `reveal_tile_as`, `ask_clue_as` y `declare_code_as`. 🔒R3
   - Ficheros: `supabase/migrations/<ts>_bot_play.sql`, `tests/db/bots/play.test.ts`
   - Hecho cuando: 100 partidas bot contra bot terminan sin error; el bot `normal` nunca declara mal.
 
-- [ ] **T043** `game_internal.play_bot_turns()` en `pg_cron` cada 5 s con `pg_try_advisory_lock`; espera aleatoria de 2–6 s por turno (spec HU-6). Los bots también pueden declarar fuera de su turno en cada pasada. 🔒R3
+- [x] **T043** `game_internal.play_bot_turns()` en `pg_cron` cada 5 s con `pg_try_advisory_lock`; espera aleatoria de 2–6 s por turno (spec HU-6). Los bots también pueden declarar fuera de su turno en cada pasada. 🔒R3
   - Ficheros: `supabase/migrations/<ts>_cron_bots.sql`
   - Hecho cuando: una partida de práctica avanza sola en local; dos ejecuciones solapadas no juegan el mismo turno dos veces (test con el candado tomado).
 

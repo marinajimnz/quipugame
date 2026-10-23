@@ -55,14 +55,14 @@ describe('bot_candidates', () => {
 
   it('descarta los números que se ven en otras fichas (soportes ajenos, mazo y gastadas)', async () => {
     const game = await createGame([a, b]);
-    const c = await candidates(game, { otherSupport: [6, 12], pool: [11, 2], clues: [{ tile: 16, kind: 'classify', position: 5 }] });
+    const c = await candidates(game, { otherSupport: [6, 12], pool: [11, 2], clues: [{ tile: 16, kind: 'compare', slot: 4, same: true }] });
     // 6, 11 y 16 son del color 0: no pueden ser mi posición 0. 12 y 2 son del color 1.
     expect(c[0]).not.toContain(6);
     expect(c[0]).not.toContain(11);
     expect(c[0]).not.toContain(16);
     expect(c[1]).not.toContain(12);
     expect(c[1]).not.toContain(2);
-    expect(c[2]).toEqual(ofColor(2)); // el color 2 no se ve en ningún sitio
+    c.forEach((list, i) => list.forEach((n) => expect(color(n)).toBe(color(SUPPORT[i])))); // siempre su color
   });
 
   it('classify: exactamente "posición" de mis fichas son menores que la de la pista', async () => {

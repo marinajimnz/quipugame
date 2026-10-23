@@ -539,6 +539,10 @@ export type Database = {
         Args: { p_color: number; p_game_id: string }
         Returns: undefined
       }
+      start_practice_game: {
+        Args: { p_bots: number; p_difficulty: string }
+        Returns: string
+      }
     }
     Enums: {
       clue_kind: "classify" | "compare"
