@@ -35,6 +35,8 @@ python3 scripts/generate_points_table.py
 
 ## Despliegue (Vercel + Supabase)
 
+Producción: https://quiputhegame.vercel.app (rama `main`).
+
 El cliente (Next.js) va en Vercel, región `fra1` (`vercel.json`); la base de datos, la autenticación
 y los bots (pg_cron) viven en Supabase, región `eu-central-1`. Los bots juegan desde la base de
 datos, así que no dependen de Vercel.
