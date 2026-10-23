@@ -21,6 +21,7 @@ from itertools import groupby
 from pathlib import Path
 
 SEED = 20261023
+MIGRATION_NAME = "20261023141701_tile_definitions_data.sql"
 VALUES = (1, 2, 3)
 
 
@@ -168,6 +169,12 @@ def write_outputs(points):
         f.write("insert into tile_definitions (number, color_index, points) values\n")
         filas = [f"  ({n}, {color_of(n)}, {points[n]})" for n in range(1, 61)]
         f.write(",\n".join(filas) + ";\n")
+
+    # `supabase db push` no ejecuta semillas: los datos viajan también como migración,
+    # copia exacta de la semilla.
+    migration_path = root / "supabase" / "migrations" / MIGRATION_NAME
+    migration_path.parent.mkdir(parents=True, exist_ok=True)
+    migration_path.write_text(sql_path.read_text())
 
     with open(ts_path, "w") as f:
         f.write("// Tabla de puntos de Quinteto. Generada por generate_points_table.py\n")
