@@ -61,35 +61,35 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
   - Ficheros: `supabase/config.toml`, `.gitignore`, `README.md`
   - Hecho cuando: `supabase db push --linked --dry-run` lista las migraciones sin errores; `config.toml` apunta la semilla a `./seed/points_table.sql`; `pg_cron` y `citext` están habilitadas en el proyecto.
 
-- [ ] **T002** Migración de tipos enumerados (`game_mode`, `game_status`, `player_state`, `turn_phase`, `tile_place`, `clue_kind`) y esquema `game_internal`.
+- [x] **T002** Migración de tipos enumerados (`game_mode`, `game_status`, `player_state`, `turn_phase`, `tile_place`, `clue_kind`) y esquema `game_internal`.
   - Ficheros: `supabase/migrations/<ts>_types.sql`
   - Hecho cuando: `supabase db push` aplica; `game_internal` no aparece en `[api] schemas` de `config.toml`.
 
-- [ ] **T003** [P] Tabla `tile_definitions` con RLS (lectura pública, sin escritura) y semilla.
+- [x] **T003** [P] Tabla `tile_definitions` con RLS (lectura pública, sin escritura) y semilla.
   - Ficheros: `supabase/migrations/<ts>_tile_definitions.sql`
   - Hecho cuando: tras `db push`, `select count(*)` = 60; `color_index = (number - 1) % 5` en todas las filas (constraint `check`).
 
-- [ ] **T004** [P] Tabla `profiles` + disparador sobre `auth.users` que crea el perfil (con nombre de invitado según C10) + `grant update (display_name, avatar_key)` a `authenticated` (RLS no restringe columnas; lo hace el `grant`).
+- [x] **T004** [P] Tabla `profiles` + disparador sobre `auth.users` que crea el perfil (con nombre de invitado según C10) + `grant update (display_name, avatar_key)` a `authenticated` (RLS no restringe columnas; lo hace el `grant`).
   - Ficheros: `supabase/migrations/<ts>_profiles.sql`
   - Hecho cuando: crear un usuario en `auth.users` crea su perfil con ELO 1000 e `is_guest` correcto; `check (elo >= 100)`; `check (char_length(display_name) between 3 and 16)`.
 
-- [ ] **T005** Tablas `games` (con las columnas que añada C5), `game_players`, `game_clues`, `game_events` con sus restricciones `unique`.
+- [x] **T005** Tablas `games` (con las columnas que añada C5), `game_players`, `game_clues`, `game_events` con sus restricciones `unique`.
   - Ficheros: `supabase/migrations/<ts>_games.sql`
   - Hecho cuando: `db push` aplica; `unique (game_id, seat)`, `unique (game_id, profile_id)`, `unique (game_id, seq)` existen.
 
-- [ ] **T006** Tabla `game_tiles`. 🔒R1
+- [x] **T006** Tabla `game_tiles`. 🔒R1
   - Ficheros: `supabase/migrations/<ts>_game_tiles.sql`
   - Hecho cuando: `alter table game_tiles enable row level security` y `force row level security`; cero políticas; `revoke all on game_tiles from anon, authenticated`; `unique (game_id, number)`, `unique (game_id, owner_id, slot)`.
 
-- [ ] **T007** [P] Tablas `rooms` (con `status` según C4) y `room_members`.
+- [x] **T007** [P] Tablas `rooms` (con `status` según C4) y `room_members`.
   - Ficheros: `supabase/migrations/<ts>_rooms.sql`
   - Hecho cuando: `check (code ~ '^[23456789ABCDEFGHJKLMNPQRSTUVWXYZ]{6}$')`; `check (seats between 2 and 4)`.
 
-- [ ] **T008** [P] Tablas `matchmaking_queue` y `elo_history`.
+- [x] **T008** [P] Tablas `matchmaking_queue` y `elo_history`.
   - Ficheros: `supabase/migrations/<ts>_ranked.sql`
   - Hecho cuando: `db push` aplica.
 
-- [ ] **T009** Función `is_participant(p_game_id)` (`stable`, `security definer`) y todas las políticas de la tabla 2.3 del plan. Las salas por código se leen con una función `get_room_by_code`, no con una política. 🔒R1
+- [x] **T009** Función `is_participant(p_game_id)` (`stable`, `security definer`) y todas las políticas de la tabla 2.3 del plan. Las salas por código se leen con una función `get_room_by_code`, no con una política. 🔒R1
   - Ficheros: `supabase/migrations/<ts>_policies.sql`
   - Hecho cuando: los tests de T011 pasan.
 
