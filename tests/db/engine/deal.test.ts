@@ -4,7 +4,7 @@ import { admin, cleanup, createGame, createPlayer, getState, type Player, type T
 // Grupo REPARTO. Lee game_tiles con la clave de administrador solo para comprobar.
 
 let players: Player[];
-let games: TestGame[] = [];
+const games: TestGame[] = [];
 
 beforeAll(async () => {
   players = await Promise.all([createPlayer(), createPlayer(), createPlayer(), createPlayer()]);

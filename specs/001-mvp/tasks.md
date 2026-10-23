@@ -170,15 +170,15 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 
 *Deja funcionando: registro, invitado, nombre y avatar.*
 
-- [ ] **T030** Esqueleto del cliente: Next.js (App Router, React 19), TypeScript `strict`, Tailwind con los tokens de `DESIGN.md` como variables CSS, Bricolage Grotesque 800 e Inter 400/500/600 con `next/font`, cifras tabulares, ESLint, Vitest. Mueve `src/game/pointsTable.ts` sin tocar su contenido.
+- [x] **T030** Esqueleto del cliente: Next.js (App Router, React 19), TypeScript `strict`, Tailwind con los tokens de `DESIGN.md` como variables CSS, Bricolage Grotesque 800 e Inter 400/500/600 con `next/font`, cifras tabulares, ESLint, Vitest. Mueve `src/game/pointsTable.ts` sin tocar su contenido.
   - Ficheros: `package.json`, `tsconfig.json`, `next.config.ts`, `tailwind.config.ts`, `app/layout.tsx`, `app/globals.css`, `vitest.config.ts`
   - Hecho cuando: `npm run build`, `npm run lint` y `npm test` en verde; la página de inicio se ve a 360 px sin scroll horizontal.
 
-- [ ] **T031** [P] Traducciones: `next-intl`, `messages/es.json` (con la marca como clave, ver C12) y una regla de lint que prohíbe texto literal en JSX (`react/jsx-no-literals`).
+- [x] **T031** [P] Traducciones: `next-intl`, `messages/es.json` (con la marca como clave, ver C12) y una regla de lint que prohíbe texto literal en JSX (`react/jsx-no-literals`).
   - Ficheros: `messages/es.json`, `i18n/`, `.eslintrc`
   - Hecho cuando: un componente con texto literal hace fallar `npm run lint`.
 
-- [ ] **T032** [P] Cliente de Supabase (`@supabase/ssr`), middleware de sesión, `.env.example`, script `npm run db:types` que genera `src/types/database.ts` con `supabase gen types`.
+- [x] **T032** [P] Cliente de Supabase (`@supabase/ssr`), middleware de sesión, `.env.example`, script `npm run db:types` que genera `src/types/database.ts` con `supabase gen types`.
   - Ficheros: `lib/supabase/`, `middleware.ts`, `.env.example`, `src/types/database.ts`
   - Hecho cuando: los tipos se generan y se importan; CI falla si `database.ts` no está al día con las migraciones.
 

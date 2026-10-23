@@ -1,0 +1,9 @@
+{
+  "app": {
+    "name": "Quipu",
+    "tagline": "Deduce tus propios números antes que nadie."
+  },
+  "home": {
+    "underConstruction": "Estamos construyendo la primera partida."
+  }
+}
