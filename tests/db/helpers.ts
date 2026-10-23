@@ -45,6 +45,7 @@ export interface Player {
 }
 
 const createdUserIds: string[] = [];
+const createdGameIds: string[] = [];
 
 /** Crea un usuario real y devuelve un cliente autenticado como él. */
 export async function createPlayer(): Promise<Player> {
@@ -68,6 +69,9 @@ export async function createPlayer(): Promise<Player> {
 
 /** Borra los usuarios creados (el perfil y sus datos caen en cascada). */
 export async function cleanup(): Promise<void> {
+  if (createdGameIds.length) {
+    await admin.from('games').delete().in('id', createdGameIds.splice(0));
+  }
   while (createdUserIds.length) {
     const id = createdUserIds.pop()!;
     await admin.auth.admin.deleteUser(id);
@@ -92,4 +96,101 @@ export async function sql<T = Record<string, unknown>>(query: string): Promise<T
   if (start === -1) throw new Error(`Respuesta inesperada de supabase db query:\n${stdout}`);
   const parsed = JSON.parse(stdout.slice(start).trim());
   return (Array.isArray(parsed) ? parsed : parsed.rows) as T[];
+}
+
+/** SQL de escritura contra el proyecto (como postgres): solo para montar escenarios de test. */
+export const exec = sql;
+
+export interface TestSeat {
+  player: Player;
+  playerId: string; // id dentro de la partida (game_players.id)
+  seat: number;
+}
+
+export interface TestGame {
+  id: string;
+  seats: TestSeat[];
+}
+
+/** Crea una partida y la reparte con el motor real (game_internal.deal_game). */
+export async function createGame(players: Player[], mode = 'private'): Promise<TestGame> {
+  const id = randomUUID();
+  const seats: TestSeat[] = players.map((player, seat) => ({ player, playerId: randomUUID(), seat }));
+  createdGameIds.push(id);
+
+  const values = seats
+    .map((s) => `('${s.playerId}', '${id}', '${s.player.id}', ${s.seat})`)
+    .join(', ');
+  await exec(`
+    insert into public.games (id, mode, status) values ('${id}', '${mode}', 'waiting');
+    insert into public.game_players (id, game_id, profile_id, seat) values ${values};
+    select game_internal.deal_game('${id}');`);
+
+  return { id, seats };
+}
+
+/** Números reales de las fichas de un jugador (lectura de administrador, solo para comprobar). */
+export async function realNumbers(game: TestGame, seat: number): Promise<number[]> {
+  const { data, error } = await admin
+    .from('game_tiles')
+    .select('number, slot')
+    .eq('game_id', game.id)
+    .eq('owner_id', game.seats[seat].playerId)
+    .eq('place', 'support')
+    .order('slot');
+  if (error) throw new Error(error.message);
+  return data!.map((t) => t.number);
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type GameState = any;
+
+export async function getState(game: TestGame, seat: number): Promise<GameState> {
+  const { data, error } = await game.seats[seat].player.client.rpc('get_game_state', {
+    p_game_id: game.id,
+  });
+  if (error) throw new Error(`get_game_state: ${error.message}`);
+  return data;
+}
+
+/** Juega un turno completo con movimientos válidos al azar (revelar + pista). */
+export async function playTurn(game: TestGame): Promise<GameState> {
+  const state = await getState(game, 0);
+  const seat = game.seats[state.game.current_seat];
+  const client = seat.player.client;
+
+  const reserve: number[] = state.game.reserve_by_color;
+  const colors = reserve.map((n, c) => (n > 0 ? c : -1)).filter((c) => c >= 0);
+  const color = colors[Math.floor(Math.random() * colors.length)] ?? 0;
+  const reveal = await client.rpc('reveal_tile', { p_game_id: game.id, p_color: color });
+  if (reveal.error) throw new Error(`reveal_tile: ${reveal.error.message}`);
+
+  const mine = await getState(game, seat.seat);
+  const pool: { number: number }[] = mine.pool;
+  const tile = pool[Math.floor(Math.random() * pool.length)].number;
+  const useClassify = Math.random() < 0.5;
+  const clue = await client.rpc('ask_clue', {
+    p_game_id: game.id,
+    p_tile: tile,
+    p_kind: useClassify ? 'classify' : 'compare',
+    p_slot: useClassify ? null : Math.floor(Math.random() * 5),
+  });
+  if (clue.error) throw new Error(`ask_clue: ${clue.error.message}`);
+  return getState(game, seat.seat);
+}
+
+/** Todos los números que aparecen bajo las claves number / tile_number / resolved_number. */
+export function collectNumbers(value: unknown, out: number[] = []): number[] {
+  if (Array.isArray(value)) {
+    for (const v of value) collectNumbers(v, out);
+  } else if (value && typeof value === 'object') {
+    for (const [k, v] of Object.entries(value)) {
+      if ((k === 'number' || k === 'tile_number' || k === 'resolved_number') && typeof v === 'number') {
+        out.push(v);
+      } else {
+        collectNumbers(v, out);
+      }
+    }
+  }
+  return out;
 }

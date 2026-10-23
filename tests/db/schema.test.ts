@@ -27,10 +27,15 @@ describe('esquema', () => {
       order by 1`);
     // Una función nueva debe añadirse aquí a propósito, tras revisar quién puede llamarla.
     expect(rows.map((r) => r.proname)).toEqual([
+      'abandon_game',
+      'ask_clue',
+      'declare_code',
+      'get_game_state',
       'get_room_by_code',
       'handle_new_user',
       'is_participant',
       'is_room_member',
+      'reveal_tile',
     ]);
   });
 
