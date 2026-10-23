@@ -521,6 +521,7 @@ export type Database = {
         Returns: Json
       }
       get_game_state: { Args: { p_game_id: string }; Returns: Json }
+      get_my_active_game: { Args: never; Returns: string }
       get_room_by_code: {
         Args: { p_code: string }
         Returns: {
@@ -543,6 +544,7 @@ export type Database = {
         Args: { p_bots: number; p_difficulty: string }
         Returns: string
       }
+      touch_presence: { Args: { p_game_id: string }; Returns: undefined }
     }
     Enums: {
       clue_kind: "classify" | "compare"

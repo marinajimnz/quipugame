@@ -284,24 +284,24 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 
 *Deja funcionando: la partida ya no se cuelga.*
 
-- [ ] **T060** `game_internal.tick_timeouts()` en `pg_cron` con candado: turno automático (C8), `timeouts += 1`, al tercero consecutivo `abandoned`. Toda acción manual pone `timeouts = 0`. 🔒R3
+- [x] **T060** `game_internal.tick_timeouts()` en `pg_cron` con candado: turno automático (C8), `timeouts += 1`, al tercero consecutivo `abandoned`. Toda acción manual pone `timeouts = 0`. 🔒R3
   - Ficheros: `supabase/migrations/<ts>_cron_timeouts.sql`, `tests/db/engine/timeout.test.ts`
   - Hecho cuando (grupo **tiempo**): moviendo `turn_deadline` al pasado se juega solo, en fase `reveal`, en fase `clue` y con reserva vacía; tres seguidos eliminan; uno manual entre medias reinicia la cuenta.
-  - Nota: con el plan a 10 s un turno puede durar hasta 70 s. Propongo 2 s; es barato porque solo mira partidas con plazo vencido.
+  
 
-- [ ] **T061** [P] `game_internal.expire_rooms()` en `pg_cron` cada 60 s.
+- [x] **T061** [P] `game_internal.expire_rooms()` en `pg_cron` cada 60 s.
   - Ficheros: `supabase/migrations/<ts>_cron_rooms.sql`
   - Hecho cuando: test con `expires_at` en el pasado.
 
-- [ ] **T062** [P] Presencia: `touch_presence(p_game_id)` cada 15 s actualiza `last_seen_at`; la interfaz marca "desconectado" a los 30 s. (No muta el estado de juego, no necesita el bloqueo.)
+- [x] **T062** [P] Presencia: `touch_presence(p_game_id)` cada 15 s actualiza `last_seen_at`; la interfaz marca "desconectado" a los 30 s. (No muta el estado de juego, no necesita el bloqueo.)
   - Ficheros: `supabase/migrations/<ts>_presence.sql`, `components/game/PlayerBadge.tsx`
   - Hecho cuando: cerrar una pestaña marca al jugador como desconectado en la otra.
 
-- [ ] **T063** Reconexión en el cliente: aviso de conexión perdida, reintento automático, `get_game_state` completo al volver; cronómetro calculado desde `turn_deadline` del servidor corrigiendo el desfase de reloj.
+- [x] **T063** Reconexión en el cliente: aviso de conexión perdida, reintento automático, `get_game_state` completo al volver; cronómetro calculado desde `turn_deadline` del servidor corrigiendo el desfase de reloj.
   - Ficheros: `lib/game/useConnection.ts`, `components/game/ConnectionBanner.tsx`
   - Hecho cuando: Playwright con `context.setOffline(true)` 30 s y vuelta: el estado es el actual y el turno no se ha perdido salvo que expirara.
 
-- [ ] **T064** Volver a la partida en curso al abrir la app (`get_my_active_game()`) y botón de abandonar con confirmación.
+- [x] **T064** Volver a la partida en curso al abrir la app (`get_my_active_game()`) y botón de abandonar con confirmación.
   - Ficheros: `supabase/migrations/<ts>_active_game.sql`, `app/(app)/page.tsx`
   - Hecho cuando: cerrar y reabrir la app en mitad de una partida lleva directo a ella.
 

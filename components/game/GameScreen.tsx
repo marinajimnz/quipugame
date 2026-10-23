@@ -7,11 +7,17 @@ import { Button } from '@/components/ui/Button';
 import { gameErrorKey } from '@/lib/game/errors';
 import { labelsOf } from '@/lib/game/playerLabel';
 import { isMyTurn } from '@/lib/game/types';
+import { isDisconnected } from '@/lib/game/presence';
 import { useGameState } from '@/lib/game/useGameState';
+import { useNow } from '@/lib/game/useNow';
+import { useOnline } from '@/lib/game/useOnline';
+import { usePresence } from '@/lib/game/usePresence';
 import { useGameText } from '@/lib/game/useGameText';
 import { createClient } from '@/lib/supabase/client';
 import { Avatar } from '@/components/profile/Avatar';
+import { AbandonSheet } from './AbandonSheet';
 import { ClueList } from './ClueList';
+import { ConnectionBanner } from './ConnectionBanner';
 import { DeclareSheet } from './DeclareSheet';
 import { DeductionBoard } from './DeductionBoard';
 import { GameOver } from './GameOver';
@@ -24,7 +30,9 @@ import { TurnBar } from './TurnBar';
 export function GameScreen({ gameId }: { gameId: string }) {
   const t = useTranslations('game');
   const queryClient = useQueryClient();
-  const { data, error: loadError } = useGameState(gameId);
+  const { data, error: loadError, isError } = useGameState(gameId);
+  const online = useOnline();
+  const now = useNow(1000);
   const { playerName } = useGameText();
 
   // El borrador de pista pertenece al estado en que se creó: cuando llega un evento nuevo
@@ -39,6 +47,7 @@ export function GameScreen({ gameId }: { gameId: string }) {
 
   const state = data?.state;
   const eventSeq = state?.event_seq;
+  usePresence(gameId, state?.game.status === 'active' && state.me.state === 'active');
 
   const draft = draftRaw.seq === eventSeq ? draftRaw.draft : EMPTY_DRAFT;
   const setDraft = (d: ClueDraft) => setDraftRaw({ seq: eventSeq, draft: d });
@@ -90,6 +99,12 @@ export function GameScreen({ gameId }: { gameId: string }) {
   const clueTime = myTurn && state.game.phase === 'clue';
   const myClues = state.clues.filter((c) => c.asker_id === state.me.player_id);
 
+  async function abandon() {
+    const { error } = await supabase.rpc('abandon_game', { p_game_id: gameId });
+    if (error) setErrorKey(gameErrorKey(error));
+    await refresh();
+  }
+
   async function declare(numbers: number[]): Promise<boolean> {
     const { data: result, error } = await supabase.rpc('declare_code', { p_game_id: gameId, p_numbers: numbers });
     await refresh();
@@ -100,8 +115,12 @@ export function GameScreen({ gameId }: { gameId: string }) {
     return (result as { correct: boolean }).correct;
   }
 
+  const serverNow = now + data.clockOffsetMs;
+  const canAbandon = state.game.status === 'active' && state.me.state === 'active';
+
   return (
     <>
+      {!online || isError ? <ConnectionBanner /> : null}
       <main className="flex min-h-dvh flex-col gap-4 px-3 pb-44 pt-3">
         {finished ? (
           <GameOver state={state} labels={labels} />
@@ -120,6 +139,9 @@ export function GameScreen({ gameId }: { gameId: string }) {
                 <Avatar avatarKey={player.avatar_key ?? 'default'} name={playerName(label)} size={32} />
                 <h2 className="truncate font-semibold">{playerName(label)}</h2>
                 {badge ? <span className="rounded-full bg-lila px-2 py-0.5 text-xs font-semibold">{badge}</span> : null}
+                {!player.is_bot && player.state === 'active' && state.game.status === 'active' && isDisconnected(player.last_seen_at, serverNow) ? (
+                  <span className="rounded-full bg-grafito px-2 py-0.5 text-xs font-semibold text-crema">{t('disconnectedBadge')}</span>
+                ) : null}
               </header>
               <OtherSupport player={player} />
               <ClueList clues={clues} />
@@ -147,6 +169,7 @@ export function GameScreen({ gameId }: { gameId: string }) {
         </section>
 
         <History gameId={gameId} eventSeq={state.event_seq} labels={labels} />
+        {canAbandon ? <AbandonSheet onAbandon={abandon} /> : null}
       </main>
 
       {finished ? null : (

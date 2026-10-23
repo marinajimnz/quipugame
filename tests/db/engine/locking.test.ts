@@ -9,6 +9,8 @@ const CALLED_WITH_LOCK_HELD = ['emit_event', 'finish_game', 'check_last_standing
 
 // Crean una partida nueva (no hay ninguna que bloquear antes de escribir).
 const CREATES_NEW_GAME = ['simulate_bot_game'];
+// Escriben en salas, no en partidas.
+const NOT_ABOUT_GAMES = ['expire_rooms'];
 
 describe('bloqueo de partida (R3)', () => {
   it('lock_game toma select ... for update sobre games', async () => {
@@ -24,7 +26,7 @@ describe('bloqueo de partida (R3)', () => {
       where n.nspname = 'game_internal'
         and p.prosrc ~* '(insert into|update|delete from)\\s+public\\.'`);
 
-    const mutators = fns.filter((f) => !CALLED_WITH_LOCK_HELD.includes(f.proname) && !CREATES_NEW_GAME.includes(f.proname) && f.proname !== 'lock_game');
+    const mutators = fns.filter((f) => !CALLED_WITH_LOCK_HELD.includes(f.proname) && !CREATES_NEW_GAME.includes(f.proname) && !NOT_ABOUT_GAMES.includes(f.proname) && f.proname !== 'lock_game');
     expect(mutators.length).toBeGreaterThan(0);
 
     for (const f of mutators) {

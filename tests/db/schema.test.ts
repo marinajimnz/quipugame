@@ -31,6 +31,7 @@ describe('esquema', () => {
       'ask_clue',
       'declare_code',
       'get_game_state',
+      'get_my_active_game',
       'get_room_by_code',
       'handle_new_user',
       'is_participant',
@@ -38,6 +39,7 @@ describe('esquema', () => {
       'reveal_tile',
       'start_practice_game',
       'sync_guest_flag',
+      'touch_presence',
     ]);
   });
 

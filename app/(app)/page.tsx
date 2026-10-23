@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { PracticeForm } from '@/components/home/PracticeForm';
 import { Avatar } from '@/components/profile/Avatar';
@@ -8,6 +9,10 @@ export default async function HomePage() {
   const t = await getTranslations();
   const supabase = await createClient();
   const { data: auth } = await supabase.auth.getUser();
+
+  // Si vuelvo a abrir la app con una partida en curso, me lleva directamente a ella.
+  const { data: activeGame } = await supabase.rpc('get_my_active_game');
+  if (activeGame) redirect(`/partida/${activeGame}`);
   const { data: profile } = await supabase
     .from('profiles')
     .select('display_name, avatar_key')

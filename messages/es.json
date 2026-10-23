@@ -145,7 +145,15 @@
       "yourNumbers": "Tus fichas eran",
       "playAgain": "Jugar otra vez",
       "backHome": "Volver al inicio"
-    }
+    },
+    "disconnectedBadge": "Desconectado",
+    "connectionLost": "Sin conexión. Reconectando…",
+    "abandon": "Abandonar partida",
+    "abandonTitle": "¿Abandonar la partida?",
+    "abandonBody": "Se contará como derrota. No podrás volver a ella.",
+    "abandonConfirm": "Sí, abandonar",
+    "abandonKeep": "Seguir jugando",
+    "eventTurnTimeout": "Se agota el tiempo de {name}: juega el servidor. Turnos agotados seguidos: {consecutive}."
   },
   "declare": {
     "title": "Declarar tu código",

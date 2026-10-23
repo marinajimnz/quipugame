@@ -54,6 +54,8 @@ export function History({
             answer_same: p.answer_same as boolean | null,
           }),
         });
+      case 'turn_timeout':
+        return t('eventTurnTimeout', { name, consecutive: Number(p.consecutive) });
       case 'declared':
         return t('eventDeclared', { name, correct: String(p.correct) });
       case 'eliminated':
