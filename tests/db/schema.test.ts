@@ -36,6 +36,7 @@ describe('esquema', () => {
       'is_participant',
       'is_room_member',
       'reveal_tile',
+      'sync_guest_flag',
     ]);
   });
 
@@ -149,5 +150,13 @@ describe('profiles', () => {
       .update({ display_name: data!.display_name.toUpperCase() === data!.display_name ? data!.display_name.toLowerCase() : data!.display_name.toUpperCase() })
       .eq('id', alice.id);
     expect(error?.code).toBe('23505');
+  });
+});
+
+describe('reglas del nombre', () => {
+  it('rechaza nombres con espacios sobrantes', async () => {
+    const x = await createPlayer();
+    const { error } = await x.client.from('profiles').update({ display_name: ' Marina ' }).eq('id', x.id);
+    expect(error?.code).toBe('23514');
   });
 });

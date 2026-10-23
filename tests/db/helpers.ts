@@ -67,6 +67,15 @@ export async function createPlayer(): Promise<Player> {
   return { id: created.user.id, email, client };
 }
 
+/** Crea un invitado: inicio de sesión anónimo real, como el del botón "Jugar como invitado". */
+export async function createGuest(): Promise<Player> {
+  const client = createClient(SUPABASE_URL, ANON_KEY, noSession);
+  const { data, error } = await client.auth.signInAnonymously();
+  if (error || !data.user) throw new Error(`signInAnonymously: ${error?.message}`);
+  createdUserIds.push(data.user.id);
+  return { id: data.user.id, email: '', client };
+}
+
 /** Borra los usuarios creados (el perfil y sus datos caen en cascada). */
 export async function cleanup(): Promise<void> {
   if (createdGameIds.length) {

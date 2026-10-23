@@ -3,7 +3,69 @@
     "name": "Quipu",
     "tagline": "Deduce tus propios números antes que nadie."
   },
+  "common": {
+    "loading": "Cargando…",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "close": "Cerrar"
+  },
   "home": {
+    "greeting": "Hola, {name}",
+    "profileLink": "Mi perfil",
     "underConstruction": "Estamos construyendo la primera partida."
+  },
+  "auth": {
+    "title": "Entrar en {app}",
+    "guestCta": "Jugar como invitado",
+    "guestHint": "Sin registro. Puedes crear una cuenta cuando quieras sin perder nada.",
+    "or": "o con tu correo",
+    "modeSignIn": "Entrar",
+    "modeSignUp": "Crear cuenta",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "passwordHint": "Mínimo 8 caracteres",
+    "submitSignIn": "Entrar",
+    "submitSignUp": "Crear cuenta",
+    "working": "Un momento…",
+    "checkEmail": "Te hemos enviado un correo para confirmar la cuenta. Ábrelo desde este dispositivo.",
+    "errors": {
+      "invalidCredentials": "El correo o la contraseña no son correctos.",
+      "emailTaken": "Ya existe una cuenta con ese correo.",
+      "weakPassword": "La contraseña es demasiado débil. Usa al menos 8 caracteres.",
+      "emailNotConfirmed": "Falta confirmar el correo. Revisa tu bandeja de entrada.",
+      "rateLimited": "Demasiados intentos. Espera un poco y vuelve a probar.",
+      "invalidEmail": "Ese correo no parece válido.",
+      "guestDisabled": "El acceso como invitado no está disponible ahora mismo.",
+      "generic": "Algo ha fallado. Inténtalo de nuevo."
+    }
+  },
+  "convert": {
+    "cta": "Crear cuenta y conservar mi progreso",
+    "title": "Crea tu cuenta",
+    "description": "Conservas tus partidas y tu nombre. Es un solo paso.",
+    "submit": "Crear cuenta",
+    "checkEmail": "Te hemos enviado un correo. Al confirmarlo, tu cuenta quedará creada.",
+    "done": "Tu cuenta está creada."
+  },
+  "profile": {
+    "title": "Mi perfil",
+    "guestBadge": "Invitado",
+    "name": "Nombre visible",
+    "nameHint": "De 3 a 16 caracteres. Tiene que ser único.",
+    "avatar": "Avatar",
+    "avatarOption": "Avatar {n}",
+    "saved": "Guardado.",
+    "elo": "ELO",
+    "played": "Partidas",
+    "won": "Ganadas",
+    "winRate": "Victorias",
+    "signOut": "Salir",
+    "errors": {
+      "tooShort": "El nombre necesita al menos 3 caracteres.",
+      "tooLong": "El nombre admite como máximo 16 caracteres.",
+      "invalidChars": "El nombre contiene caracteres que no se admiten.",
+      "taken": "Ese nombre ya está en uso. Prueba con otro.",
+      "generic": "No se ha podido guardar. Inténtalo de nuevo."
+    }
   }
 }
