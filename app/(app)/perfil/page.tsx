@@ -51,7 +51,7 @@ export default async function PerfilPage() {
       <div className="mt-auto flex flex-col gap-3">
         <SignOutButton />
         <Link href="/" className="min-h-11 py-2 text-center text-sm underline">
-          {t('title')}
+          {t('back')}
         </Link>
       </div>
     </main>

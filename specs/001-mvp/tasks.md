@@ -182,19 +182,19 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
   - Ficheros: `lib/supabase/`, `middleware.ts`, `.env.example`, `src/types/database.ts`
   - Hecho cuando: los tipos se generan y se importan; CI falla si `database.ts` no está al día con las migraciones.
 
-- [ ] **T033** Entrar como invitado (inicio de sesión anónimo) desde el primer toque.
+- [x] **T033** Entrar como invitado (inicio de sesión anónimo) desde el primer toque.
   - Ficheros: `supabase/config.toml`, `app/(auth)/entrar/page.tsx`
   - Hecho cuando: un navegador nuevo entra sin formulario y tiene perfil `Invitado-XXXXX`.
 
-- [ ] **T034** Registro e inicio con correo + contraseña y con un proveedor OAuth (¿Google? — decisión pendiente).
+- [x] **T034** Registro e inicio con correo + contraseña. **OAuth (Google) aplazado**: se añade más adelante.
   - Ficheros: `app/(auth)/entrar/page.tsx`, `supabase/config.toml`
   - Hecho cuando: los dos caminos funcionan en local (OAuth con credenciales de desarrollo).
 
-- [ ] **T035** Convertir invitado en cuenta permanente en un paso, en una hoja que no saca de la pantalla actual. Disparador que pone `is_guest = false`.
+- [x] **T035** Convertir invitado en cuenta permanente en un paso, en una hoja que no saca de la pantalla actual. Disparador que pone `is_guest = false`.
   - Ficheros: `components/account/ConvertSheet.tsx`, `supabase/migrations/<ts>_guest_conversion.sql`
   - Hecho cuando: test de integración del disparador; prueba manual: el `id`, las partidas y el nombre se conservan.
 
-- [ ] **T036** Perfil: elegir nombre (3–16, único, mensaje claro si está cogido) y avatar del catálogo provisional; página `/perfil` con nombre, avatar, ELO, partidas jugadas, ganadas y porcentaje (según C11).
+- [x] **T036** Perfil: elegir nombre (3–16, único, mensaje claro si está cogido) y avatar del catálogo provisional; página `/perfil` con nombre, avatar, ELO, partidas jugadas, ganadas y porcentaje (según C11).
   - Ficheros: `app/(app)/perfil/page.tsx`, `lib/avatars.ts`, `components/profile/`
   - Hecho cuando: Vitest de la validación del nombre; un nombre duplicado muestra el error traducido.
 
