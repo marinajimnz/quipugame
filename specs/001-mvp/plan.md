@@ -16,7 +16,7 @@ Todas las acciones de juego son funciones `plpgsql` marcadas `SECURITY DEFINER`,
 
 **Por qué.** Una acción de juego es una transacción: valida, muta varias tablas y registra un evento, todo o nada. Postgres hace eso de forma nativa. Un servidor Node intermedio añadiría una capa que puede fallar a mitad y un despliegue más que mantener, sin aportar nada que la base de datos no haga ya.
 
-**Lo que cuesta.** Depurar `plpgsql` es más incómodo que depurar TypeScript, y no se comparte código con el cliente. Se compensa con tests pgTAP que cubren la lógica.
+**Lo que cuesta.** Depurar `plpgsql` es más incómodo que depurar TypeScript, y no se comparte código con el cliente. Se compensa con tests de integración (Vitest + `supabase-js`) que cubren la lógica llamando a las funciones por RPC.
 
 ### D2 — La información oculta se protege por ausencia de política, no por filtro
 
@@ -378,7 +378,9 @@ candidatos[slot] = { números del color de ese slot }
 
 ## 8. Tests
 
-### pgTAP — la lógica de juego
+### Vitest de integración — la lógica de juego
+
+Cada test usa usuarios anónimos reales y llama a las funciones por RPC, como lo hará el cliente. La limpieza borra solo lo que el test creó. No hay base local: el entorno es el proyecto Supabase enlazado.
 
 | grupo | qué cubre |
 |---|---|
@@ -410,7 +412,7 @@ Cada hito se termina antes de empezar el siguiente, y "terminado" significa juga
 | # | hito | qué deja funcionando |
 |---|---|---|
 | 1 | Esquema, semilla y RLS | Base de datos con las 60 fichas y las políticas puestas |
-| 2 | Motor de juego | `deal_game`, `reveal_tile`, `ask_clue`, `declare_code`, `get_game_state` con pgTAP en verde, incluido el grupo de fuga |
+| 2 | Motor de juego | `deal_game`, `reveal_tile`, `ask_clue`, `declare_code`, `get_game_state` con los tests de integración en verde, incluido el grupo de fuga |
 | 3 | Cuentas y perfil | Registro, invitado, nombre y avatar |
 | 4 | Partida jugable contra bot `normal` | Primer bucle completo, sin red: tú contra el servidor |
 | 5 | Salas privadas y tiempo real | Dos personas jugando con código |

@@ -53,19 +53,19 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 
 ## Hito 1 — Esquema, semilla y RLS
 
-*Deja funcionando: base de datos local con las 60 fichas y todas las políticas puestas.*
+*Deja funcionando: base de datos (proyecto Supabase enlazado) con las 60 fichas y todas las políticas puestas.*
 
-- [ ] **T001** Inicializar Supabase local y el repositorio.
+- [ ] **T001** Inicializar la carpeta `supabase/` y enlazarla al proyecto `nbgtutrcleupqlnzruhb` (`supabase link`). Sin Docker: no hay base local.
   - Ficheros: `supabase/config.toml`, `.gitignore`, `README.md`
-  - Hecho cuando: `supabase start` levanta la pila; `supabase db reset` termina sin errores; `config.toml` apunta la semilla a `./seed/points_table.sql`; `pg_cron`, `citext` y `pgtap` están en la lista de extensiones.
+  - Hecho cuando: `supabase db push --dry-run` lista las migraciones sin errores; `config.toml` apunta la semilla a `./seed/points_table.sql`; `pg_cron` y `citext` están habilitadas en el proyecto.
 
 - [ ] **T002** Migración de tipos enumerados (`game_mode`, `game_status`, `player_state`, `turn_phase`, `tile_place`, `clue_kind`) y esquema `game_internal`.
   - Ficheros: `supabase/migrations/<ts>_types.sql`
-  - Hecho cuando: `supabase db reset` aplica; `game_internal` no aparece en `[api] schemas` de `config.toml`.
+  - Hecho cuando: `supabase db push` aplica; `game_internal` no aparece en `[api] schemas` de `config.toml`.
 
 - [ ] **T003** [P] Tabla `tile_definitions` con RLS (lectura pública, sin escritura) y semilla.
   - Ficheros: `supabase/migrations/<ts>_tile_definitions.sql`
-  - Hecho cuando: tras `db reset`, `select count(*)` = 60; `color_index = (number - 1) % 5` en todas las filas (constraint `check`).
+  - Hecho cuando: tras `db push`, `select count(*)` = 60; `color_index = (number - 1) % 5` en todas las filas (constraint `check`).
 
 - [ ] **T004** [P] Tabla `profiles` + disparador sobre `auth.users` que crea el perfil (con nombre de invitado según C10) + `grant update (display_name, avatar_key)` a `authenticated` (RLS no restringe columnas; lo hace el `grant`).
   - Ficheros: `supabase/migrations/<ts>_profiles.sql`
@@ -73,7 +73,7 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 
 - [ ] **T005** Tablas `games` (con las columnas que añada C5), `game_players`, `game_clues`, `game_events` con sus restricciones `unique`.
   - Ficheros: `supabase/migrations/<ts>_games.sql`
-  - Hecho cuando: `db reset` aplica; `unique (game_id, seat)`, `unique (game_id, profile_id)`, `unique (game_id, seq)` existen.
+  - Hecho cuando: `db push` aplica; `unique (game_id, seat)`, `unique (game_id, profile_id)`, `unique (game_id, seq)` existen.
 
 - [ ] **T006** Tabla `game_tiles`. 🔒R1
   - Ficheros: `supabase/migrations/<ts>_game_tiles.sql`
@@ -85,18 +85,18 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 
 - [ ] **T008** [P] Tablas `matchmaking_queue` y `elo_history`.
   - Ficheros: `supabase/migrations/<ts>_ranked.sql`
-  - Hecho cuando: `db reset` aplica.
+  - Hecho cuando: `db push` aplica.
 
 - [ ] **T009** Función `is_participant(p_game_id)` (`stable`, `security definer`) y todas las políticas de la tabla 2.3 del plan. Las salas por código se leen con una función `get_room_by_code`, no con una política. 🔒R1
   - Ficheros: `supabase/migrations/<ts>_policies.sql`
   - Hecho cuando: los tests de T011 pasan.
 
-- [ ] **T010** Montar pgTAP y los ayudantes de test: crear usuarios de prueba, suplantar a un usuario (`set local role authenticated` + `request.jwt.claims`), crear una partida de N jugadores sin pasar por salas.
-  - Ficheros: `supabase/tests/00_helpers.sql`
-  - Hecho cuando: `supabase test db` ejecuta un test trivial en verde.
+- [ ] **T010** Montar Vitest para integración con la base de datos: ayudantes para crear usuarios anónimos reales (`supabase-js`), clientes autenticados por usuario, una partida de N jugadores y limpieza al final. Una conexión de administración (`SUPABASE_SERVICE_ROLE_KEY`, solo en `.env.local`) para sembrar y limpiar datos de prueba. Los tests rechazan ejecutarse si `SUPABASE_URL` no es el de la lista permitida.
+  - Ficheros: `tests/db/helpers.ts`
+  - Hecho cuando: `npm run test:db` ejecuta un test trivial en verde y limpia lo que crea.
 
 - [ ] **T011** Tests de esquema y del grupo **fuga (parte 1)**. 🔒R1
-  - Ficheros: `supabase/tests/01_schema_test.sql`, `supabase/tests/fuga/01_game_tiles_test.sql`
+  - Ficheros: `tests/db/schema.test.ts`, `tests/db/fuga/game_tiles.test.ts`
   - Hecho cuando, todo en verde:
     - toda tabla de `public` tiene `relrowsecurity = true` (consulta a `pg_class`, así una tabla nueva sin RLS rompe el test);
     - `game_tiles` tiene exactamente 0 filas en `pg_policies`;
@@ -108,7 +108,7 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
   - Ficheros: `scripts/generate_points_table.py`
   - Hecho cuando: ejecutarlo desde la raíz deja `git status` limpio.
 
-- [ ] **T013** CI: en cada commit, `supabase start` + `supabase test db` (incluye siempre el grupo fuga) + regenerar la tabla de puntos y fallar si `git diff` no está vacío.
+- [ ] **T013** CI: en cada commit, aplicar migraciones y `npm run test:db` (incluye siempre el grupo fuga) + regenerar la tabla de puntos y fallar si `git diff` no está vacío.
   - Ficheros: `.github/workflows/ci.yml`
   - Hecho cuando: un PR de prueba que edita a mano una fila de `points_table.sql` falla en CI.
 
@@ -116,7 +116,7 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 
 ## Hito 2 — Motor de juego
 
-*Deja funcionando: `deal_game`, `reveal_tile`, `ask_clue`, `declare_code`, `get_game_state` con pgTAP en verde, incluido el grupo de fuga.*
+*Deja funcionando: `deal_game`, `reveal_tile`, `ask_clue`, `declare_code`, `get_game_state` con los tests de integración en verde, incluido el grupo de fuga.*
 
 - [ ] **T020** Ayudantes internos: `game_internal.lock_game(p_game_id)` (hace el `select ... for update` y devuelve la fila), `emit_event(...)` (incrementa `event_seq` y escribe en `game_events`; exige el bloqueo tomado), `caller_player(p_game_id)` (`auth.uid()` → `game_players.id`). 🔒R3
   - Ficheros: `supabase/migrations/<ts>_engine_helpers.sql`
@@ -127,23 +127,23 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
   - Hecho cuando: tests de salto de eliminados, vuelta al asiento 0 y empate por reserva agotada.
 
 - [ ] **T022** `game_internal.deal_game(p_game_id)`. 🔒R1 🔒R3
-  - Ficheros: `supabase/migrations/<ts>_engine_deal.sql`, `supabase/tests/engine/deal_test.sql`
+  - Ficheros: `supabase/migrations/<ts>_engine_deal.sql`, `tests/db/engine/deal.test.ts`
   - Hecho cuando (grupo **reparto**, repetido 50 veces con semillas distintas): 60 fichas; 5 por jugador, una de cada color; `slot` ascendente por número; sin repetidos; 5 en `pool`, una de cada color; evento `game_started` cuyo `payload` **no** contiene números de soportes.
 
 - [ ] **T023** `reveal_tile(p_game_id, p_color)` (público) → `game_internal.reveal_tile_as(p_player_id, ...)`. 🔒R3
-  - Ficheros: `supabase/migrations/<ts>_engine_reveal.sql`, `supabase/tests/engine/turn_test.sql`
+  - Ficheros: `supabase/migrations/<ts>_engine_reveal.sql`, `tests/db/engine/turn.test.ts`
   - Hecho cuando (grupo **turno**): error fuera de turno; error en fase `clue`; `no_tiles_of_color` con color agotado; con reserva vacía emite `turn_skipped` y pasa a `clue`; guarda `revealed_tile`.
 
 - [ ] **T024** `ask_clue(p_game_id, p_tile, p_kind, p_slot)` → `ask_clue_as`. 🔒R3
-  - Ficheros: `supabase/migrations/<ts>_engine_clue.sql`, `supabase/tests/engine/clue_test.sql`
+  - Ficheros: `supabase/migrations/<ts>_engine_clue.sql`, `tests/db/engine/clue.test.ts`
   - Hecho cuando (grupo **pistas**): `classify` devuelve 0, 1, 2, 3, 4 y 5 en seis montajes fijos; `compare` responde bien con fichas de 1, 2 y 3 puntos, en sí y en no; la ficha pasa a `spent`; error si la ficha no está en `pool`, si `classify` trae `p_slot` o si `compare` no lo trae; el turno avanza. El evento `clue_asked` lleva solo ficha, tipo, ranura y respuesta.
 
 - [ ] **T025** `declare_code(p_game_id, p_numbers)` → `declare_code_as`. Devuelve solo `{ correct: boolean }`. Llama a `advance_turn` si el declarante era el activo (C9). 🔒R2 🔒R3
-  - Ficheros: `supabase/migrations/<ts>_engine_declare.sql`, `supabase/tests/engine/declare_test.sql`
+  - Ficheros: `supabase/migrations/<ts>_engine_declare.sql`, `tests/db/engine/declare.test.ts`
   - Hecho cuando (grupo **declaración**): acierto → `finished` + ganador; fallo → `eliminated` y `has_declared = true`; segunda declaración rechazada; declarar fuera de turno funciona; último en pie gana; todos eliminados → sin ganador; el valor de retorno y el evento `eliminated` no contienen los números reales (según C1, salvo que se decida lo contrario).
 
 - [ ] **T026** `abandon_game(p_game_id)` → `abandon_as`. Comprueba último en pie y avanza turno si toca (C9). 🔒R3
-  - Ficheros: `supabase/migrations/<ts>_engine_abandon.sql`, `supabase/tests/engine/abandon_test.sql`
+  - Ficheros: `supabase/migrations/<ts>_engine_abandon.sql`, `tests/db/engine/abandon.test.ts`
   - Hecho cuando: abandonar deja `state = 'abandoned'`; con 2 jugadores el otro gana.
 
 - [ ] **T027** `game_internal.state_for_player(p_game_id, p_player_id) → jsonb` y `get_game_state(p_game_id)` como envoltorio. Es el **único** constructor de estado; los bots lo usarán también (T042). 🔒R1 🔒R2
@@ -151,16 +151,16 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
   - Hecho cuando: devuelve la forma JSON del plan §3; `me.support[].resolved_number` es `null` con la partida activa y se rellena al terminar.
 
 - [ ] **T028** Grupo **fuga (parte 2)** — obligatorio, se ejecuta en cada commit. 🔒R1 🔒R2
-  - Ficheros: `supabase/tests/fuga/02_state_test.sql`, `supabase/tests/fuga/03_events_test.sql`, `supabase/tests/fuga/04_surface_test.sql`
+  - Ficheros: `tests/db/fuga/state.test.ts`, `tests/db/fuga/events.test.ts`, `tests/db/fuga/surface.test.ts`
   - Hecho cuando, en una partida simulada de 3 jugadores y 15 turnos, para cada jugador y después de cada turno:
     - ningún valor bajo las claves `number`, `tile_number` o `resolved_number` del JSON de `get_game_state` pertenece a sus propias fichas;
     - lo mismo en todos los `payload` de `game_events` y en todas las filas de `game_clues` que puede leer;
     - como `authenticated`, ejecutar cualquier función de `game_internal` falla por permisos;
     - **lista blanca**: las funciones `security definer` de `public` son exactamente las aprobadas. Una función nueva sin añadir a la lista rompe el test.
 
-- [ ] **T029** Grupo **concurrencia**: dos declaraciones correctas casi simultáneas producen un solo ganador. pgTAP no abre dos sesiones; se usa `dblink_send_query` con dos conexiones.
-  - Ficheros: `supabase/tests/engine/concurrency_test.sql`
-  - Hecho cuando: 50 repeticiones, siempre exactamente un `game_ended` y un ganador; la segunda declaración recibe "partida no activa".
+- [ ] **T029** Grupo **concurrencia**: dos declaraciones correctas casi simultáneas producen un solo ganador. Dos clientes reales declaran a la vez con `Promise.all`.
+  - Ficheros: `tests/db/engine/concurrency.test.ts`
+  - Hecho cuando: 20 repeticiones, siempre exactamente un `game_ended` y un ganador; la segunda declaración recibe "partida no activa".
 
 ---
 
@@ -190,7 +190,7 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 
 - [ ] **T035** Convertir invitado en cuenta permanente en un paso, en una hoja que no saca de la pantalla actual. Disparador que pone `is_guest = false`.
   - Ficheros: `components/account/ConvertSheet.tsx`, `supabase/migrations/<ts>_guest_conversion.sql`
-  - Hecho cuando: test pgTAP del disparador; prueba manual: el `id`, las partidas y el nombre se conservan.
+  - Hecho cuando: test de integración del disparador; prueba manual: el `id`, las partidas y el nombre se conservan.
 
 - [ ] **T036** Perfil: elegir nombre (3–16, único, mensaje claro si está cogido) y avatar del catálogo provisional; página `/perfil` con nombre, avatar, ELO, partidas jugadas, ganadas y porcentaje (según C11).
   - Ficheros: `app/(app)/perfil/page.tsx`, `lib/avatars.ts`, `components/profile/`
@@ -203,15 +203,15 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 *Deja funcionando: el primer bucle completo, tú contra el servidor. **Es el hito que dice si el juego engancha**: llegar pronto y jugarlo mucho.*
 
 - [ ] **T040** `start_practice_game(p_bots, p_difficulty) → uuid`: crea partida `practice` con 1 humano + 1–3 bots y llama a `deal_game`. Invitados permitidos. 🔒R3
-  - Ficheros: `supabase/migrations/<ts>_practice.sql`, `supabase/tests/engine/practice_test.sql`
+  - Ficheros: `supabase/migrations/<ts>_practice.sql`, `tests/db/engine/practice.test.ts`
   - Hecho cuando: test que crea la partida y comprueba asientos, bots y reparto.
 
 - [ ] **T041** Candidatos del bot: `game_internal.bot_candidates(p_state jsonb) → jsonb`. Recibe **el JSON de `state_for_player`**, no un `game_id`, así que no puede leer `game_tiles` aunque quiera. 🔒R1 🔒R2
-  - Ficheros: `supabase/migrations/<ts>_bot_candidates.sql`, `supabase/tests/bots/candidates_test.sql`
+  - Ficheros: `supabase/migrations/<ts>_bot_candidates.sql`, `tests/db/bots/candidates.test.ts`
   - Hecho cuando: tests con estados fijos (color por ranura, números vistos, orden ascendente, pistas `classify` y `compare`); test de fuga que comprueba en `pg_proc.prosrc` que ninguna función `bot_*` menciona `game_tiles`.
 
 - [ ] **T042** Decisión del bot `easy` (pista al azar; declara con ≤ 2 candidatos por ranura) y `normal` (pista que más descarta en el peor caso; declara con un único candidato en las 5). Juega a través de `reveal_tile_as`, `ask_clue_as` y `declare_code_as`. 🔒R3
-  - Ficheros: `supabase/migrations/<ts>_bot_play.sql`, `supabase/tests/bots/play_test.sql`
+  - Ficheros: `supabase/migrations/<ts>_bot_play.sql`, `tests/db/bots/play.test.ts`
   - Hecho cuando: 100 partidas bot contra bot terminan sin error; el bot `normal` nunca declara mal.
 
 - [ ] **T043** `game_internal.play_bot_turns()` en `pg_cron` cada 5 s con `pg_try_advisory_lock`; espera aleatoria de 2–6 s por turno (spec HU-6). Los bots también pueden declarar fuera de su turno en cada pasada. 🔒R3
@@ -253,11 +253,11 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 *Deja funcionando: dos personas jugando con código.*
 
 - [ ] **T051** `create_room`, `join_room`, `leave_room`, `start_game` (relleno con bots si procede), `get_room_by_code`. 🔒R3 en `start_game`.
-  - Ficheros: `supabase/migrations/<ts>_rooms_fn.sql`, `supabase/tests/rooms/rooms_test.sql`
+  - Ficheros: `supabase/migrations/<ts>_rooms_fn.sql`, `tests/db/rooms/rooms.test.ts`
   - Hecho cuando: tests de código sin caracteres ambiguos y reintento ante colisión; sala llena, caducada o iniciada rechaza; solo el anfitrión inicia y con ≥ 2.
 
 - [ ] **T052** Publicación de Realtime para `games`, `game_players`, `game_events`, `game_clues`, `room_members`. 🔒R1
-  - Ficheros: `supabase/migrations/<ts>_realtime.sql`, `supabase/tests/fuga/05_realtime_test.sql`
+  - Ficheros: `supabase/migrations/<ts>_realtime.sql`, `tests/db/fuga/realtime.test.ts`
   - Hecho cuando: test que comprueba que `game_tiles` **no** está en `pg_publication_tables`.
 
 - [ ] **T053** Un canal por partida; cada cambio invalida la consulta (no escribe en la caché); detección de huecos en `seq` → `get_game_state` completo. Sustituye el sondeo de T046.
@@ -283,7 +283,7 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 *Deja funcionando: la partida ya no se cuelga.*
 
 - [ ] **T060** `game_internal.tick_timeouts()` en `pg_cron` con candado: turno automático (C8), `timeouts += 1`, al tercero consecutivo `abandoned`. Toda acción manual pone `timeouts = 0`. 🔒R3
-  - Ficheros: `supabase/migrations/<ts>_cron_timeouts.sql`, `supabase/tests/engine/timeout_test.sql`
+  - Ficheros: `supabase/migrations/<ts>_cron_timeouts.sql`, `tests/db/engine/timeout.test.ts`
   - Hecho cuando (grupo **tiempo**): moviendo `turn_deadline` al pasado se juega solo, en fase `reveal`, en fase `clue` y con reserva vacía; tres seguidos eliminan; uno manual entre medias reinicia la cuenta.
   - Nota: con el plan a 10 s un turno puede durar hasta 70 s. Propongo 2 s; es barato porque solo mira partidas con plazo vencido.
 
@@ -310,15 +310,15 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 *Deja funcionando: modo clasificatorio completo.*
 
 - [ ] **T070** `join_queue()` (rechaza invitados, ya en cola o en partida activa) y `leave_queue()`.
-  - Ficheros: `supabase/migrations/<ts>_queue.sql`, `supabase/tests/ranked/queue_test.sql`
+  - Ficheros: `supabase/migrations/<ts>_queue.sql`, `tests/db/ranked/queue.test.ts`
   - Hecho cuando: tests de cada rechazo.
 
 - [ ] **T071** `game_internal.resolve_matchmaking()` en `pg_cron` cada 3 s con candado: ventana `50 + 25 × floor(espera / 10)`, tope 400; empareja al más antiguo con el ELO más cercano; crea la partida `ranked` y llama a `deal_game`. 🔒R3
-  - Ficheros: `supabase/migrations/<ts>_cron_matchmaking.sql`, `supabase/tests/ranked/matchmaking_test.sql`
+  - Ficheros: `supabase/migrations/<ts>_cron_matchmaking.sql`, `tests/db/ranked/matchmaking.test.ts`
   - Hecho cuando: tests de ventana a 0, 10, 60 y 200 s; nunca empareja fuera de la ventana; nadie entra en dos partidas.
 
 - [ ] **T072** `game_internal.apply_elo(p_game_id)` con `elo_applied_at` (C5b), escritura en `elo_history` y en `profiles`. Lo llaman `declare_code_as`, `abandon_as` y el turno automático cuando terminan una partida `ranked`. 🔒R3
-  - Ficheros: `supabase/migrations/<ts>_elo.sql`, `supabase/tests/ranked/elo_test.sql`
+  - Ficheros: `supabase/migrations/<ts>_elo.sql`, `tests/db/ranked/elo.test.ts`
   - Hecho cuando (grupo **ELO**, con C7): K = 32 / 24 / 16 por tramo; suelo de 100; suma cero con K iguales; abandono cuenta como derrota; llamarla dos veces no cambia nada.
 
 - [ ] **T073** Pantalla `/cola`: tiempo de espera, rango que se busca, cancelar; a los 90 s, ofrecer seguir o jugar contra bot. Si el usuario es invitado, se abre `ConvertSheet` (T035).
@@ -364,7 +364,7 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
   - Hecho cuando: latencias de acción y propagación dentro de objetivo, y conexiones Realtime por debajo del límite del plan gratuito.
 
 - [ ] **T086** Bot `hard`. **Recortable**: si no está a tiempo, sale del MVP (plan §7 y §10).
-  - Ficheros: `supabase/migrations/<ts>_bot_hard.sql`, `supabase/tests/bots/hard_test.sql`
+  - Ficheros: `supabase/migrations/<ts>_bot_hard.sql`, `tests/db/bots/hard.test.ts`
   - Hecho cuando: gana al `normal` en más del 60 % de 200 partidas.
 
 - [ ] **T087** Despliegue: proyecto Supabase gestionado (migraciones por CLI, nunca desde el panel), Vercel, variables de entorno.

@@ -74,7 +74,7 @@ Un solo proveedor para base de datos, autenticación y tiempo real. No se añade
 | Lógica de juego | Funciones de Postgres (`plpgsql`) invocadas por RPC, `SECURITY DEFINER` | Transaccional y atómico por diseño |
 | Tiempo real | Supabase Realtime (Postgres Changes + Broadcast) | |
 | Tareas periódicas | `pg_cron` | Emparejamiento, limpieza, turnos de bot |
-| Tests | Vitest (cliente), pgTAP (lógica de juego), Playwright (E2E) | |
+| Tests | Vitest (cliente e integración contra la base de datos), Playwright (E2E) | Sin pgTAP ni Docker: la lógica de juego se prueba llamando a las funciones por RPC con clientes reales |
 | Despliegue | Vercel (cliente) + Supabase gestionado | |
 
 **Restricción:** el MVP debe funcionar dentro de los planes gratuitos de Vercel y Supabase.
