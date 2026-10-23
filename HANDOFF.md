@@ -40,7 +40,7 @@ Luego genera `specs/001-mvp/tasks.md` con las tareas de implementación, ordenad
 Tres restricciones que no son negociables y que debes comprobar en cada tarea que las toque:
 
 - `game_tiles` lleva RLS activada y ninguna política de lectura. El único acceso es desde funciones `SECURITY DEFINER`.
-- Ninguna función devuelve nunca al jugador los números de sus propias fichas mientras la partida esté activa.
+- Ninguna función devuelve al jugador los números de sus propias fichas mientras la partida esté activa **y él siga activo**. Un jugador eliminado o que ha abandonado, o cualquiera al terminar la partida, sí los recibe.
 - Toda función que muta una partida la bloquea primero con `select ... from games where id = ... for update`.
 
 La tabla de puntos de `supabase/seed/points_table.sql` y `src/game/pointsTable.ts` está generada por script y verificada. No la edites a mano: si hay que cambiarla, se cambia la semilla en `scripts/generate_points_table.py` y se vuelve a ejecutar.

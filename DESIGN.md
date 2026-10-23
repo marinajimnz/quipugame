@@ -55,6 +55,8 @@ Placa de piedra granulada con el pigmento incrustado en el hueco tallado. Técni
 - *Sin resolver*: panel vacío con contorno punteado en el color e interrogación. Se lee como piedra todavía por labrar. Sin puntos, porque tampoco los conoces.
 - *Reverso*: cuadros concéntricos en el color de la ficha, sin número.
 
+**Un glifo por color, en todos los estados.** Sin resolver y reverso se distinguían solo por el color, lo que incumple P6. Cada color lleva además un glifo propio, geométrico y andino (escalonado, concéntrico u ortogonal), visible también en las fichas sin resolver y en el reverso. Los cinco glifos están por diseñar.
+
 **Los puntos van siempre visibles en la ficha.** Es el dato que necesita la pista de comparar, y tenerlo ahí ahorra consultar el tablero.
 
 ---

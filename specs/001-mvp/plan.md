@@ -73,6 +73,8 @@ create type clue_kind    as enum ('classify', 'compare');
 | `elo` | `integer` | por defecto 1000, nunca por debajo de 100 |
 | `ranked_games` | `integer` | |
 | `ranked_wins` | `integer` | |
+| `games_played` | `integer` | todas las partidas terminadas |
+| `games_won` | `integer` | todas las partidas ganadas |
 | `is_guest` | `boolean` | `true` mientras sea cuenta anónima |
 | `created_at` | `timestamptz` | |
 
@@ -88,6 +90,9 @@ create type clue_kind    as enum ('classify', 'compare');
 | `turn_deadline` | `timestamptz` | |
 | `winner_player_id` | `uuid` | |
 | `event_seq` | `bigint` | contador de eventos, se incrementa dentro de la transacción |
+| `revealed_tile` | `smallint` nulo | ficha revelada en el turno actual; se limpia al avanzar de turno |
+| `final_round_until_seat` | `smallint` nulo | asiento donde acaba la ronda final cuando la reserva se agota |
+| `elo_applied_at` | `timestamptz` nulo | impide aplicar el ELO dos veces |
 | `created_at`, `started_at`, `finished_at` | `timestamptz` | |
 
 **`game_players`**
@@ -142,7 +147,7 @@ RLS activada, **sin ninguna política**.
 | `id` | `bigint` identidad | |
 | `game_id` | `uuid` | |
 | `seq` | `bigint` | correlativo por partida |
-| `kind` | `text` | `tile_revealed`, `clue_asked`, `declared`, `eliminated`, `game_ended`, `turn_timeout` |
+| `kind` | `text` | `game_started`, `tile_revealed`, `turn_skipped`, `clue_asked`, `declared`, `eliminated`, `game_ended`, `turn_timeout` |
 | `actor_id` | `uuid` nulo | |
 | `payload` | `jsonb` | **solo información pública** |
 | `created_at` | `timestamptz` | |
@@ -161,6 +166,7 @@ Restricción: `unique (game_id, seq)`.
 | `seats` | `smallint` | 2–4 |
 | `fill_with_bots` | `boolean` | |
 | `game_id` | `uuid` nulo | se rellena al iniciar |
+| `status` | `text` | `open`, `started`, `expired` |
 | `expires_at` | `timestamptz` | creación + 30 min |
 
 **`room_members`** — `(room_id, profile_id, joined_at)`.
@@ -234,7 +240,7 @@ Inserta en `game_clues`, pasa la ficha a `place = 'spent'`, avanza el turno al s
 > La respuesta la calcula el servidor. En la mesa física la da un vecino; aquí no hace falta, y así nadie puede responder mal.
 
 ### `declare_code(p_game_id uuid, p_numbers smallint[])`
-Valida que la partida está activa, que el jugador está `active` y que `has_declared = false`. Marca `has_declared = true` pase lo que pase.
+Valida que la partida está activa, que el jugador está `active` y que `has_declared = false`. Marca `has_declared = true` pase lo que pase. Si el declarante era el jugador activo y la partida sigue, avanza el turno. Devuelve solo `{ correct: boolean }`.
 
 Compara el array ordenado con los números reales del soporte.
 
@@ -242,7 +248,7 @@ Compara el array ordenado con los números reales del soporte.
 - Falla: `state = 'eliminated'`, evento `eliminated`. Si queda un solo jugador `active`, ese gana.
 
 ### `abandon_game(p_game_id uuid)`
-`state = 'abandoned'`. Cuenta como derrota a efectos de ELO.
+`state = 'abandoned'`. Cuenta como derrota a efectos de ELO. Si era el jugador activo, avanza el turno; si solo queda un jugador `active`, ese gana.
 
 ### `get_game_state(p_game_id uuid) → jsonb`
 Único punto de lectura del estado. Devuelve:
@@ -260,7 +266,7 @@ Compara el array ordenado con los números reales del soporte.
 }
 ```
 
-`me.support[].resolved_number` es **siempre `null`** mientras la partida está activa. Existe solo para rellenarlo cuando termina y poder enseñar el resultado.
+`me.support[].resolved_number` es `null` mientras la partida esté activa **y** `me.state = 'active'`. Se rellena cuando el jugador queda `eliminated` o `abandoned`, o cuando la partida termina. En esos casos los demás jugadores ya ven esas fichas, así que no se revela nada nuevo.
 
 ### `apply_elo(p_game_id uuid)` *(interna)*
 
@@ -280,9 +286,9 @@ Escribe en `elo_history` y actualiza `profiles`. La partida se marca para que nu
 | trabajo | frecuencia | qué hace |
 |---|---|---|
 | `resolve_matchmaking()` | 3 s | Empareja el jugador más antiguo de la cola con el ELO más cercano dentro de su ventana. Ventana = `50 + 25 × floor(espera_segundos / 10)`, tope 400. Crea la partida y saca a ambos de la cola |
-| `tick_timeouts()` | 10 s | Para cada partida activa con `turn_deadline < now()`: juega el turno automáticamente (revela un color al azar y pide `classify` sobre esa misma ficha), `timeouts += 1`. Al tercero consecutivo, elimina por abandono |
+| `tick_timeouts()` | 10 s | Para cada partida activa con `turn_deadline < now()`: juega el turno automáticamente: si `phase = 'reveal'` revela un color al azar y pide `classify` sobre esa ficha; si `phase = 'clue'` pide `classify` sobre `revealed_tile`; si la reserva está vacía pide `classify` sobre una ficha al azar del mazo. Después `timeouts += 1`. Al tercero consecutivo, elimina por abandono |
 | `play_bot_turns()` | 5 s | Para cada partida activa cuyo turno sea de un bot y lleve más de 2 segundos esperando, ejecuta el turno del bot |
-| `expire_rooms()` | 60 s | `status = 'cancelled'` en salas con `expires_at < now()` sin partida |
+| `expire_rooms()` | 60 s | `status = 'expired'` en salas `open` con `expires_at < now()` |
 
 Todos toman `pg_try_advisory_lock` con una clave fija y salen sin hacer nada si ya hay otra ejecución en marcha.
 
@@ -390,7 +396,7 @@ Cada test usa usuarios anónimos reales y llama a las funciones por RPC, como lo
 | declaración | acierto gana; fallo elimina; segunda declaración rechazada; último en pie gana |
 | concurrencia | dos declaraciones simultáneas producen un solo ganador |
 | tiempo | turno agotado juega solo; tres seguidos eliminan |
-| ELO | suma cero entre los dos jugadores; suelo de 100; K correcto por tramo |
+| ELO | suma cero solo con K iguales y sin suelo; con K distintos cada Δ por separado; suelo de 100; K correcto por tramo |
 | **fuga** | un jugador no puede leer sus propios números por ninguna vía: `game_tiles` directo, `get_game_state`, eventos, pistas |
 
 El grupo de fuga es obligatorio y se ejecuta en cada commit.

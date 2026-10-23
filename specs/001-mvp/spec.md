@@ -1,4 +1,4 @@
-# Spec 001 — MVP jugable de Quinteto
+# Spec 001 — MVP jugable de Quipu
 
 > Ubicación destino en el repo: `specs/001-mvp/spec.md`
 > Rama: `001-mvp`
@@ -121,12 +121,12 @@ La partida termina cuando:
 - Un jugador declara correctamente → ese jugador gana.
 - Queda un único jugador no eliminado → ese jugador gana.
 - Todos los jugadores quedan eliminados → nadie gana (empate técnico).
-- Se agota la reserva y se completa una ronda más sin ganador → nadie gana (empate técnico). *Situación muy improbable; existe como red de seguridad.*
+- Se agota la reserva y se completa una ronda más sin ganador → nadie gana (empate técnico). *Situación muy improbable; existe como red de seguridad.* La "ronda más" empieza en el turno en que la reserva queda vacía y termina cuando el turno vuelve a ese mismo asiento.
 
 ### 4.6 Tiempo
 
 - Cada turno tiene un límite de **60 segundos**.
-- Si se agota, el servidor juega el turno automáticamente: revela una ficha de un color al azar y pide una pista de CLASIFICAR sobre esa misma ficha.
+- Si se agota, el servidor juega el turno automáticamente: revela una ficha de un color al azar y pide una pista de CLASIFICAR sobre esa misma ficha. Si el jugador ya había revelado, CLASIFICA la ficha que reveló. Si la reserva está vacía, CLASIFICA una ficha al azar del mazo visible.
 - Tres turnos consecutivos agotados equivalen a **abandono**: el jugador se considera eliminado.
 
 ---
@@ -143,7 +143,8 @@ Criterios:
 - Como invitado puedo jugar **contra bots y en salas privadas**. Para entrar en clasificatoria se me pide convertir la cuenta; al hacerlo conservo las partidas jugadas y arranco con el ELO inicial.
 - La conversión es un solo paso y no me saca de la pantalla en la que estoy.
 - Elijo un nombre visible único de 3 a 16 caracteres.
-- Mi perfil muestra: nombre, avatar, ELO actual, partidas jugadas, partidas ganadas y porcentaje de victoria.
+- Mi perfil muestra: nombre, avatar, ELO actual, partidas jugadas, partidas ganadas y porcentaje de victoria. Jugadas y ganadas cuentan **todas** las partidas; el factor K y el ranking usan solo las clasificatorias.
+- Al crear una cuenta (también de invitado) recibo un nombre provisional `Invitado-XXXXX`, que puedo cambiar cuando quiera.
 
 ### HU-2 — Jugar con amigos mediante código
 
@@ -241,7 +242,9 @@ Entidades y su razón de ser. Las columnas exactas van en `plan.md`.
 | `matchmaking_queue` | Jugadores esperando partida clasificatoria, con su ELO y hora de entrada | |
 | `elo_history` | Variación de ELO por partida y jugador | Lectura pública |
 
-**Regla de visibilidad.** El cliente nunca consulta `game_tiles`. Consulta una **vista filtrada por jugador** que oculta los números de las fichas propias y de la reserva, y expone todo lo demás. Esta vista es el único camino.
+**Regla de visibilidad.** El cliente nunca consulta `game_tiles`. Consulta una **función que filtra por el jugador que pregunta** (`get_game_state`), la cual oculta los números de las fichas propias y de la reserva, y expone todo lo demás. Esa función es el único camino.
+
+**Excepción.** Un jugador eliminado o que ha abandonado, o cualquiera cuando la partida ha terminado, sí recibe los números de sus propias fichas: los demás jugadores ya los ven, así que no se revela nada nuevo.
 
 ---
 
@@ -309,6 +312,7 @@ El cliente **nunca deduce el estado**: lo recibe. Los eventos llegan numerados s
 - Factor K: **32** durante las 20 primeras partidas clasificatorias, **24** después, **16** por encima de 2000 puntos.
 - Fórmula estándar de Elo para enfrentamiento entre dos jugadores.
 - El ELO **nunca baja de 100**.
+- Los ajustes de los dos jugadores suman cero solo cuando tienen el mismo factor K y ninguno toca el suelo de 100. En el resto de casos cada jugador se calcula por separado.
 - Solo las partidas clasificatorias modifican el ELO. Salas privadas y bots, no.
 - Un abandono cuenta como derrota.
 - Toda variación se registra en el historial, para poder recalcular si se cambia la fórmula.
@@ -348,7 +352,7 @@ Mantiene, por cada una de sus 5 posiciones, el conjunto de números todavía pos
 
 | Riesgo | Impacto | Mitigación |
 |---|---|---|
-| Fuga de información oculta por un endpoint mal filtrado | Rompe el juego por completo | Acceso únicamente por vista filtrada; test obligatorio por feature; RLS activa siempre |
+| Fuga de información oculta por un endpoint mal filtrado | Rompe el juego por completo | Acceso únicamente por función filtrada; test obligatorio por feature; RLS activa siempre |
 | Dos declaraciones simultáneas | Dos ganadores o estado inconsistente | Bloqueo de fila sobre la partida y procesamiento estrictamente secuencial |
 | Cola vacía en horas valle | Nadie puede jugar clasificatoria | Ampliación progresiva del rango de ELO y oferta de partida contra bot |
 | Abandono masivo | Partidas colgadas | Límite de turno, juego automático y eliminación por abandono |
@@ -369,7 +373,7 @@ Mantiene, por cada una de sus 5 posiciones, el conjunto de números todavía pos
 
 ### Pendientes
 
-1. **Nombre definitivo del juego** y disponibilidad de dominio, marca y tiendas de aplicaciones. "Quinteto" es provisional.
+1. **Nombre definitivo del juego** y disponibilidad de dominio, marca y tiendas de aplicaciones. "Quipu" es provisional (antes, "Quinteto").
 
 ---
 

@@ -25,7 +25,9 @@ Ningún cálculo de juego se replica en el cliente "por rapidez". Si hace falta 
 
 ### P2. La información oculta nunca sale del servidor
 
-Los números de las fichas propias de un jugador **jamás** se envían a su cliente, ni cifrados, ni en un campo que la UI "no pinte". Si un dato no debe verse, no viaja.
+Los números de las fichas propias de un jugador **jamás** se envían a su cliente mientras la partida esté activa y él siga en juego, ni cifrados, ni en un campo que la UI "no pinte". Si un dato no debe verse, no viaja.
+
+Excepción: un jugador eliminado o que ha abandonado, y cualquiera una vez terminada la partida, recibe sus números; los demás jugadores ya los ven, así que no se revela nada.
 
 Corolario: toda consulta de estado de partida pasa por una vista o función que filtra por el jugador que pregunta. No existe un endpoint que devuelva el estado completo "en crudo".
 

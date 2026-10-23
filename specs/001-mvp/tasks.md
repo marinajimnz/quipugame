@@ -12,7 +12,7 @@
 - Cada tarea dice **qué ficheros toca** y **cómo se comprueba que está hecha**.
 - Restricciones no negociables, marcadas en cada tarea que las toca:
   - **🔒R1** — `game_tiles` lleva RLS activada y **ninguna** política. Solo se accede desde funciones `SECURITY DEFINER`.
-  - **🔒R2** — Ninguna función devuelve al jugador los números de sus propias fichas mientras la partida esté activa.
+  - **🔒R2** — Ninguna función devuelve al jugador los números de sus propias fichas mientras la partida esté activa y él siga activo (ver C1).
   - **🔒R3** — Toda función que muta una partida la bloquea primero con `select ... from games where id = ... for update`.
 - La tabla de puntos (`supabase/seed/points_table.sql`, `src/game/pointsTable.ts`) **no se edita a mano**. Se regenera con `scripts/generate_points_table.py`. Comprobado el 2026-10-23: el script con la semilla `20261023` reproduce byte a byte los dos ficheros del paquete.
 
@@ -25,7 +25,9 @@
 
 ---
 
-## Hito 0 — Antes de empezar: contradicciones a resolver en spec y plan
+## Hito 0 — Antes de empezar: contradicciones resueltas en spec y plan
+
+**Estado: resueltas el 2026-10-23 con las recomendaciones de la tabla.** Ya están reflejadas en la constitución (P2), `spec.md`, `plan.md`, `DESIGN.md`, `HANDOFF.md` y el script. Pendientes de otras fases: los cinco glifos de color (C2, diseño) y el nombre definitivo (C12). La tabla se conserva como registro.
 
 La constitución (§5) dice que si la spec está mal se para y se corrige primero. Al leer los cuatro documentos he encontrado estos puntos. Los cinco primeros afectan al esquema del hito 1 o a las restricciones no negociables, así que hay que cerrarlos antes de escribir la primera migración.
 
@@ -45,7 +47,7 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 | C12 | El nombre es "Quinteto" en la constitución, la spec y el script, y "Quipu" en el plan, DESIGN y HANDOFF. | varios | Abierto. Mientras tanto el código usa un identificador neutro (`app`) y la marca sale de `messages/es.json`, así el cambio es de una línea. |
 | C13 | `generate_points_table.py` escribe las salidas en el directorio actual, no en `supabase/seed/` ni en `src/game/`. Regenerar exige mover ficheros a mano. | script | Cambiar **solo las rutas de salida** del script (no la semilla ni la tabla) y añadir la comprobación de T016. |
 
-- [ ] **T000** Resolver C1–C13 y reflejar las decisiones en `spec.md`, `plan.md` y, si toca C1, en la constitución.
+- [x] **T000** Resolver C1–C13 y reflejar las decisiones en `spec.md`, `plan.md` y, si toca C1, en la constitución.
   - Ficheros: `specs/001-mvp/spec.md`, `specs/001-mvp/plan.md`, `.specify/memory/constitution.md`, `DESIGN.md`
   - Hecho cuando: cada fila de la tabla anterior tiene decisión escrita en el documento que manda, y esta sección se reduce a un enlace a esos cambios.
 
@@ -104,7 +106,7 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
     - un usuario no puede actualizar su `elo` ni el perfil de otro;
     - `tile_definitions`: 60 filas, 20 de cada valor, 4/4/4 por color.
 
-- [ ] **T012** [P] Hacer que `generate_points_table.py` escriba en `supabase/seed/` y `src/game/` (C13). Solo cambian las rutas de salida.
+- [x] **T012** [P] Hacer que `generate_points_table.py` escriba en `supabase/seed/` y `src/game/` (C13). Solo cambian las rutas de salida.
   - Ficheros: `scripts/generate_points_table.py`
   - Hecho cuando: ejecutarlo desde la raíz deja `git status` limpio.
 
@@ -140,7 +142,7 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 
 - [ ] **T025** `declare_code(p_game_id, p_numbers)` → `declare_code_as`. Devuelve solo `{ correct: boolean }`. Llama a `advance_turn` si el declarante era el activo (C9). 🔒R2 🔒R3
   - Ficheros: `supabase/migrations/<ts>_engine_declare.sql`, `tests/db/engine/declare.test.ts`
-  - Hecho cuando (grupo **declaración**): acierto → `finished` + ganador; fallo → `eliminated` y `has_declared = true`; segunda declaración rechazada; declarar fuera de turno funciona; último en pie gana; todos eliminados → sin ganador; el valor de retorno y el evento `eliminated` no contienen los números reales (según C1, salvo que se decida lo contrario).
+  - Hecho cuando (grupo **declaración**): acierto → `finished` + ganador; fallo → `eliminated` y `has_declared = true`; segunda declaración rechazada; declarar fuera de turno funciona; último en pie gana; todos eliminados → sin ganador; el valor de retorno y el evento `eliminated` no contienen los números reales; tras eliminarse, `get_game_state` sí los devuelve a ese jugador (C1).
 
 - [ ] **T026** `abandon_game(p_game_id)` → `abandon_as`. Comprueba último en pie y avanza turno si toca (C9). 🔒R3
   - Ficheros: `supabase/migrations/<ts>_engine_abandon.sql`, `tests/db/engine/abandon.test.ts`

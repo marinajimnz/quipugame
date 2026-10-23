@@ -18,6 +18,7 @@ Criterios de calidad (una tabla candidata debe pasarlos todos):
 
 import random
 from itertools import groupby
+from pathlib import Path
 
 SEED = 20261023
 VALUES = (1, 2, 3)
@@ -155,14 +156,20 @@ def print_table(points):
 
 
 def write_outputs(points):
-    with open("points_table.sql", "w") as f:
+    root = Path(__file__).resolve().parent.parent
+    sql_path = root / "supabase" / "seed" / "points_table.sql"
+    ts_path = root / "src" / "game" / "pointsTable.ts"
+    sql_path.parent.mkdir(parents=True, exist_ok=True)
+    ts_path.parent.mkdir(parents=True, exist_ok=True)
+
+    with open(sql_path, "w") as f:
         f.write("-- Tabla de puntos de Quinteto. Generada por generate_points_table.py\n")
         f.write(f"-- Semilla {SEED}. No modificar a mano: regenerar y volver a verificar.\n\n")
         f.write("insert into tile_definitions (number, color_index, points) values\n")
         filas = [f"  ({n}, {color_of(n)}, {points[n]})" for n in range(1, 61)]
         f.write(",\n".join(filas) + ";\n")
 
-    with open("pointsTable.ts", "w") as f:
+    with open(ts_path, "w") as f:
         f.write("// Tabla de puntos de Quinteto. Generada por generate_points_table.py\n")
         f.write(f"// Semilla {SEED}. No modificar a mano: regenerar y volver a verificar.\n\n")
         f.write("export const TILE_POINTS: Readonly<Record<number, 1 | 2 | 3>> = {\n")
@@ -173,7 +180,7 @@ def write_outputs(points):
         f.write("export const colorOfTile = (n: number): 0 | 1 | 2 | 3 | 4 =>\n")
         f.write("  ((n - 1) % 5) as 0 | 1 | 2 | 3 | 4;\n")
 
-    print("\nEscritos points_table.sql y pointsTable.ts")
+    print(f"\nEscritos {sql_path.relative_to(root)} y {ts_path.relative_to(root)}")
 
 
 if __name__ == "__main__":
