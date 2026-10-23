@@ -220,27 +220,27 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
   - Ficheros: `supabase/migrations/<ts>_cron_bots.sql`
   - Hecho cuando: una partida de práctica avanza sola en local; dos ejecuciones solapadas no juegan el mismo turno dos veces (test con el candado tomado).
 
-- [ ] **T044** [P] `TileDetailed` y `TileCompact` (misma API de props, dibujo distinto) y `Tile` que despacha según `size`. Estados resuelta/pública, sin resolver y reverso; tintas de `DESIGN.md`; excepción `#5FA38F`; puntos siempre visibles; glifo por color (C2). Página de muestra `/dev/fichas`.
+- [x] **T044** [P] `TileDetailed` y `TileCompact` (misma API de props, dibujo distinto) y `Tile` que despacha según `size`. Estados resuelta/pública, sin resolver y reverso; tintas de `DESIGN.md`; excepción `#5FA38F`; puntos siempre visibles; glifo por color (C2). Página de muestra `/dev/fichas`.
   - Ficheros: `components/game/Tile.tsx`, `TileDetailed.tsx`, `TileCompact.tsx`, `app/dev/fichas/page.tsx`
   - Hecho cuando: revisión visual a 44, 52, 72, 100 y 140 px; cada estado distinguible en escala de grises.
 
-- [ ] **T045** [P] `Support`, `Pool` (decidir aquí dos filas de tres frente a una de seis con 44 px y aire suficiente; ver HANDOFF), `TurnBar`, `ClueList` e historial desplegable.
+- [x] **T045** [P] `Support`, `Pool` (decidir aquí dos filas de tres frente a una de seis con 44 px y aire suficiente; ver HANDOFF), `TurnBar`, `ClueList` e historial desplegable.
   - Ficheros: `components/game/Support.tsx`, `Pool.tsx`, `TurnBar.tsx`, `ClueList.tsx`, `History.tsx`
   - Hecho cuando: con un estado de ejemplo se ven bien a 360 y 430 px; todos los objetivos táctiles ≥ 44 px.
 
-- [ ] **T046** Página `/partida/[id]`: TanStack Query con una clave por partida sobre `get_game_state`; de momento, refresco por sondeo cada 1,5 s (lo sustituye Realtime en T053). Flujo del turno: color → ficha del mazo → `classify` o `compare` + ranura → confirmar. Optimista solo el estado "enviando".
+- [x] **T046** Página `/partida/[id]`: TanStack Query con una clave por partida sobre `get_game_state`; de momento, refresco por sondeo cada 1,5 s (lo sustituye Realtime en T053). Flujo del turno: color → ficha del mazo → `classify` o `compare` + ranura → confirmar. Optimista solo el estado "enviando".
   - Ficheros: `app/(app)/partida/[id]/page.tsx`, `lib/game/useGameState.ts`, `components/game/TurnActions.tsx`
   - Hecho cuando: se juega una partida completa contra un bot `normal` en el móvil.
 
-- [ ] **T047** [P] `DeductionBoard`: 60 números, tachado manual, tachado automático de lo públicamente imposible con aspecto distinto, candidatos por ranura. Zustand persistido en `localStorage` con la clave de la partida. Es una ayuda visual: no decide nada del juego (P1).
+- [x] **T047** [P] `DeductionBoard`: 60 números, tachado manual, tachado automático de lo públicamente imposible con aspecto distinto, candidatos por ranura. Zustand persistido en `localStorage` con la clave de la partida. Es una ayuda visual: no decide nada del juego (P1).
   - Ficheros: `components/game/DeductionBoard.tsx`, `lib/game/deductionStore.ts`, `lib/game/autoStrike.ts`
   - Hecho cuando: Vitest de `autoStrike` (fichas ajenas, mazo, gastadas); recargar la página conserva los tachados.
 
-- [ ] **T048** [P] `DeclareSheet`: resumen de los 5 números, confirmación explícita de "una sola oportunidad", validación local (distintos, ascendentes, color correcto por ranura). Botón accesible siempre, también fuera de turno.
+- [x] **T048** [P] `DeclareSheet`: resumen de los 5 números, confirmación explícita de "una sola oportunidad", validación local (distintos, ascendentes, color correcto por ranura). Botón accesible siempre, también fuera de turno.
   - Ficheros: `components/game/DeclareSheet.tsx`, `lib/game/validateDeclaration.ts`
   - Hecho cuando: Vitest de `validateDeclaration`.
 
-- [ ] **T049** Inicio con "Practicar" (número de bots y dificultad) y pantalla de final (ganador, tus números, volver).
+- [x] **T049** Inicio con "Practicar" (número de bots y dificultad) y pantalla de final (ganador, tus números, volver).
   - Ficheros: `app/(app)/page.tsx`, `components/game/GameOver.tsx`
   - Hecho cuando: de abrir la app a estar jugando en < 30 s como invitado.
 

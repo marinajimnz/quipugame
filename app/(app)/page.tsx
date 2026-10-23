@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
+import { PracticeForm } from '@/components/home/PracticeForm';
 import { Avatar } from '@/components/profile/Avatar';
 import { createClient } from '@/lib/supabase/server';
 
@@ -31,9 +32,7 @@ export default async function HomePage() {
         </Link>
       ) : null}
 
-      <p className="rounded-2xl bg-blanco p-4 text-sm shadow-sm ring-1 ring-grafito/10">
-        {t('home.underConstruction')}
-      </p>
+      <PracticeForm />
     </main>
   );
 }
