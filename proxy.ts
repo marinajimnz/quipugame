@@ -1,9 +1,12 @@
-import type { NextRequest } from 'next/server';
+import { NextRequest } from 'next/server';
 import { updateSession } from '@/lib/supabase/session';
 
 // En Next.js 16 el antiguo middleware se llama proxy.
 export async function proxy(request: NextRequest) {
-  return updateSession(request);
+  // Los layouts no ven la URL: se la pasamos en una cabecera para poder volver tras iniciar sesión.
+  const headers = new Headers(request.headers);
+  headers.set('x-pathname', request.nextUrl.pathname + request.nextUrl.search);
+  return updateSession(new NextRequest(request, { headers }));
 }
 
 export const config = {

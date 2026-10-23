@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { PracticeForm } from '@/components/home/PracticeForm';
+import { CreateRoomForm, JoinRoomForm } from '@/components/home/RoomForms';
 import { Avatar } from '@/components/profile/Avatar';
 import { createClient } from '@/lib/supabase/server';
 
@@ -38,6 +39,8 @@ export default async function HomePage() {
       ) : null}
 
       <PracticeForm />
+      <CreateRoomForm />
+      <JoinRoomForm />
     </main>
   );
 }

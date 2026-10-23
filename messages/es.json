@@ -198,5 +198,51 @@
     "start": "Empezar partida",
     "starting": "Preparando la mesa…",
     "error": "No se ha podido crear la partida."
+  },
+  "room": {
+    "title": "Sala",
+    "codeLabel": "Código de la sala",
+    "share": "Compartir enlace",
+    "copyCode": "Copiar código",
+    "copied": "Copiado.",
+    "shareTitle": "Una partida de {app}",
+    "shareText": "Entra en mi sala con el código {code}.",
+    "members": "En la sala",
+    "host": "Anfitrión",
+    "you": "Tú",
+    "seatsCount": "{count} de {seats} plazas",
+    "botsNote": "Las plazas libres se rellenarán con bots.",
+    "waitingHost": "Esperando a que el anfitrión inicie la partida…",
+    "needMore": "Hace falta al menos otra persona, o crear la sala con bots.",
+    "start": "Empezar partida",
+    "starting": "Preparando la mesa…",
+    "leave": "Salir de la sala",
+    "closed": "Esta sala se ha cerrado.",
+    "backHome": "Volver al inicio",
+    "joining": "Entrando en la sala…",
+    "errors": {
+      "room_not_found": "No existe ninguna sala con ese código.",
+      "room_full": "La sala está llena.",
+      "room_expired": "La sala ha caducado o se ha cerrado.",
+      "room_not_open": "La partida de esta sala ya ha empezado.",
+      "not_enough_players": "Hacen falta al menos 2 jugadores.",
+      "not_host": "Solo el anfitrión puede hacerlo.",
+      "generic": "Algo ha fallado. Inténtalo de nuevo."
+    }
+  },
+  "createRoom": {
+    "title": "Sala privada",
+    "seats": "Plazas",
+    "seatsOption": "{count} jugadores",
+    "bots": "Rellenar las plazas libres con bots",
+    "create": "Crear sala",
+    "creating": "Creando…",
+    "error": "No se ha podido crear la sala."
+  },
+  "joinRoom": {
+    "title": "Unirme con código",
+    "label": "Código de la sala",
+    "submit": "Unirme",
+    "invalid": "El código tiene 6 letras o números."
   }
 }

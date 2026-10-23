@@ -516,6 +516,10 @@ export type Database = {
         }
         Returns: undefined
       }
+      create_room: {
+        Args: { p_fill_bots?: boolean; p_seats: number }
+        Returns: string
+      }
       declare_code: {
         Args: { p_game_id: string; p_numbers: number[] }
         Returns: Json
@@ -536,10 +540,13 @@ export type Database = {
       }
       is_participant: { Args: { p_game_id: string }; Returns: boolean }
       is_room_member: { Args: { p_room_id: string }; Returns: boolean }
+      join_room: { Args: { p_code: string }; Returns: string }
+      leave_room: { Args: { p_room_id: string }; Returns: undefined }
       reveal_tile: {
         Args: { p_color: number; p_game_id: string }
         Returns: undefined
       }
+      start_game: { Args: { p_room_id: string }; Returns: string }
       start_practice_game: {
         Args: { p_bots: number; p_difficulty: string }
         Returns: string

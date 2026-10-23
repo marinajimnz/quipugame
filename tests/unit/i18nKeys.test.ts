@@ -26,19 +26,23 @@ describe('claves de traducción', () => {
   });
 
   it.each(sources)('%s solo usa claves que existen', (file) => {
-    const src = readFileSync(file, 'utf8');
-    // useTranslations('ns') / getTranslations('ns') -> variable (t, tAuth…) -> espacio de nombres
-    const scopes = new Map<string, string>();
-    for (const m of src.matchAll(/(\w+)\s*=\s*(?:await\s+)?(?:useTranslations|getTranslations)\(\s*(?:'([\w.]+)')?\s*\)/g)) {
-      scopes.set(m[1], m[2] ?? '');
-    }
+    const whole = readFileSync(file, 'utf8');
+    // Cada componente se revisa por separado: dos componentes del mismo fichero pueden usar
+    // `t` con espacios de nombres distintos.
+    for (const src of whole.split(/\n(?=(?:export )?(?:default )?(?:async )?function )/)) {
+      // useTranslations('ns') / getTranslations('ns') -> variable (t, tAuth…) -> espacio de nombres
+      const scopes = new Map<string, string>();
+      for (const m of src.matchAll(/(\w+)\s*=\s*(?:await\s+)?(?:useTranslations|getTranslations)\(\s*(?:'([\w.]+)')?\s*\)/g)) {
+        scopes.set(m[1], m[2] ?? '');
+      }
 
-    for (const [fn, ns] of scopes) {
-      for (const m of src.matchAll(new RegExp(`\\b${fn}\\(\\s*([\`'])([^\`']+)\\1`, 'g'))) {
-        // Las claves dinámicas (errors.${x}) se comprueban solo por su prefijo.
-        const key = m[2].replace(/\$\{[^}]*\}.*$/, '').replace(/\.$/, '');
-        const full = [ns, key].filter(Boolean).join('.');
-        expect(lookup(full), `${file}: falta "${full}" en messages/es.json`).toBeDefined();
+      for (const [fn, ns] of scopes) {
+        for (const m of src.matchAll(new RegExp(`\\b${fn}\\(\\s*([\`'])([^\`']+)\\1`, 'g'))) {
+          // Las claves dinámicas (errors.${x}) se comprueban solo por su prefijo.
+          const key = m[2].replace(/\$\{[^}]*\}.*$/, '').replace(/\.$/, '');
+          const full = [ns, key].filter(Boolean).join('.');
+          expect(lookup(full), `${file}: falta "${full}" en messages/es.json`).toBeDefined();
+        }
       }
     }
   });

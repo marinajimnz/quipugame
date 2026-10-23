@@ -78,6 +78,9 @@ export async function createGuest(): Promise<Player> {
 
 /** Borra los usuarios creados (el perfil y sus datos caen en cascada). */
 export async function cleanup(): Promise<void> {
+  if (createdRoomIds.length) {
+    await admin.from('rooms').delete().in('id', createdRoomIds.splice(0));
+  }
   if (createdGameIds.length) {
     await admin.from('games').delete().in('id', createdGameIds.splice(0));
   }
@@ -126,6 +129,13 @@ export interface TestSeat {
 export interface TestGame {
   id: string;
   seats: TestSeat[];
+}
+
+const createdRoomIds: string[] = [];
+
+/** Registra una sala creada por otra vía para borrarla al limpiar. */
+export function trackRoom(id: string): void {
+  createdRoomIds.push(id);
 }
 
 /** Registra una partida creada por otra vía (p. ej. start_practice_game) para borrarla al limpiar. */

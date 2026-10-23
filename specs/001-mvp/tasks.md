@@ -254,19 +254,19 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 
 *Deja funcionando: dos personas jugando con código.*
 
-- [ ] **T051** `create_room`, `join_room`, `leave_room`, `start_game` (relleno con bots si procede), `get_room_by_code`. 🔒R3 en `start_game`.
+- [x] **T051** `create_room`, `join_room`, `leave_room`, `start_game` (relleno con bots si procede), `get_room_by_code`. 🔒R3 en `start_game`.
   - Ficheros: `supabase/migrations/<ts>_rooms_fn.sql`, `tests/db/rooms/rooms.test.ts`
   - Hecho cuando: tests de código sin caracteres ambiguos y reintento ante colisión; sala llena, caducada o iniciada rechaza; solo el anfitrión inicia y con ≥ 2.
 
-- [ ] **T052** Publicación de Realtime para `games`, `game_players`, `game_events`, `game_clues`, `room_members`. 🔒R1
+- [x] **T052** Publicación de Realtime para `games`, `game_players`, `game_events`, `game_clues`, `room_members`. 🔒R1
   - Ficheros: `supabase/migrations/<ts>_realtime.sql`, `tests/db/fuga/realtime.test.ts`
   - Hecho cuando: test que comprueba que `game_tiles` **no** está en `pg_publication_tables`.
 
-- [ ] **T053** Un canal por partida; cada cambio invalida la consulta (no escribe en la caché); detección de huecos en `seq` → `get_game_state` completo. Sustituye el sondeo de T046.
+- [x] **T053** Un canal por partida; cada cambio invalida la consulta (no escribe en la caché); detección de huecos en `seq` → `get_game_state` completo. Sustituye el sondeo de T046.
   - Ficheros: `lib/game/useGameChannel.ts`
   - Hecho cuando: Vitest del detector de huecos; con dos navegadores, una acción aparece en el otro sin sondeo.
 
-- [ ] **T054** Pantalla `/sala/[codigo]`: miembros en tiempo real, compartir enlace (Web Share API con copia de respaldo), botón de iniciar solo para el anfitrión. Abrir el enlace sin sesión entra como invitado y se une.
+- [x] **T054** Pantalla `/sala/[codigo]`: miembros en tiempo real, compartir enlace (Web Share API con copia de respaldo), botón de iniciar solo para el anfitrión. Abrir el enlace sin sesión entra como invitado y se une.
   - Ficheros: `app/(app)/sala/[codigo]/page.tsx`, `components/room/`
   - Hecho cuando: un enlace abierto en otro dispositivo entra directamente en la sala.
 
@@ -274,7 +274,7 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
   - Ficheros: `e2e/private-game.spec.ts`, `playwright.config.ts`
   - Hecho cuando: verde en local y en CI.
 
-- [ ] **T056** Medir con dos móviles reales la propagación de eventos (objetivo p95 < 500 ms) y la latencia de acción (p95 < 300 ms).
+- [ ] **T056** (medido desde un portátil: ver `specs/001-mvp/measurements.md`; falta con dos móviles reales) Medir con dos móviles reales la propagación de eventos (objetivo p95 < 500 ms) y la latencia de acción (p95 < 300 ms).
   - Ficheros: `specs/001-mvp/measurements.md`
   - Hecho cuando: están los números. Si no se llega, plan §10: subir de plan antes que cambiar de arquitectura.
 

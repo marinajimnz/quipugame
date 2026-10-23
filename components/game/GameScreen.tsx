@@ -8,6 +8,7 @@ import { gameErrorKey } from '@/lib/game/errors';
 import { labelsOf } from '@/lib/game/playerLabel';
 import { isMyTurn } from '@/lib/game/types';
 import { isDisconnected } from '@/lib/game/presence';
+import { useGameChannel } from '@/lib/game/useGameChannel';
 import { useGameState } from '@/lib/game/useGameState';
 import { useNow } from '@/lib/game/useNow';
 import { useOnline } from '@/lib/game/useOnline';
@@ -30,7 +31,8 @@ import { TurnBar } from './TurnBar';
 export function GameScreen({ gameId }: { gameId: string }) {
   const t = useTranslations('game');
   const queryClient = useQueryClient();
-  const { data, error: loadError, isError } = useGameState(gameId);
+  const connected = useGameChannel(gameId);
+  const { data, error: loadError, isError } = useGameState(gameId, connected);
   const online = useOnline();
   const now = useNow(1000);
   const { playerName } = useGameText();

@@ -29,6 +29,7 @@ describe('esquema', () => {
     expect(rows.map((r) => r.proname)).toEqual([
       'abandon_game',
       'ask_clue',
+      'create_room',
       'declare_code',
       'get_game_state',
       'get_my_active_game',
@@ -36,7 +37,10 @@ describe('esquema', () => {
       'handle_new_user',
       'is_participant',
       'is_room_member',
+      'join_room',
+      'leave_room',
       'reveal_tile',
+      'start_game',
       'start_practice_game',
       'sync_guest_flag',
       'touch_presence',

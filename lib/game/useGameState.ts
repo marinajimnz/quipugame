@@ -11,10 +11,11 @@ export interface GameSnapshot {
 }
 
 /**
- * Estado de la partida tal como lo ve este jugador. De momento se refresca por sondeo cada
- * 1,5 s; el hito 5 lo cambia por Realtime sin tocar a quien lo usa (la misma clave de caché).
+ * Estado de la partida tal como lo ve este jugador. Con Realtime conectado, los cambios llegan
+ * por el canal (useGameChannel) y el sondeo queda como red de seguridad cada 10 s; sin él,
+ * se sondea cada 1,5 s.
  */
-export function useGameState(gameId: string) {
+export function useGameState(gameId: string, realtimeConnected = false) {
   return useQuery({
     queryKey: ['game', gameId],
     queryFn: async (): Promise<GameSnapshot> => {
@@ -23,6 +24,7 @@ export function useGameState(gameId: string) {
       const state = data as unknown as GameState;
       return { state, clockOffsetMs: Date.parse(state.game.server_time) - Date.now() };
     },
-    refetchInterval: (query) => (query.state.data?.state.game.status === 'finished' ? false : 1500),
+    refetchInterval: (query) =>
+      query.state.data?.state.game.status === 'finished' ? false : realtimeConnected ? 10_000 : 1500,
   });
 }
