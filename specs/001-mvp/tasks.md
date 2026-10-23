@@ -57,9 +57,9 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 
 *Deja funcionando: base de datos (proyecto Supabase enlazado) con las 60 fichas y todas las políticas puestas.*
 
-- [ ] **T001** Inicializar la carpeta `supabase/` y enlazarla al proyecto `xxyigxrjaflwnehztdsr` (`supabase link`). Sin Docker: no hay base local.
+- [x] **T001** Inicializar la carpeta `supabase/` y enlazarla al proyecto `xxyigxrjaflwnehztdsr` (`supabase link`). Sin Docker: no hay base local.
   - Ficheros: `supabase/config.toml`, `.gitignore`, `README.md`
-  - Hecho cuando: `supabase db push --dry-run` lista las migraciones sin errores; `config.toml` apunta la semilla a `./seed/points_table.sql`; `pg_cron` y `citext` están habilitadas en el proyecto.
+  - Hecho cuando: `supabase db push --linked --dry-run` lista las migraciones sin errores; `config.toml` apunta la semilla a `./seed/points_table.sql`; `pg_cron` y `citext` están habilitadas en el proyecto.
 
 - [ ] **T002** Migración de tipos enumerados (`game_mode`, `game_status`, `player_state`, `turn_phase`, `tile_place`, `clue_kind`) y esquema `game_internal`.
   - Ficheros: `supabase/migrations/<ts>_types.sql`
