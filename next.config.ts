@@ -7,6 +7,14 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        // El service worker nunca debe quedarse viejo en la caché del navegador.
+        source: '/sw.js',
+        headers: [
+          { key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' },
+          { key: 'Content-Type', value: 'application/javascript; charset=utf-8' },
+        ],
+      },
+      {
         source: '/(.*)',
         headers: [
           { key: 'X-Content-Type-Options', value: 'nosniff' },

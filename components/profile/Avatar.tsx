@@ -7,7 +7,7 @@ const INK = ['text-grafito', 'text-grafito', 'text-crema', 'text-crema', 'text-c
 export function Avatar({ avatarKey, name, size = 56 }: { avatarKey: string; name: string; size?: number }) {
   const color = avatarColorIndex(avatarKey);
   const initial = Array.from(name.trim())[0]?.toUpperCase() ?? '';
-  const palette = color === null ? 'bg-lila text-grafito' : `${BG[color]} ${INK[color]}`;
+  const palette = color === null ? 'bg-lila text-piedra-hueco' : `${BG[color]} ${INK[color]}`;
 
   return (
     <span

@@ -23,7 +23,7 @@ export default async function PerfilPage() {
         <div className="flex min-w-0 flex-col">
           <h1 className="truncate font-display text-3xl font-extrabold tracking-tight">{profile.display_name}</h1>
           {profile.is_guest ? (
-            <span className="w-fit rounded-full bg-lila px-2.5 py-0.5 text-xs font-semibold">{t('guestBadge')}</span>
+            <span className="w-fit rounded-full bg-lila text-piedra-hueco px-2.5 py-0.5 text-xs font-semibold">{t('guestBadge')}</span>
           ) : null}
         </div>
       </header>
@@ -39,7 +39,7 @@ export default async function PerfilPage() {
         ).map(([key, value]) => (
           <div key={key} className="rounded-2xl bg-blanco py-3 shadow-sm ring-1 ring-grafito/10">
             <dd className="font-display text-2xl font-extrabold tabular-nums">{value}</dd>
-            <dt className="text-xs opacity-70">{t(key)}</dt>
+            <dt className="text-xs text-grafito-suave">{t(key)}</dt>
           </div>
         ))}
       </dl>

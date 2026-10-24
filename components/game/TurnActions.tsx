@@ -64,7 +64,7 @@ export function TurnActions({
                   disabled={pending || count === 0}
                   onPress={() => onReveal(color)}
                 />
-                <span className="text-xs tabular-nums opacity-70" aria-hidden="true">{count}</span>
+                <span className="text-xs tabular-nums text-grafito-suave" aria-hidden="true">{count}</span>
                 <span className="sr-only">{t('revealColor', { color: tTile(`colors.${color}`), count })}</span>
               </div>
             ))}
@@ -97,7 +97,7 @@ export function TurnActions({
               type="button"
               aria-pressed={draft.kind === kind}
               onClick={() => onDraft({ ...draft, kind, slot: kind === 'classify' ? null : draft.slot })}
-              className="min-h-11 rounded-xl text-sm font-semibold ring-1 ring-grafito/25 aria-pressed:bg-lila aria-pressed:ring-0 focus-visible:outline-2 focus-visible:outline-lila"
+              className="min-h-11 rounded-xl text-sm font-semibold ring-1 ring-grafito/25 aria-pressed:bg-lila aria-pressed:text-piedra-hueco aria-pressed:ring-0 focus-visible:outline-2 focus-visible:outline-lila"
             >
               {t(kind)}
             </button>

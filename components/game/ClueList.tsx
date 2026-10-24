@@ -12,7 +12,7 @@ export function ClueList({ clues, empty = false }: { clues: Clue[]; empty?: bool
   const { clueText } = useGameText();
 
   if (clues.length === 0) {
-    return empty ? <p className="text-sm opacity-60">{t('noClues')}</p> : null;
+    return empty ? <p className="text-sm text-grafito-suave">{t('noClues')}</p> : null;
   }
 
   return (
@@ -24,7 +24,7 @@ export function ClueList({ clues, empty = false }: { clues: Clue[]; empty?: bool
             colorIndex={(c.tile_number - 1) % 5}
             points={TILE_POINTS[c.tile_number]}
             state="public"
-            size={36}
+            size={48}
           />
           <span className="text-sm leading-tight">{clueText(c)}</span>
         </li>

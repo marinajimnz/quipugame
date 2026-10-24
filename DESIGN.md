@@ -26,7 +26,23 @@ Colores de ficha. El índice se deriva del número: `color_index = (número − 
 
 La tinta no es decorativa: es la única combinación que mantiene contraste suficiente en los cinco colores. No cambiarla sin volver a medir.
 
-Excepción conocida: en las fichas sin resolver, el verde `#006E58` no se distingue sobre grafito. Ahí se usa `#5FA38F`.
+Fichas sin resolver y reversos: el color va sobre grafito y, como elemento gráfico, necesita 3:1
+(WCAG 1.4.11). Amarillo (5,66:1) y rosa (4,17:1) ya cumplen; rojo, azul y verde usan una variante
+más clara. Medido el 2026-10-24:
+
+| Índice | Color | Sin resolver | Contraste sobre grafito |
+|---|---|---|---|
+| 2 | Rojo `#EF514E` (2,44:1) | `#F58A87` | 3,63:1 |
+| 3 | Azul `#2D6AB3` (1,56:1) | `#9BBBE6` | 4,35:1 |
+| 4 | Verde `#006E58` | `#80C0AC` (antes `#5FA38F`, 2,91:1) | 4,11:1 |
+
+Las tintas de número cumplen como **texto grande** (≥ 18,66 px en negrita): crema sobre rojo da
+3,21:1 y grafito sobre rosa 4,17:1, que no llegarían a 4,5:1 en texto pequeño. Por eso las fichas
+con número no se dibujan por debajo de 48 px de ancho y el tablero de deducción usa 20 px.
+
+Texto de interfaz (AA, 4,5:1 sobre crema y blanco): `--grafito-suave #666666` para texto
+secundario (5,23:1) en lugar de bajar la opacidad, y `--error #B83A36` para errores (5,17:1; el rojo
+de ficha da 3,21:1). Sobre lila, el texto pequeño va en `--piedra-hueco` (6,27:1; grafito da 3,96:1).
 
 ---
 

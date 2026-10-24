@@ -57,7 +57,7 @@ export function ConvertSheet() {
           <h2 id="convert-title" className="font-display text-2xl font-extrabold">
             {t('title')}
           </h2>
-          <p className="text-sm opacity-80">{t('description')}</p>
+          <p className="text-sm text-grafito-suave">{t('description')}</p>
 
           {message ? (
             <p role="status">{message}</p>
@@ -83,7 +83,7 @@ export function ConvertSheet() {
                 onChange={(e) => setPassword(e.target.value)}
               />
               {error ? (
-                <p role="alert" className="text-sm text-ficha-2">
+                <p role="alert" className="text-sm text-error">
                   {error}
                 </p>
               ) : null}

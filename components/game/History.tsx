@@ -73,7 +73,7 @@ export function History({
       <ol className="flex flex-col gap-1 pb-2 text-sm">
         {(events ?? []).map((e) => (
           <li key={e.seq} className="flex gap-2">
-            <span className="w-6 shrink-0 text-right tabular-nums opacity-50">{e.seq}</span>
+            <span className="w-6 shrink-0 text-right tabular-nums text-grafito-suave">{e.seq}</span>
             <span>{line(e)}</span>
           </li>
         ))}

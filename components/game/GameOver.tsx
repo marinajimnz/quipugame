@@ -27,10 +27,10 @@ export function GameOver({
         : t('lost', { name: playerName(winner) });
 
   return (
-    <section className="flex flex-col gap-4 rounded-3xl bg-lila p-4" aria-live="polite">
+    <section className="flex flex-col gap-4 rounded-3xl bg-lila text-piedra-hueco p-4" aria-live="polite">
       <h1 className="font-display text-3xl font-extrabold">{headline}</h1>
       {state.game.mode === 'ranked' ? <EloChange gameId={gameId} userId={userId} /> : null}
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-1.5 rounded-2xl bg-blanco/80 p-3 text-grafito">
         <h2 className="text-sm font-semibold">{t('yourNumbers')}</h2>
         <MySupport me={state.me} />
       </div>

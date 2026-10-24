@@ -24,6 +24,11 @@ supabase db push --linked                         # aplicarlas
 
 Toda migración es un fichero versionado en `supabase/migrations/`. No se toca el esquema desde el panel.
 
+## Iconos
+
+`node scripts/generate_icons.mjs` regenera los iconos de la PWA (`public/icons/`, `app/icon.png`,
+`app/apple-icon.png`) a partir de la misma geometría que las fichas.
+
 ## Tabla de puntos
 
 `supabase/seed/points_table.sql` y `src/game/pointsTable.ts` los genera

@@ -17,8 +17,15 @@ export const TILE_FILL = [
   'var(--color-ficha-4)',
 ];
 
-// Sobre grafito el verde no se distingue: en las fichas sin resolver se usa un verde más claro.
-export const TILE_FILL_UNKNOWN = [...TILE_FILL.slice(0, 4), 'var(--color-ficha-4-sin-resolver)'];
+// Sobre grafito, rojo, azul y verde no llegan a 3:1: en las fichas sin resolver y en el reverso
+// se usa una variante más clara (ver app/globals.css).
+export const TILE_FILL_UNKNOWN = [
+  TILE_FILL[0],
+  TILE_FILL[1],
+  'var(--color-ficha-2-sin-resolver)',
+  'var(--color-ficha-3-sin-resolver)',
+  'var(--color-ficha-4-sin-resolver)',
+];
 
 // Tintas de DESIGN.md: grafito sobre amarillo y rosa; crema sobre rojo, azul y verde.
 export const TILE_INK = [

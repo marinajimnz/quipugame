@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { AuthForm } from '@/components/auth/AuthForm';
@@ -18,6 +19,9 @@ export default async function EntrarPage({ searchParams }: { searchParams: Promi
         {t('auth.title', { app: t('app.name') })}
       </h1>
       <AuthForm next={next} />
+      <Link href="/reglas" className="min-h-11 self-center py-2 text-sm font-semibold underline">
+        {t('auth.rulesLink')}
+      </Link>
     </main>
   );
 }

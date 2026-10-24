@@ -9,7 +9,7 @@ import { createClient } from '@/lib/supabase/client';
 import { cleanRoomCode, isRoomCode } from '@/lib/room/roomErrors';
 
 const choice =
-  'min-h-11 rounded-xl text-sm font-semibold ring-1 ring-grafito/25 aria-checked:bg-lila aria-checked:ring-0 focus-visible:outline-2 focus-visible:outline-lila';
+  'min-h-11 rounded-xl text-sm font-semibold ring-1 ring-grafito/25 aria-checked:bg-lila aria-checked:text-piedra-hueco aria-checked:ring-0 focus-visible:outline-2 focus-visible:outline-lila';
 
 /** Crear una sala privada: 2–4 plazas, con o sin bots. No afecta al ELO. */
 export function CreateRoomForm() {
@@ -49,7 +49,7 @@ export function CreateRoomForm() {
         {t('bots')}
       </label>
 
-      {error ? <p role="alert" className="text-sm text-ficha-2">{t('error')}</p> : null}
+      {error ? <p role="alert" className="text-sm text-error">{t('error')}</p> : null}
       <Button disabled={busy} onClick={create}>{busy ? t('creating') : t('create')}</Button>
     </section>
   );

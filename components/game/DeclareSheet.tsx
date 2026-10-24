@@ -75,13 +75,13 @@ export function DeclareSheet({
                   value={values[i]}
                   onChange={(e) => setValues(values.map((v, k) => (k === i ? e.target.value.replace(/\D/g, '') : v)))}
                   aria-invalid={issues.some((x) => 'index' in x && x.index === i) || undefined}
-                  className="min-h-11 w-12 rounded-xl bg-blanco text-center font-display text-xl font-extrabold tabular-nums ring-1 ring-grafito/25 focus-visible:outline-2 focus-visible:outline-lila aria-invalid:ring-2 aria-invalid:ring-ficha-2"
+                  className="min-h-11 w-12 rounded-xl bg-blanco text-center font-display text-xl font-extrabold tabular-nums ring-1 ring-grafito/25 focus-visible:outline-2 focus-visible:outline-lila aria-invalid:ring-2 aria-invalid:ring-error"
                 />
               </div>
             ))}
           </div>
           {issues.length ? (
-            <ul role="alert" className="flex flex-col gap-0.5 text-sm text-ficha-2">
+            <ul role="alert" className="flex flex-col gap-0.5 text-sm text-error">
               {issues.map((i, k) => (
                 <li key={k}>{issueText(i)}</li>
               ))}
@@ -99,7 +99,7 @@ export function DeclareSheet({
               <GameTile key={i} number={n} colorIndex={slotColors[i]} points={TILE_POINTS[n]} state="solved" size={58} />
             ))}
           </div>
-          <p role="alert" className="rounded-xl bg-lila/60 p-3 text-sm font-medium">{t('warning')}</p>
+          <p role="alert" className="rounded-xl bg-lila/60 text-piedra-hueco p-3 text-sm font-medium">{t('warning')}</p>
           <Button disabled={sending} onClick={confirm}>{sending ? t('sending') : t('confirm')}</Button>
           <Button variant="secondary" disabled={sending} onClick={() => setStage('edit')}>{t('back')}</Button>
         </div>

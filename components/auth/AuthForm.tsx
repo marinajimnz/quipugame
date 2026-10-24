@@ -68,10 +68,10 @@ export function AuthForm({ next }: { next: string }) {
         <Button onClick={playAsGuest} disabled={busy}>
           {t('guestCta')}
         </Button>
-        <p className="text-sm opacity-70">{t('guestHint')}</p>
+        <p className="text-sm text-grafito-suave">{t('guestHint')}</p>
       </div>
 
-      <p className="text-center text-sm opacity-70">{t('or')}</p>
+      <p className="text-center text-sm text-grafito-suave">{t('or')}</p>
 
       <div role="tablist" className="grid grid-cols-2 gap-2">
         {(['signIn', 'signUp'] as const).map((m) => (
@@ -85,7 +85,7 @@ export function AuthForm({ next }: { next: string }) {
               setError(null);
               setCheckEmail(false);
             }}
-            className="min-h-11 rounded-xl text-sm font-semibold ring-1 ring-grafito/20 aria-selected:bg-lila aria-selected:ring-0 focus-visible:outline-2 focus-visible:outline-lila"
+            className="min-h-11 rounded-xl text-sm font-semibold ring-1 ring-grafito/20 aria-selected:bg-lila aria-selected:text-piedra-hueco aria-selected:ring-0 focus-visible:outline-2 focus-visible:outline-lila"
           >
             {t(m === 'signIn' ? 'modeSignIn' : 'modeSignUp')}
           </button>
@@ -113,7 +113,7 @@ export function AuthForm({ next }: { next: string }) {
           onChange={(e) => setPassword(e.target.value)}
         />
         {error ? (
-          <p role="alert" className="text-sm text-ficha-2">
+          <p role="alert" className="text-sm text-error">
             {error}
           </p>
         ) : null}

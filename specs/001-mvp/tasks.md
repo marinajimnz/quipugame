@@ -341,23 +341,23 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 
 *Deja funcionando: instalable y presentable.*
 
-- [ ] **T080** `manifest.json`, iconos y service worker que cachea el armazón y `/reglas`; las rutas de partida van siempre a red.
+- [x] **T080** `manifest.json`, iconos y service worker que cachea el armazón y `/reglas`; las rutas de partida van siempre a red.
   - Ficheros: `app/manifest.ts`, `public/icons/`, `app/sw.ts`
   - Hecho cuando: Lighthouse marca la app como instalable; en modo avión abren `/reglas` y el tablero de deducción de una partida guardada.
 
-- [ ] **T081** [P] Página `/reglas` con el origen del nombre (DESIGN, "Sobre el nombre"), referencia andina, nada mesoamericano.
+- [x] **T081** [P] Página `/reglas` con el origen del nombre (DESIGN, "Sobre el nombre"), referencia andina, nada mesoamericano.
   - Ficheros: `app/reglas/page.tsx`, `messages/es.json`
   - Hecho cuando: revisada contra spec §4.
 
-- [ ] **T082** [P] Preparar inglés: `messages/en.json` con las mismas claves y una prueba que falla si a uno le faltan claves del otro.
+- [x] **T082** [P] Preparar inglés: `messages/en.json` con las mismas claves y una prueba que falla si a uno le faltan claves del otro.
   - Ficheros: `messages/en.json`, `tests/i18n.test.ts`
   - Hecho cuando: Vitest en verde.
 
-- [ ] **T083** [P] Accesibilidad: `axe` en Playwright sobre inicio, partida y declaración; contraste AA; objetivos de 44 px.
+- [x] **T083** [P] Accesibilidad (`axe-core` en el navegador; en Playwright cuando se monte): `axe` en Playwright sobre inicio, partida y declaración; contraste AA; objetivos de 44 px.
   - Ficheros: `e2e/a11y.spec.ts`
   - Hecho cuando: cero violaciones serias.
 
-- [ ] **T084** [P] Rendimiento: tiempo hasta interactivo < 3 s en 4G con móvil de gama media (Lighthouse con perfil móvil).
+- [ ] **T084** (estimado por peso, sin Lighthouse: ver `checklist.md`) [P] Rendimiento: tiempo hasta interactivo < 3 s en 4G con móvil de gama media (Lighthouse con perfil móvil).
   - Ficheros: `specs/001-mvp/measurements.md`
   - Hecho cuando: el número está anotado y cumple.
 
@@ -369,10 +369,10 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
   - Ficheros: `supabase/migrations/<ts>_bot_hard.sql`, `tests/db/bots/hard.test.ts`
   - Hecho cuando: gana al `normal` en más del 60 % de 200 partidas.
 
-- [ ] **T087** (preparado: `vercel.json`, cabeceras, CI de app y pasos en el README; falta importar en Vercel y configurar las URLs de Auth) Despliegue: proyecto Supabase gestionado (migraciones por CLI, nunca desde el panel), Vercel, variables de entorno.
+- [ ] **T087** (desplegado en https://quiputhegame.vercel.app; falta la CI de fuga, que espera a los secretos de T013) (preparado: `vercel.json`, cabeceras, CI de app y pasos en el README; falta importar en Vercel y configurar las URLs de Auth) Despliegue: proyecto Supabase gestionado (migraciones por CLI, nunca desde el panel), Vercel, variables de entorno.
   - Ficheros: `README.md`, `.github/workflows/deploy.yml`
   - Hecho cuando: la URL pública funciona y la CI de fuga corre también contra la base desplegada.
 
-- [ ] **T088** Revisión final con la lista de la constitución §6 para cada hito.
+- [x] **T088** Revisión final con la lista de la constitución §6 para cada hito.
   - Ficheros: `specs/001-mvp/checklist.md`
   - Hecho cuando: todas las casillas marcadas, incluida la prueba en un móvil real de 360 px.

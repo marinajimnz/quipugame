@@ -83,7 +83,7 @@ export function RoomScreen({ code, userId }: { code: string; userId: string }) {
     );
   }
   if (!room.data || !members.data) {
-    return <p role="status" className="p-4 opacity-70">{t('joining')}</p>;
+    return <p role="status" className="p-4 text-grafito-suave">{t('joining')}</p>;
   }
 
   const r = room.data;
@@ -126,14 +126,14 @@ export function RoomScreen({ code, userId }: { code: string; userId: string }) {
   return (
     <main className="flex min-h-dvh flex-col gap-5 px-4 py-6">
       <header className="flex flex-col gap-1">
-        <p className="text-sm font-medium opacity-70">{t('codeLabel')}</p>
+        <p className="text-sm font-medium text-grafito-suave">{t('codeLabel')}</p>
         <p className="font-display text-6xl font-extrabold tracking-[0.12em] tabular-nums" aria-label={r.code.split('').join(' ')}>
           {r.code}
         </p>
       </header>
 
       {r.status === 'expired' ? (
-        <p role="alert" className="rounded-2xl bg-lila p-4 font-semibold">{t('closed')}</p>
+        <p role="alert" className="rounded-2xl bg-lila text-piedra-hueco p-4 font-semibold">{t('closed')}</p>
       ) : (
         <div className="grid grid-cols-2 gap-2">
           <Button onClick={share}>{t('share')}</Button>
@@ -153,7 +153,7 @@ export function RoomScreen({ code, userId }: { code: string; userId: string }) {
       <section className="flex flex-col gap-2" aria-label={t('members')}>
         <div className="flex items-baseline justify-between">
           <h2 className="font-display text-2xl font-extrabold">{t('members')}</h2>
-          <p className="text-sm tabular-nums opacity-70">{t('seatsCount', { count: list.length, seats: r.seats })}</p>
+          <p className="text-sm tabular-nums text-grafito-suave">{t('seatsCount', { count: list.length, seats: r.seats })}</p>
         </div>
         <ul className="flex flex-col gap-2">
           {list.map((m) => {
@@ -163,19 +163,19 @@ export function RoomScreen({ code, userId }: { code: string; userId: string }) {
                 <Avatar avatarKey={m.profiles?.avatar_key ?? 'default'} name={name} size={40} />
                 <span className="min-w-0 flex-1 truncate font-semibold">{name}</span>
                 {m.profile_id === r.host_id ? (
-                  <span className="rounded-full bg-lila px-2.5 py-0.5 text-xs font-semibold">{t('host')}</span>
+                  <span className="rounded-full bg-lila text-piedra-hueco px-2.5 py-0.5 text-xs font-semibold">{t('host')}</span>
                 ) : null}
-                {m.profile_id === userId ? <span className="text-xs opacity-60">{t('you')}</span> : null}
+                {m.profile_id === userId ? <span className="text-xs text-grafito-suave">{t('you')}</span> : null}
               </li>
             );
           })}
         </ul>
-        {r.fill_with_bots ? <p className="text-sm opacity-70">{t('botsNote')}</p> : null}
+        {r.fill_with_bots ? <p className="text-sm text-grafito-suave">{t('botsNote')}</p> : null}
       </section>
 
       {r.status === 'open' ? (
         <div className="mt-auto flex flex-col gap-3">
-          {errorKey ? <p role="alert" className="text-sm text-ficha-2">{t(`errors.${errorKey}`)}</p> : null}
+          {errorKey ? <p role="alert" className="text-sm text-error">{t(`errors.${errorKey}`)}</p> : null}
           {isHost ? (
             <>
               {!canStart ? <p className="text-sm">{t('needMore')}</p> : null}

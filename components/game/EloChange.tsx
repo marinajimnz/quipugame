@@ -26,7 +26,7 @@ export function EloChange({ gameId, userId }: { gameId: string; userId: string }
   if (!data) return null;
   const sign = data.delta > 0 ? '+' : '−';
   return (
-    <p className={`font-display text-2xl font-extrabold tabular-nums ${data.delta < 0 ? 'text-ficha-2' : ''}`}>
+    <p className="font-display text-2xl font-extrabold tabular-nums">
       {t('eloChange', { delta: data.delta, sign, abs: Math.abs(data.delta), after: data.elo_after })}
     </p>
   );

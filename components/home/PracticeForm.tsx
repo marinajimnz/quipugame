@@ -38,7 +38,7 @@ export function PracticeForm() {
   }
 
   const choice =
-    'min-h-11 rounded-xl text-sm font-semibold ring-1 ring-grafito/25 aria-checked:bg-lila aria-checked:ring-0 focus-visible:outline-2 focus-visible:outline-lila';
+    'min-h-11 rounded-xl text-sm font-semibold ring-1 ring-grafito/25 aria-checked:bg-lila aria-checked:text-piedra-hueco aria-checked:ring-0 focus-visible:outline-2 focus-visible:outline-lila';
 
   return (
     <section className="flex flex-col gap-4 rounded-3xl bg-blanco p-4 shadow-sm ring-1 ring-grafito/10">
@@ -60,7 +60,7 @@ export function PracticeForm() {
         ))}
       </div>
 
-      {error ? <p role="alert" className="text-sm text-ficha-2">{t('error')}</p> : null}
+      {error ? <p role="alert" className="text-sm text-error">{t('error')}</p> : null}
       <Button disabled={busy} onClick={start}>{busy ? t('starting') : t('start')}</Button>
     </section>
   );

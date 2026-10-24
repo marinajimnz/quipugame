@@ -2,9 +2,10 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { gameErrorKey } from '@/lib/game/errors';
+import { saveLastGame } from '@/lib/game/lastGame';
 import { labelsOf } from '@/lib/game/playerLabel';
 import { isMyTurn } from '@/lib/game/types';
 import { isDisconnected } from '@/lib/game/presence';
@@ -51,6 +52,11 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
   const eventSeq = state?.event_seq;
   usePresence(gameId, state?.game.status === 'active' && state.me.state === 'active');
 
+  // Para abrir el tablero de deducción sin conexión (/sin-conexion).
+  useEffect(() => {
+    if (state) saveLastGame(gameId, state);
+  }, [gameId, state]);
+
   const draft = draftRaw.seq === eventSeq ? draftRaw.draft : EMPTY_DRAFT;
   const setDraft = (d: ClueDraft) => setDraftRaw({ seq: eventSeq, draft: d });
 
@@ -90,7 +96,7 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
     return <p role="alert" className="p-4">{t('errors.load')}</p>;
   }
   if (!state || !data) {
-    return <p role="status" className="p-4 opacity-70">{t('sending')}</p>;
+    return <p role="status" className="p-4 text-grafito-suave">{t('sending')}</p>;
   }
 
   const myTurn = isMyTurn(state);
@@ -140,7 +146,7 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
               <header className="flex items-center gap-2">
                 <Avatar avatarKey={player.avatar_key ?? 'default'} name={playerName(label)} size={32} />
                 <h2 className="truncate font-semibold">{playerName(label)}</h2>
-                {badge ? <span className="rounded-full bg-lila px-2 py-0.5 text-xs font-semibold">{badge}</span> : null}
+                {badge ? <span className="rounded-full bg-lila text-piedra-hueco px-2 py-0.5 text-xs font-semibold">{badge}</span> : null}
                 {!player.is_bot && player.state === 'active' && state.game.status === 'active' && isDisconnected(player.last_seen_at, serverNow) ? (
                   <span className="rounded-full bg-grafito px-2 py-0.5 text-xs font-semibold text-crema">{t('disconnectedBadge')}</span>
                 ) : null}
@@ -186,7 +192,7 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
             onAsk={() => ask.mutate(draft)}
             pending={pending}
           />
-          {errorKey ? <p role="alert" className="text-sm text-ficha-2">{t(`errors.${errorKey}`)}</p> : null}
+          {errorKey ? <p role="alert" className="text-sm text-error">{t(`errors.${errorKey}`)}</p> : null}
           <div className="grid grid-cols-2 gap-2">
             <Button variant="secondary" onClick={() => setBoardOpen(true)}>{t('deduction')}</Button>
             <Button

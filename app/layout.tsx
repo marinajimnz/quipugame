@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getTranslations } from 'next-intl/server';
 import type { ReactNode } from 'react';
+import { ServiceWorker } from '@/components/pwa/ServiceWorker';
 import './globals.css';
 
 const bricolage = Bricolage_Grotesque({
@@ -21,7 +22,11 @@ const inter = Inter({
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('app');
-  return { title: t('name'), description: t('tagline') };
+  return {
+    title: t('name'),
+    description: t('tagline'),
+    appleWebApp: { capable: true, title: t('name'), statusBarStyle: 'default' },
+  };
 }
 
 export const viewport: Viewport = {
@@ -40,6 +45,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           {/* Móvil primero: 390 px de diseño; en escritorio es la misma pantalla centrada. */}
           <div className="mx-auto min-h-dvh w-full max-w-[430px]">{children}</div>
         </NextIntlClientProvider>
+        <ServiceWorker />
       </body>
     </html>
   );

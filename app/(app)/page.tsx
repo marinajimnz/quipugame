@@ -36,11 +36,14 @@ export default async function HomePage() {
           <Avatar avatarKey={profile.avatar_key} name={profile.display_name} />
           <span className="flex flex-col">
             <span className="font-semibold">{t('home.greeting', { name: profile.display_name })}</span>
-            <span className="text-sm opacity-70">{t('home.profileLink')}</span>
+            <span className="text-sm text-grafito-suave">{t('home.profileLink')}</span>
           </span>
         </Link>
       ) : null}
 
+      <Link href="/reglas" className="min-h-11 self-start py-2 text-sm font-semibold underline">
+        {t('home.rulesLink')}
+      </Link>
       <PracticeForm />
       {profile ? <RankedCard isGuest={profile.is_guest} elo={profile.elo} inQueue={inQueue} /> : null}
       <CreateRoomForm />

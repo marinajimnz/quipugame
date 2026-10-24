@@ -47,7 +47,7 @@ export function DeductionBoard({
         <div role="radiogroup" aria-label={t('mode')} className="grid grid-cols-7 gap-1.5">
           <button
             type="button" role="radio" aria-checked={mode === 'strike'} onClick={() => setMode('strike')}
-            className="col-span-2 min-h-11 rounded-xl text-sm font-semibold ring-1 ring-grafito/25 aria-checked:bg-lila aria-checked:ring-0 focus-visible:outline-2 focus-visible:outline-lila"
+            className="col-span-2 min-h-11 rounded-xl text-sm font-semibold ring-1 ring-grafito/25 aria-checked:bg-lila aria-checked:text-piedra-hueco aria-checked:ring-0 focus-visible:outline-2 focus-visible:outline-lila"
           >
             {t('modeStrike')}
           </button>
@@ -56,7 +56,7 @@ export function DeductionBoard({
               key={slot} type="button" role="radio" aria-checked={mode === slot}
               aria-label={t('modeCandidate', { n: slot + 1 })}
               onClick={() => setMode(slot)}
-              className="min-h-11 rounded-xl text-sm font-semibold tabular-nums ring-1 ring-grafito/25 aria-checked:bg-lila aria-checked:ring-0 focus-visible:outline-2 focus-visible:outline-lila"
+              className="min-h-11 rounded-xl text-sm font-semibold tabular-nums ring-1 ring-grafito/25 aria-checked:bg-lila aria-checked:text-piedra-hueco aria-checked:ring-0 focus-visible:outline-2 focus-visible:outline-lila"
             >
               {slot + 1}
             </button>
@@ -84,8 +84,8 @@ export function DeductionBoard({
                 style={{ background: TILE_FILL[color], color: TILE_INK[color] }}
                 className={`relative flex min-h-11 flex-col items-center justify-center rounded-lg px-1 py-1 font-display font-extrabold tabular-nums ring-1 ring-piedra-hueco/40 focus-visible:outline-3 focus-visible:outline-offset-1 focus-visible:outline-grafito ${struck ? 'opacity-35' : ''} ${byAuto ? 'saturate-50' : ''}`}
               >
-                <span className={`text-lg leading-none ${struck ? 'line-through decoration-2' : ''}`}>{n}</span>
-                <span className="text-[10px] leading-none opacity-80" aria-hidden="true">
+                <span className={`text-xl leading-none ${struck ? 'line-through decoration-2' : ''}`}>{n}</span>
+                <span className="text-[10px] leading-none" aria-hidden="true">
                   {'•'.repeat(TILE_POINTS[n])}
                 </span>
                 {byAuto && !byMe ? (
@@ -101,7 +101,7 @@ export function DeductionBoard({
           })}
         </div>
 
-        <p className="text-xs opacity-70">{t('auto')}</p>
+        <p className="text-xs text-grafito-suave">{t('auto')}</p>
         <Button variant="secondary" onClick={() => clear(gameId)}>{t('reset')}</Button>
         <span className="sr-only">{tGame('deduction')}</span>
       </div>

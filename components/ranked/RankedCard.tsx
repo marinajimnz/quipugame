@@ -32,7 +32,7 @@ export function RankedCard({ isGuest, elo, inQueue }: { isGuest: boolean; elo: n
     <section className="flex flex-col gap-3 rounded-3xl bg-blanco p-4 shadow-sm ring-1 ring-grafito/10">
       <div className="flex items-baseline justify-between gap-2">
         <h2 className="font-display text-2xl font-extrabold">{t('title')}</h2>
-        {!isGuest ? <span className="text-sm tabular-nums opacity-70">{t('yourElo', { elo })}</span> : null}
+        {!isGuest ? <span className="text-sm tabular-nums text-grafito-suave">{t('yourElo', { elo })}</span> : null}
       </div>
 
       {isGuest ? (
@@ -43,14 +43,14 @@ export function RankedCard({ isGuest, elo, inQueue }: { isGuest: boolean; elo: n
       ) : inQueue ? (
         <Link
           href="/cola"
-          className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-lila px-5 font-semibold focus-visible:outline-2 focus-visible:outline-grafito"
+          className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-lila text-piedra-hueco px-5 font-semibold focus-visible:outline-2 focus-visible:outline-grafito"
         >
           {t('backToQueue')}
         </Link>
       ) : (
         <>
           <p className="text-sm">{t('body')}</p>
-          {errorKey ? <p role="alert" className="text-sm text-ficha-2">{t(`errors.${errorKey}`)}</p> : null}
+          {errorKey ? <p role="alert" className="text-sm text-error">{t(`errors.${errorKey}`)}</p> : null}
           <Button disabled={busy} onClick={find}>{busy ? t('finding') : t('find')}</Button>
         </>
       )}

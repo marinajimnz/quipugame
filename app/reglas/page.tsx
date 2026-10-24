@@ -1,0 +1,111 @@
+import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
+import type { ReactNode } from 'react';
+import { GameTile } from '@/components/game/GameTile';
+
+// Reglas: pública (sin sesión), estática y disponible sin conexión (la guarda el service worker).
+// Fuente normativa: specs/001-mvp/spec.md §4. El texto es propio (P7).
+
+export const dynamic = 'force-static';
+
+function Section({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <section className="flex flex-col gap-2">
+      <h2 className="font-display text-2xl font-extrabold">{title}</h2>
+      {children}
+    </section>
+  );
+}
+
+export default async function ReglasPage() {
+  const t = await getTranslations('rules');
+  const tTile = await getTranslations('tile');
+
+  return (
+    <main className="flex flex-col gap-7 px-4 py-8 leading-relaxed">
+      <header className="flex flex-col gap-2">
+        <h1 className="font-display text-4xl font-extrabold tracking-tight">{t('title')}</h1>
+        <p className="text-lg">{t('intro')}</p>
+      </header>
+
+      <Section title={t('tilesTitle')}>
+        <p>{t('tiles1')}</p>
+        <p>{t('tiles2')}</p>
+        <figure className="flex flex-col gap-2">
+          <div className="flex justify-between gap-1.5">
+            {[0, 1, 2, 3, 4].map((c) => (
+              <div key={c} className="flex flex-col items-center gap-1">
+                <GameTile number={null} colorIndex={c} points={null} state="unknown" size={56} />
+                <span className="text-xs">{tTile(`colors.${c}`)}</span>
+              </div>
+            ))}
+          </div>
+          <figcaption className="text-sm text-grafito-suave">{t('legend')}</figcaption>
+        </figure>
+        <p>{t('tiles3')}</p>
+        <p>{t('tiles4')}</p>
+      </Section>
+
+      <Section title={t('setupTitle')}>
+        <ul className="flex list-disc flex-col gap-1 pl-5">
+          <li>{t('setup1')}</li>
+          <li>{t('setup2')}</li>
+          <li>{t('setup3')}</li>
+        </ul>
+      </Section>
+
+      <Section title={t('turnTitle')}>
+        <p>{t('turnIntro')}</p>
+        <h3 className="font-semibold">{t('turn1Title')}</h3>
+        <p>{t('turn1')}</p>
+        <h3 className="font-semibold">{t('turn2Title')}</h3>
+        <p>{t('turn2')}</p>
+        <dl className="flex flex-col gap-2 rounded-2xl bg-blanco p-3 ring-1 ring-grafito/10">
+          <dt className="font-semibold">{t('classifyTitle')}</dt>
+          <dd>{t('classify')}</dd>
+          <dt className="font-semibold">{t('compareTitle')}</dt>
+          <dd>{t('compare')}</dd>
+        </dl>
+        <p>{t('turn3')}</p>
+      </Section>
+
+      <Section title={t('declareTitle')}>
+        <p>{t('declare1')}</p>
+        <p>{t('declare2')}</p>
+      </Section>
+
+      <Section title={t('endTitle')}>
+        <p>{t('end1')}</p>
+        <p>{t('end2')}</p>
+      </Section>
+
+      <Section title={t('timeTitle')}>
+        <p>{t('time1')}</p>
+        <p>{t('time2')}</p>
+      </Section>
+
+      <Section title={t('modesTitle')}>
+        <ul className="flex list-disc flex-col gap-1 pl-5">
+          <li>{t('modePractice')}</li>
+          <li>{t('modeRoom')}</li>
+          <li>{t('modeRanked')}</li>
+        </ul>
+      </Section>
+
+      <Section title={t('tipTitle')}>
+        <p>{t('tip')}</p>
+      </Section>
+
+      <Section title={t('nameTitle')}>
+        <p>{t('name1')}</p>
+        <p>{t('name2')}</p>
+        <p>{t('name3')}</p>
+      </Section>
+
+      <p className="text-sm text-grafito-suave">{t('offlineNote')}</p>
+      <Link href="/" className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-blanco px-5 font-semibold ring-1 ring-grafito/20">
+        {t('backHome')}
+      </Link>
+    </main>
+  );
+}
