@@ -49,6 +49,9 @@ export default async function PerfilPage() {
       <ProfileForm userId={profile.id} initialName={profile.display_name} initialAvatar={profile.avatar_key} />
 
       <div className="mt-auto flex flex-col gap-3">
+        <Link href="/clasificacion" className="min-h-11 py-2 text-center text-sm font-semibold underline">
+          {t('leaderboard')}
+        </Link>
         <SignOutButton />
         <Link href="/" className="min-h-11 py-2 text-center text-sm underline">
           {t('back')}

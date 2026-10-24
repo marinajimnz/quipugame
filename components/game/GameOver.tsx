@@ -6,10 +6,13 @@ import { PracticeAgain } from '@/components/home/PracticeForm';
 import type { PlayerLabel } from '@/lib/game/playerLabel';
 import type { GameState } from '@/lib/game/types';
 import { useGameText } from '@/lib/game/useGameText';
+import { EloChange } from './EloChange';
 import { MySupport } from './Support';
 
 /** Resultado de la partida con mis números reales (el servidor ya me los entrega). */
-export function GameOver({ state, labels }: { state: GameState; labels: Map<string, PlayerLabel> }) {
+export function GameOver({
+  state, labels, gameId, userId,
+}: { state: GameState; labels: Map<string, PlayerLabel>; gameId: string; userId: string }) {
   const t = useTranslations('game.over');
   const { playerName } = useGameText();
   const winnerId = state.game.winner_player_id;
@@ -26,6 +29,7 @@ export function GameOver({ state, labels }: { state: GameState; labels: Map<stri
   return (
     <section className="flex flex-col gap-4 rounded-3xl bg-lila p-4" aria-live="polite">
       <h1 className="font-display text-3xl font-extrabold">{headline}</h1>
+      {state.game.mode === 'ranked' ? <EloChange gameId={gameId} userId={userId} /> : null}
       <div className="flex flex-col gap-1.5">
         <h2 className="text-sm font-semibold">{t('yourNumbers')}</h2>
         <MySupport me={state.me} />

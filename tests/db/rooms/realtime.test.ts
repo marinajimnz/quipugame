@@ -35,12 +35,28 @@ async function listen(player: Player, tables: string[], filterColumn = 'game_id'
       received.push({ table, new: payload.new as Record<string, unknown> });
     });
   }
+  // SUBSCRIBED llega antes de que el servidor tenga lista la escucha de Postgres: hay que esperar
+  // también al mensaje de sistema de postgres_changes (ok o error, p. ej. en game_tiles).
   await new Promise<void>((resolve, reject) => {
-    const timer = setTimeout(() => reject(new Error('Realtime no llegó a SUBSCRIBED')), 15_000);
-    channel.subscribe((status) => {
-      if (status === 'SUBSCRIBED') {
+    let subscribed = false;
+    let ready = false;
+    const done = () => {
+      if (subscribed && ready) {
         clearTimeout(timer);
         resolve();
+      }
+    };
+    const timer = setTimeout(() => reject(new Error('Realtime no quedó listo en 15 s')), 15_000);
+    channel.on('system', {}, (payload: { extension?: string }) => {
+      if (payload.extension === 'postgres_changes') {
+        ready = true;
+        done();
+      }
+    });
+    channel.subscribe((status) => {
+      if (status === 'SUBSCRIBED') {
+        subscribed = true;
+        done();
       }
     });
   });

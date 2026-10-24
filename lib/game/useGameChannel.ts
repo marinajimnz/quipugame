@@ -38,6 +38,11 @@ export function useGameChannel(gameId: string): boolean {
           if (gap) void queryClient.refetchQueries({ queryKey: key });
         },
       )
+      // SUBSCRIBED llega antes de que el servidor escuche Postgres: al quedar lista la escucha
+      // se pide otra vez el estado, por si algo cambió en ese hueco.
+      .on('system', {}, (payload: { extension?: string; status?: string }) => {
+        if (payload.extension === 'postgres_changes' && payload.status === 'ok') invalidate();
+      })
       .subscribe((status) => {
         const ok = status === 'SUBSCRIBED';
         setConnected(ok);

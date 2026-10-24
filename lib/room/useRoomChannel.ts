@@ -21,6 +21,11 @@ export function useRoomChannel(roomId: string | undefined): boolean {
       .channel(`room:${roomId}`)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'room_members', filter: `room_id=eq.${roomId}` }, invalidate)
       .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'rooms', filter: `id=eq.${roomId}` }, invalidate)
+      // SUBSCRIBED llega antes de que el servidor escuche Postgres: al quedar lista la escucha
+      // se pide otra vez el estado, por si algo cambió en ese hueco.
+      .on('system', {}, (payload: { extension?: string; status?: string }) => {
+        if (payload.extension === 'postgres_changes' && payload.status === 'ok') invalidate();
+      })
       .subscribe((status) => {
         const ok = status === 'SUBSCRIBED';
         setConnected(ok);

@@ -5,10 +5,10 @@ import { sql } from '../helpers';
 // (game_internal.lock_game). Comprobación estática sobre el código de las funciones.
 
 // Funciones de apoyo que se ejecutan siempre con la partida ya bloqueada por quien las llama.
-const CALLED_WITH_LOCK_HELD = ['emit_event', 'finish_game', 'check_last_standing', 'advance_turn'];
+const CALLED_WITH_LOCK_HELD = ['emit_event', 'finish_game', 'check_last_standing', 'advance_turn', 'apply_elo'];
 
 // Crean una partida nueva (no hay ninguna que bloquear antes de escribir).
-const CREATES_NEW_GAME = ['simulate_bot_game'];
+const CREATES_NEW_GAME = ['simulate_bot_game', 'resolve_matchmaking'];
 // Escriben en salas, no en partidas.
 const NOT_ABOUT_GAMES = ['expire_rooms'];
 

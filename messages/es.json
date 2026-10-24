@@ -68,7 +68,8 @@
       "invalidChars": "El nombre contiene caracteres que no se admiten.",
       "taken": "Ese nombre ya está en uso. Prueba con otro.",
       "generic": "No se ha podido guardar. Inténtalo de nuevo."
-    }
+    },
+    "leaderboard": "Ver la clasificación"
   },
   "tile": {
     "colors": [
@@ -144,7 +145,8 @@
       "draw": "Empate: nadie ha ganado",
       "yourNumbers": "Tus fichas eran",
       "playAgain": "Jugar otra vez",
-      "backHome": "Volver al inicio"
+      "backHome": "Volver al inicio",
+      "eloChange": "{delta, plural, =0 {Tu ELO no cambia: {after}} other {{sign}{abs} de ELO: ahora {after}}}"
     },
     "disconnectedBadge": "Desconectado",
     "connectionLost": "Sin conexión. Reconectando…",
@@ -244,5 +246,48 @@
     "label": "Código de la sala",
     "submit": "Unirme",
     "invalid": "El código tiene 6 letras o números."
+  },
+  "ranked": {
+    "title": "Clasificatoria",
+    "body": "Un rival de tu nivel. Cuenta para el ELO y la clasificación.",
+    "find": "Buscar rival",
+    "finding": "Entrando en la cola…",
+    "yourElo": "Tu ELO: {elo}",
+    "guestBody": "Para jugar clasificatorias necesitas una cuenta. Crearla es un paso y conservas tu progreso.",
+    "leaderboardLink": "Ver la clasificación",
+    "backToQueue": "Estás en la cola: volver",
+    "errors": {
+      "guest_not_allowed": "Para jugar clasificatorias necesitas una cuenta.",
+      "already_in_queue": "Ya estás en la cola.",
+      "already_in_game": "Termina o abandona tu partida en curso.",
+      "generic": "No se ha podido entrar en la cola."
+    }
+  },
+  "queue": {
+    "title": "Buscando rival",
+    "waited": "Esperando",
+    "range": "Rivales entre {min} y {max} de ELO",
+    "cancel": "Salir de la cola",
+    "notInQueue": "No estás en la cola.",
+    "join": "Buscar rival",
+    "slowTitle": "Está costando encontrar rival",
+    "slowBody": "Puedes seguir esperando o jugar contra un bot mientras tanto (sin ELO).",
+    "keepWaiting": "Seguir esperando",
+    "playBot": "Jugar contra un bot"
+  },
+  "leaderboard": {
+    "title": "Clasificación",
+    "subtitle": "Los 100 mejores por ELO. Cuentan quienes tienen al menos 5 clasificatorias.",
+    "empty": "Todavía no hay nadie con 5 clasificatorias.",
+    "rank": "Puesto",
+    "player": "Jugador",
+    "elo": "ELO",
+    "games": "Partidas",
+    "you": "Tú",
+    "yourPosition": "Tu posición",
+    "notRanked": "Aparecerás cuando completes 5 clasificatorias.",
+    "back": "Volver al inicio",
+    "gamesCount": "{count, plural, one {# clasificatoria} other {# clasificatorias}}",
+    "nameYou": "{name} · Tú"
   }
 }

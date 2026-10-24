@@ -78,6 +78,13 @@ export async function createGuest(): Promise<Player> {
 
 /** Borra los usuarios creados (el perfil y sus datos caen en cascada). */
 export async function cleanup(): Promise<void> {
+  // Partidas y colas que hayan creado otros (p. ej. el emparejamiento de pg_cron) con mis usuarios.
+  if (createdUserIds.length) {
+    await admin.from('matchmaking_queue').delete().in('profile_id', createdUserIds);
+    const { data } = await admin.from('game_players').select('game_id').in('profile_id', createdUserIds);
+    const ids = [...new Set((data ?? []).map((r) => r.game_id))];
+    if (ids.length) await admin.from('games').delete().in('id', ids);
+  }
   if (createdRoomIds.length) {
     await admin.from('rooms').delete().in('id', createdRoomIds.splice(0));
   }

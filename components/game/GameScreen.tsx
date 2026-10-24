@@ -28,7 +28,7 @@ import { MySupport, OtherSupport } from './Support';
 import { TurnActions, EMPTY_DRAFT, type ClueDraft } from './TurnActions';
 import { TurnBar } from './TurnBar';
 
-export function GameScreen({ gameId }: { gameId: string }) {
+export function GameScreen({ gameId, userId }: { gameId: string; userId: string }) {
   const t = useTranslations('game');
   const queryClient = useQueryClient();
   const connected = useGameChannel(gameId);
@@ -125,7 +125,7 @@ export function GameScreen({ gameId }: { gameId: string }) {
       {!online || isError ? <ConnectionBanner /> : null}
       <main className="flex min-h-dvh flex-col gap-4 px-3 pb-44 pt-3">
         {finished ? (
-          <GameOver state={state} labels={labels} />
+          <GameOver state={state} labels={labels} gameId={gameId} userId={userId} />
         ) : (
           <TurnBar state={state} clockOffsetMs={data.clockOffsetMs} turnName={turnName} mine={myTurn} />
         )}

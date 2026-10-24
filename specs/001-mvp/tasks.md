@@ -311,27 +311,27 @@ La constitución (§5) dice que si la spec está mal se para y se corrige primer
 
 *Deja funcionando: modo clasificatorio completo.*
 
-- [ ] **T070** `join_queue()` (rechaza invitados, ya en cola o en partida activa) y `leave_queue()`.
+- [x] **T070** `join_queue()` (rechaza invitados, ya en cola o en partida activa) y `leave_queue()`.
   - Ficheros: `supabase/migrations/<ts>_queue.sql`, `tests/db/ranked/queue.test.ts`
   - Hecho cuando: tests de cada rechazo.
 
-- [ ] **T071** `game_internal.resolve_matchmaking()` en `pg_cron` cada 3 s con candado: ventana `50 + 25 × floor(espera / 10)`, tope 400; empareja al más antiguo con el ELO más cercano; crea la partida `ranked` y llama a `deal_game`. 🔒R3
+- [x] **T071** `game_internal.resolve_matchmaking()` en `pg_cron` cada 3 s con candado: ventana `50 + 25 × floor(espera / 10)`, tope 400; empareja al más antiguo con el ELO más cercano; crea la partida `ranked` y llama a `deal_game`. 🔒R3
   - Ficheros: `supabase/migrations/<ts>_cron_matchmaking.sql`, `tests/db/ranked/matchmaking.test.ts`
   - Hecho cuando: tests de ventana a 0, 10, 60 y 200 s; nunca empareja fuera de la ventana; nadie entra en dos partidas.
 
-- [ ] **T072** `game_internal.apply_elo(p_game_id)` con `elo_applied_at` (C5b), escritura en `elo_history` y en `profiles`. Lo llaman `declare_code_as`, `abandon_as` y el turno automático cuando terminan una partida `ranked`. 🔒R3
+- [x] **T072** `game_internal.apply_elo(p_game_id)` con `elo_applied_at` (C5b), escritura en `elo_history` y en `profiles`. Lo llaman `declare_code_as`, `abandon_as` y el turno automático cuando terminan una partida `ranked`. 🔒R3
   - Ficheros: `supabase/migrations/<ts>_elo.sql`, `tests/db/ranked/elo.test.ts`
   - Hecho cuando (grupo **ELO**, con C7): K = 32 / 24 / 16 por tramo; suelo de 100; suma cero con K iguales; abandono cuenta como derrota; llamarla dos veces no cambia nada.
 
-- [ ] **T073** Pantalla `/cola`: tiempo de espera, rango que se busca, cancelar; a los 90 s, ofrecer seguir o jugar contra bot. Si el usuario es invitado, se abre `ConvertSheet` (T035).
+- [x] **T073** Pantalla `/cola`: tiempo de espera, rango que se busca, cancelar; a los 90 s, ofrecer seguir o jugar contra bot. Si el usuario es invitado, se abre `ConvertSheet` (T035).
   - Ficheros: `app/(app)/cola/page.tsx`
   - Hecho cuando: dos cuentas en dos navegadores se emparejan y juegan.
 
-- [ ] **T074** [P] Resultado con variación de ELO bien visible.
+- [x] **T074** [P] Resultado con variación de ELO bien visible.
   - Ficheros: `components/game/GameOver.tsx`
   - Hecho cuando: se ve +Δ / −Δ al acabar una clasificatoria.
 
-- [ ] **T075** [P] `get_leaderboard()` (top 100 con ≥ 5 clasificatorias + tu posición) y página `/clasificacion`.
+- [x] **T075** [P] `get_leaderboard()` (top 100 con ≥ 5 clasificatorias + tu posición) y página `/clasificacion`.
   - Ficheros: `supabase/migrations/<ts>_leaderboard.sql`, `app/(app)/clasificacion/page.tsx`
   - Hecho cuando: test con 120 perfiles; un jugador en el puesto 110 ve su posición.
 
