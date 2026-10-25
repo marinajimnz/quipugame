@@ -172,6 +172,7 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
             player.state === 'eliminated' ? t('eliminatedBadge') : player.state === 'abandoned' ? t('abandonedBadge') : null;
           return (
             <section key={player.player_id} className="flex flex-col gap-2">
+              <h2 className="text-sm font-semibold">{t('rivalBoard')}</h2>
               <header className="flex items-center gap-2">
                 <Avatar avatarKey={player.avatar_key ?? 'default'} name={playerName(label)} size={32} />
                 <h2 className="truncate font-semibold">{playerName(label)}</h2>
