@@ -12,15 +12,17 @@ type Stage = 'edit' | 'confirm' | 'result';
 
 /** Hoja de declaración: validación local, resumen y confirmación explícita (una sola oportunidad). */
 export function DeclareSheet({
-  open, onClose, slotColors, onDeclare,
+  open, onClose, slotColors, guesses = {}, onDeclare,
 }: {
   open: boolean;
   onClose: () => void;
   slotColors: number[];
+  /** Lo apuntado en el tablero: rellena los huecos al abrir. */
+  guesses?: Record<number, number>;
   onDeclare: (numbers: number[]) => Promise<boolean>;
 }) {
   const t = useTranslations('declare');
-  const [values, setValues] = useState<string[]>(['', '', '', '', '']);
+  const [values, setValues] = useState<string[]>(() => [0, 1, 2, 3, 4].map((i) => (guesses[i] ? String(guesses[i]) : '')));
   const [stage, setStage] = useState<Stage>('edit');
   const [issues, setIssues] = useState<DeclarationIssue[]>([]);
   const [numbers, setNumbers] = useState<number[]>([]);
@@ -65,7 +67,13 @@ export function DeclareSheet({
           <div className="flex justify-center gap-1.5">
             {slotColors.map((color, i) => (
               <div key={i} className="flex flex-col items-center gap-1">
-                <GameTile number={null} colorIndex={color} points={null} state="unknown" size={48} />
+                <GameTile
+                  number={Number(values[i]) || null}
+                  colorIndex={color}
+                  points={null}
+                  state={Number(values[i]) ? 'guess' : 'unknown'}
+                  size={48}
+                />
                 <label className="sr-only" htmlFor={`declare-${i}`}>{t('slot', { n: i + 1 })}</label>
                 <input
                   id={`declare-${i}`}

@@ -8,6 +8,7 @@ import { gameErrorKey } from '@/lib/game/errors';
 import { saveLastGame } from '@/lib/game/lastGame';
 import { labelsOf } from '@/lib/game/playerLabel';
 import { isMyTurn } from '@/lib/game/types';
+import { useMarks } from '@/lib/game/deductionStore';
 import { isDisconnected } from '@/lib/game/presence';
 import { useGameChannel } from '@/lib/game/useGameChannel';
 import { useGameState } from '@/lib/game/useGameState';
@@ -45,6 +46,9 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
   const [errorKey, setErrorKey] = useState<string | null>(null);
   const [declareOpen, setDeclareOpen] = useState(false);
   const [boardOpen, setBoardOpen] = useState(false);
+  // Cada apertura de la hoja de declarar parte de lo apuntado en el tablero en ese momento.
+  const [declareKey, setDeclareKey] = useState(0);
+  const { guesses } = useMarks(gameId);
 
   const state = data?.state;
   const eventSeq = state?.event_seq;
@@ -166,6 +170,7 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
           <MySupport
             me={state.me}
             clues={myClues}
+            guesses={guesses}
             selectableSlot={clueTime && draft.kind === 'compare' && !pending}
             selectedSlot={draft.slot}
             onSelectSlot={(slot) => setDraft({ ...draft, slot })}
@@ -192,7 +197,10 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
             <Button variant="secondary" onClick={() => setBoardOpen(true)}>{t('deduction')}</Button>
             <Button
               disabled={state.me.state !== 'active' || state.me.has_declared}
-              onClick={() => setDeclareOpen(true)}
+              onClick={() => {
+                setDeclareKey((k) => k + 1);
+                setDeclareOpen(true);
+              }}
             >
               {t('declare')}
             </Button>
@@ -201,7 +209,9 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
       )}
 
       <DeclareSheet
+        key={declareKey}
         open={declareOpen}
+        guesses={guesses}
         onClose={() => setDeclareOpen(false)}
         slotColors={state.me.support.map((s) => s.color_index)}
         onDeclare={declare}

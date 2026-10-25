@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { toggleIn } from './autoStrike';
@@ -7,18 +8,21 @@ import { toggleIn } from './autoStrike';
 interface Marks {
   struck: number[]; //  tachados por mí: descartados
   circled: number[]; // rodeados por mí: posibles
+  guesses: Record<number, number>; // posición (0–4) -> número que creo que tiene mi ficha
 }
 
 interface DeductionStore {
   games: Record<string, Marks>;
   toggleStrike: (gameId: string, n: number) => void;
   toggleCircle: (gameId: string, n: number) => void;
+  /** Apunta (o quita, con null) el número que creo que tiene mi ficha de esa posición. */
+  setGuess: (gameId: string, slot: number, n: number | null) => void;
   clear: (gameId: string) => void;
 }
 
-const empty: Marks = { struck: [], circled: [] };
+const empty: Marks = { struck: [], circled: [], guesses: {} };
 
-// Las marcas guardadas antes de existir `circled` no lo traen.
+// Las marcas guardadas antes de existir `circled` o `guesses` no los traen.
 const marksOf = (games: Record<string, Marks>, gameId: string): Marks => ({ ...empty, ...games[gameId] });
 
 /**
@@ -34,13 +38,21 @@ export const useDeductionStore = create<DeductionStore>()(
         set((s) => {
           const marks = marksOf(s.games, gameId);
           const circled = marks.circled.filter((x) => x !== n);
-          return { games: { ...s.games, [gameId]: { struck: toggleIn(marks.struck, n), circled } } };
+          return { games: { ...s.games, [gameId]: { ...marks, struck: toggleIn(marks.struck, n), circled } } };
         }),
       toggleCircle: (gameId, n) =>
         set((s) => {
           const marks = marksOf(s.games, gameId);
           const struck = marks.struck.filter((x) => x !== n);
-          return { games: { ...s.games, [gameId]: { struck, circled: toggleIn(marks.circled, n) } } };
+          return { games: { ...s.games, [gameId]: { ...marks, struck, circled: toggleIn(marks.circled, n) } } };
+        }),
+      setGuess: (gameId, slot, n) =>
+        set((s) => {
+          const marks = marksOf(s.games, gameId);
+          const guesses = { ...marks.guesses };
+          if (n === null) delete guesses[slot];
+          else guesses[slot] = n;
+          return { games: { ...s.games, [gameId]: { ...marks, guesses } } };
         }),
       clear: (gameId) =>
         set((s) => {
@@ -58,3 +70,12 @@ export const useDeductionStore = create<DeductionStore>()(
 );
 
 export const EMPTY_MARKS = empty;
+
+/** Marcas de una partida, completas aunque vengan de una versión anterior. Rehidrata al montar. */
+export function useMarks(gameId: string): Marks {
+  const stored = useDeductionStore((s) => s.games[gameId]);
+  useEffect(() => {
+    void useDeductionStore.persist.rehydrate();
+  }, []);
+  return { ...empty, ...stored };
+}

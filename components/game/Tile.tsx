@@ -32,12 +32,14 @@ export interface TileProps {
   points: number | null;
   /**
    * solved: tuya, ya resuelta · public: visible para todos · unknown: ficha tuya sin resolver ·
-   * back: boca abajo (reserva).
+   * guess: tuya sin resolver, con el número que tú crees (number) · back: boca abajo (reserva).
    */
-  state: 'solved' | 'public' | 'unknown' | 'back';
+  state: 'solved' | 'public' | 'unknown' | 'guess' | 'back';
   /** Ancho en px. Alto = ancho × 1,08. */
   size: number;
   selected?: boolean;
+  /** Señala que es lo que toca pulsar ahora: borde que late. */
+  hint?: boolean;
   disabled?: boolean;
   onPress?: () => void;
   label: string;
@@ -76,7 +78,9 @@ function PointBar({ points, ink, outlined }: { points: number | null; ink: strin
 }
 
 function Face({ number, colorIndex, points, state, size }: Pick<TileProps, 'number' | 'colorIndex' | 'points' | 'state' | 'size'>) {
-  const unknown = state === 'unknown';
+  const guess = state === 'guess';
+  // Una ficha apuntada sigue siendo tuya y sin resolver: se pinta apagada, con el número en lugar del candado.
+  const unknown = state === 'unknown' || guess;
   const back = state === 'back';
   const fill = FILL[colorIndex];
   const ink = INK[colorIndex];
@@ -93,11 +97,11 @@ function Face({ number, colorIndex, points, state, size }: Pick<TileProps, 'numb
       ) : (
         <>
           {showSymbol ? <Glyph index={colorIndex} cx={21} cy={21} r={7.5} fill={unknown ? fill : ink} /> : null}
-          {unknown ? (
+          {unknown && !guess ? (
             <Padlock />
           ) : (
             <text
-              x={50} y={showSymbol ? 69 : 64} textAnchor="middle" fill={ink}
+              x={50} y={showSymbol ? 69 : 64} textAnchor="middle" fill={guess ? 'var(--crema)' : ink}
               style={{ font: `800 ${showSymbol ? 42 : 50}px var(--font-bricolage), sans-serif`, fontVariantNumeric: 'tabular-nums' }}
             >
               {number}
@@ -114,13 +118,15 @@ function Face({ number, colorIndex, points, state, size }: Pick<TileProps, 'numb
  * Ficha del juego. Un solo dibujo que escala con `size`.
  * Con onPress es un botón (objetivo táctil ≥ 44 px); si no, una imagen con su etiqueta.
  */
-export function Tile({ size, selected = false, disabled = false, onPress, label, ...face }: TileProps) {
+export function Tile({ size, selected = false, hint = false, disabled = false, onPress, label, ...face }: TileProps) {
   const height = Math.round((size * TILE_H) / TILE_W);
   // El mínimo de 44 px es por el objetivo táctil: una ficha que no se pulsa puede ser más pequeña.
   const box = onPress ? { width: size, height, minWidth: 44, minHeight: 44 } : { width: size, height };
   const ring = selected
     ? 'outline-3 outline-offset-2 outline-[var(--acento)]'
-    : 'focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-[var(--acento)]';
+    : hint
+      ? 'outline-2 outline-offset-2 outline-dashed outline-[var(--acento)] motion-safe:animate-pulse focus-visible:outline-3 focus-visible:outline-solid'
+      : 'focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-[var(--acento)]';
 
   if (!onPress) {
     return (

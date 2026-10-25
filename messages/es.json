@@ -84,6 +84,7 @@
     ],
     "solved": "Ficha {number}, {color}, {points, plural, one {# punto} other {# puntos}}",
     "unknown": "Ficha sin resolver, {color}",
+    "guess": "Ficha sin resolver, {color}; crees que es el {number}",
     "back": "Ficha boca abajo, {color}"
   },
   "game": {
@@ -193,7 +194,10 @@
     "reset": "Borrar mis marcas",
     "cell": "{number}, {points, plural, one {# punto} other {# puntos}}",
     "view": "Vista",
-    "viewAll": "Completo"
+    "viewAll": "Completo",
+    "mine": "Tus fichas",
+    "mineHelp": "Toca una ficha tuya para apuntar el número que crees que es.",
+    "pickGuess": "Toca el número que crees que tiene tu ficha {n}. Si ya estaba apuntado, se borra."
   },
   "practice": {
     "title": "Practicar",

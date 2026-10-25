@@ -61,6 +61,7 @@ export function TurnActions({
                 state="back"
                 size={52}
                 disabled={pending || count === 0}
+                hint={!pending && count > 0}
                 onPress={() => onReveal(color)}
               />
             ))}
@@ -93,7 +94,7 @@ export function TurnActions({
               type="button"
               aria-pressed={draft.kind === kind}
               onClick={() => onDraft({ ...draft, kind, slot: kind === 'classify' ? null : draft.slot })}
-              className="min-h-11 rounded-xl text-sm font-semibold ring-1 ring-espacio-borde aria-pressed:bg-acento aria-pressed:text-grafito aria-pressed:ring-0 focus-visible:outline-2 focus-visible:outline-acento"
+              className={`min-h-11 rounded-xl text-sm font-semibold ring-1 ring-espacio-borde ${draft.kind === null ? 'outline-2 outline-offset-2 outline-dashed outline-acento motion-safe:animate-pulse' : ''} aria-pressed:bg-acento aria-pressed:text-grafito aria-pressed:ring-0 focus-visible:outline-2 focus-visible:outline-acento`}
             >
               {t(kind)}
             </button>

@@ -84,6 +84,7 @@
     ],
     "solved": "Tile {number}, {color}, {points, plural, one {# point} other {# points}}",
     "unknown": "Unsolved tile, {color}",
+    "guess": "Unsolved tile, {color}; you think it is {number}",
     "back": "Face-down tile, {color}"
   },
   "game": {
@@ -193,7 +194,10 @@
     "reset": "Clear my marks",
     "cell": "{number}, {points, plural, one {# point} other {# points}}",
     "view": "View",
-    "viewAll": "All"
+    "viewAll": "All",
+    "mine": "Your tiles",
+    "mineHelp": "Tap one of your tiles to note the number you think it is.",
+    "pickGuess": "Tap the number you think your tile {n} has. If it was already noted, it is cleared."
   },
   "practice": {
     "title": "Practice",

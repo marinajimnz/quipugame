@@ -12,6 +12,8 @@ export function GameTile(props: Omit<TileProps, 'label'>) {
       ? t('back', { color })
       : props.state === 'unknown'
         ? t('unknown', { color })
+        : props.state === 'guess'
+          ? t('guess', { color, number: props.number ?? 0 })
         : t('solved', { number: props.number ?? 0, color, points: props.points ?? 0 });
 
   return <Tile {...props} label={label} />;

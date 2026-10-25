@@ -1,11 +1,11 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Sheet } from '@/components/ui/Sheet';
 import { autoStruck } from '@/lib/game/autoStrike';
-import { EMPTY_MARKS, useDeductionStore } from '@/lib/game/deductionStore';
+import { useDeductionStore, useMarks } from '@/lib/game/deductionStore';
 import type { GameState } from '@/lib/game/types';
 import { TILE_POINTS } from '@/src/game/pointsTable';
 import { GameTile } from './GameTile';
@@ -19,9 +19,9 @@ const NUMBERS = Array.from({ length: 60 }, (_, i) => i + 1);
 
 /**
  * Tablero personal con las 60 fichas: completo (en orden, cada columna es un color) o un color
- * solo, con las casillas más grandes. Tachado manual, tachado automático
- * de lo que ya es público (distinto aspecto) y candidatos por posición. Es solo una ayuda:
- * no decide nada del juego.
+ * solo, con las casillas más grandes. Tachado manual, tachado automático de lo que ya es público
+ * (distinto aspecto) y rodeado de lo posible. Arriba, fijas, tus fichas: al tocar una se apunta
+ * el número que crees que tiene. Es solo una ayuda: no decide nada del juego.
  */
 export function DeductionBoard({
   open, onClose, gameId, state,
@@ -29,27 +29,67 @@ export function DeductionBoard({
   const t = useTranslations('deduction');
   const tGame = useTranslations('game');
   const tTile = useTranslations('tile');
-  const stored = useDeductionStore((s) => s.games[gameId]);
-  const marks = { ...EMPTY_MARKS, ...stored };
-  const { toggleStrike, toggleCircle, clear } = useDeductionStore.getState();
+  const marks = useMarks(gameId);
+  const { toggleStrike, toggleCircle, setGuess, clear } = useDeductionStore.getState();
   const [mode, setMode] = useState<Mode>('strike');
   const [view, setView] = useState<View>('all');
+  // Ficha mía en la que se está apuntando un número (o null).
+  const [guessSlot, setGuessSlot] = useState<number | null>(null);
   const shown = view === 'all' ? NUMBERS : NUMBERS.filter((n) => (n - 1) % 5 === view);
-
-  useEffect(() => {
-    void useDeductionStore.persist.rehydrate();
-  }, []);
+  const guessColor = guessSlot === null ? null : state.me.support.find((s) => s.slot === guessSlot)!.color_index;
 
   const auto = autoStruck(state);
 
+  function pickSlot(slot: number, color: number) {
+    if (guessSlot === slot) return setGuessSlot(null);
+    setGuessSlot(slot);
+    setView(color); // solo valen números de su color
+  }
+
   function press(n: number) {
-    if (mode === 'strike') toggleStrike(gameId, n);
+    if (guessSlot !== null) {
+      if ((n - 1) % 5 !== guessColor) return;
+      setGuess(gameId, guessSlot, marks.guesses[guessSlot] === n ? null : n);
+      setGuessSlot(null);
+    } else if (mode === 'strike') toggleStrike(gameId, n);
     else toggleCircle(gameId, n);
   }
 
   return (
     <Sheet open={open} onClose={onClose} title={t('title')}>
       <div className="flex flex-col gap-3">
+        <section aria-label={t('mine')} className="sticky -top-4 z-10 -mx-4 flex flex-col gap-1.5 bg-espacio-claro px-4 pb-2 pt-1">
+          <div className="flex justify-center gap-1.5">
+            {state.me.support.map((s) => {
+              const guess = marks.guesses[s.slot];
+              return s.resolved_number !== null ? (
+                <GameTile
+                  key={s.slot}
+                  number={s.resolved_number}
+                  colorIndex={s.color_index}
+                  points={TILE_POINTS[s.resolved_number]}
+                  state="solved"
+                  size={52}
+                />
+              ) : (
+                <GameTile
+                  key={s.slot}
+                  number={guess ?? null}
+                  colorIndex={s.color_index}
+                  points={null}
+                  state={guess ? 'guess' : 'unknown'}
+                  size={52}
+                  selected={guessSlot === s.slot}
+                  onPress={() => pickSlot(s.slot, s.color_index)}
+                />
+              );
+            })}
+          </div>
+          <p className="text-center text-sm font-medium" aria-live="polite">
+            {guessSlot === null ? t('mineHelp') : t('pickGuess', { n: guessSlot + 1 })}
+          </p>
+        </section>
+
         <p className="text-sm">{t('help')}</p>
 
         <div role="radiogroup" aria-label={t('mode')} className="grid grid-cols-2 gap-1.5">
@@ -96,15 +136,17 @@ export function DeductionBoard({
             const byAuto = auto.has(n);
             const circled = marks.circled.includes(n);
             const size = view === 'all' ? 56 : 72;
+            const blocked = guessColor !== null && color !== guessColor;
 
             return (
               <button
                 key={n}
                 type="button"
                 onClick={() => press(n)}
+                disabled={blocked}
                 aria-label={`${t('cell', { number: n, points: TILE_POINTS[n] })}${byMe ? `, ${t('struck')}` : circled ? `, ${t('circled')}` : ''}`}
                 data-auto={byAuto || undefined}
-                className="relative rounded-[22%] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-crema"
+                className="relative rounded-[22%] disabled:opacity-30 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-crema"
               >
                 <span aria-hidden="true" className={`block ${byMe || byAuto ? 'opacity-35' : ''} ${byAuto ? 'saturate-50' : ''}`}>
                   <GameTile number={n} colorIndex={color} points={TILE_POINTS[n]} state="public" size={size} />

@@ -27,6 +27,7 @@ export function Pool({
             state="public"
             size={52}
             selected={selected === tile.number}
+            hint={selectable && selected === null}
             onPress={selectable ? () => onSelect(tile.number) : undefined}
           />
         ))}
