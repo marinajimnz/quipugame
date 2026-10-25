@@ -1,6 +1,7 @@
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import type { ReactNode } from 'react';
+import { MainNav } from '@/components/layout/MainNav';
 import { QueryProvider } from '@/components/providers/QueryProvider';
 import { createClient } from '@/lib/supabase/server';
 
@@ -13,5 +14,9 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
     redirect(`/entrar?next=${encodeURIComponent(path)}`);
   }
 
-  return <QueryProvider>{children}</QueryProvider>;
+  return (
+    <QueryProvider>
+      <MainNav>{children}</MainNav>
+    </QueryProvider>
+  );
 }

@@ -349,5 +349,16 @@
     "noSaved": "No hay ninguna partida guardada en este dispositivo.",
     "rules": "Ver las reglas",
     "retry": "Reintentar"
+  },
+  "nav": {
+    "play": "Jugar",
+    "ranking": "Clasificación",
+    "rules": "Reglas",
+    "profile": "Perfil",
+    "label": "Navegación principal"
+  },
+  "install": {
+    "button": "Instalar app",
+    "iosHint": "Para instalar Quipu en el móvil, pulsa Compartir y luego «Añadir a pantalla de inicio»."
   }
 }

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { ConvertSheet } from '@/components/account/ConvertSheet';
+import { InstallApp } from '@/components/pwa/InstallApp';
 import { Avatar } from '@/components/profile/Avatar';
 import { ProfileForm } from '@/components/profile/ProfileForm';
 import { SignOutButton } from '@/components/profile/SignOutButton';
@@ -52,6 +53,7 @@ export default async function PerfilPage() {
         <Link href="/clasificacion" className="min-h-11 py-2 text-center text-sm font-semibold underline">
           {t('leaderboard')}
         </Link>
+        <InstallApp />
         <SignOutButton />
         <Link href="/" className="min-h-11 py-2 text-center text-sm underline">
           {t('back')}

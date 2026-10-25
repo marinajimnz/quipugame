@@ -349,5 +349,16 @@
     "noSaved": "There is no saved game on this device.",
     "rules": "See the rules",
     "retry": "Try again"
+  },
+  "nav": {
+    "play": "Play",
+    "ranking": "Ranking",
+    "rules": "Rules",
+    "profile": "Profile",
+    "label": "Main navigation"
+  },
+  "install": {
+    "button": "Install app",
+    "iosHint": "To install Quipu on your phone, tap Share and then “Add to Home Screen”."
   }
 }
