@@ -5,10 +5,15 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Sheet } from '@/components/ui/Sheet';
 
-/** Botón de abandonar con confirmación: abandonar cuenta como derrota. */
-export function AbandonSheet({ onAbandon }: { onAbandon: () => Promise<void> }) {
+/**
+ * Botón de abandonar con confirmación: abandonar cuenta como derrota.
+ * La hoja también se abre desde fuera (`open`) cuando se intenta salir de la partida con el gesto de atrás.
+ */
+export function AbandonSheet({
+  onAbandon, open, onOpenChange,
+}: { onAbandon: () => Promise<void>; open: boolean; onOpenChange: (open: boolean) => void }) {
   const t = useTranslations('game');
-  const [open, setOpen] = useState(false);
+  const setOpen = onOpenChange;
   const [busy, setBusy] = useState(false);
 
   return (

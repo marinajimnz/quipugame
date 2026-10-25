@@ -36,6 +36,8 @@ html {
 body {
   font-family: var(--font-sans);
   overflow-x: hidden;
+  /* Sin rebote ni navegación por deslizamiento horizontal del navegador. */
+  overscroll-behavior-x: none;
 }
 
 /* El número que apuntas en una ficha aparece con un pequeño "pop" (también al cambiarlo). */

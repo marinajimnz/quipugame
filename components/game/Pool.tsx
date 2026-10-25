@@ -17,7 +17,7 @@ export function Pool({
   const fresh = useFresh(pool.map((tile) => tile.number));
 
   return (
-    <section aria-label={t('pool')} className="flex flex-col gap-1.5">
+    <section aria-label={t('pool')} className="flex flex-col gap-1.5 rounded-2xl bg-espacio-claro/70 p-3 ring-1 ring-espacio-borde">
       <h2 className="text-sm font-semibold">{t('pool')}</h2>
       <div className="flex flex-wrap justify-center gap-1.5">
         {pool.map((tile) => (
