@@ -29,11 +29,8 @@ export function RankedCard({ isGuest, elo, inQueue }: { isGuest: boolean; elo: n
   }
 
   return (
-    <section className="flex flex-col gap-3 rounded-3xl bg-espacio-claro p-4 shadow-sm ring-1 ring-espacio-borde">
-      <div className="flex items-baseline justify-between gap-2">
-        <h2 className="font-display text-2xl font-extrabold">{t('title')}</h2>
-        {!isGuest ? <span className="text-sm tabular-nums text-crema-suave">{t('yourElo', { elo })}</span> : null}
-      </div>
+    <div className="flex flex-col gap-3">
+      {!isGuest ? <span className="text-sm tabular-nums text-crema-suave">{t('yourElo', { elo })}</span> : null}
 
       {isGuest ? (
         <>
@@ -58,6 +55,6 @@ export function RankedCard({ isGuest, elo, inQueue }: { isGuest: boolean; elo: n
       <Link href="/clasificacion" className="min-h-11 py-2 text-center text-sm font-semibold underline">
         {t('leaderboardLink')}
       </Link>
-    </section>
+    </div>
   );
 }

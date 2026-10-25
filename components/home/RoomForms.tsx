@@ -33,9 +33,7 @@ export function CreateRoomForm() {
   }
 
   return (
-    <section className="flex flex-col gap-4 rounded-3xl bg-espacio-claro p-4 shadow-sm ring-1 ring-espacio-borde">
-      <h2 className="font-display text-2xl font-extrabold">{t('title')}</h2>
-
+    <div className="flex flex-col gap-4">
       <div role="radiogroup" aria-label={t('seats')} className="grid grid-cols-3 gap-2">
         {[2, 3, 4].map((n) => (
           <button key={n} type="button" role="radio" aria-checked={seats === n} onClick={() => setSeats(n)} className={choice}>
@@ -51,7 +49,7 @@ export function CreateRoomForm() {
 
       {error ? <p role="alert" className="text-sm text-error">{t('error')}</p> : null}
       <Button disabled={busy} onClick={create}>{busy ? t('creating') : t('create')}</Button>
-    </section>
+    </div>
   );
 }
 
@@ -69,8 +67,8 @@ export function JoinRoomForm() {
   }
 
   return (
-    <form onSubmit={submit} className="flex flex-col gap-3 rounded-3xl bg-espacio-claro p-4 shadow-sm ring-1 ring-espacio-borde">
-      <h2 className="font-display text-2xl font-extrabold">{t('title')}</h2>
+    <form onSubmit={submit} className="flex flex-col gap-3 border-t border-espacio-borde pt-5">
+      <h3 className="text-lg font-bold">{t('title')}</h3>
       <TextField
         label={t('label')}
         value={code}
