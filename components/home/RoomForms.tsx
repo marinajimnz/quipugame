@@ -67,8 +67,7 @@ export function JoinRoomForm() {
   }
 
   return (
-    <form onSubmit={submit} className="flex flex-col gap-3 border-t border-espacio-borde pt-5">
-      <h3 className="text-lg font-bold">{t('title')}</h3>
+    <form onSubmit={submit} className="flex flex-col gap-3">
       <TextField
         label={t('label')}
         value={code}
