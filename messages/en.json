@@ -306,12 +306,6 @@
     "title": "How to play",
     "intro": "You have five numbered tiles. Everyone can see them except you. Whoever works out their own numbers first wins.",
     "backHome": "Back to home",
-    "tilesTitle": "The tiles",
-    "tiles1": "There are 60 tiles, numbered 1 to 60, all different.",
-    "tiles2": "Each tile has one of five colours, and the colour comes from the number: 1, 6, 11… are amber; 2, 7, 12… lime; 3, 8, 13… pink; 4, 9, 14… red; and 5, 10, 15… blue.",
-    "tiles3": "Each colour also has its own pattern, so you never depend on colour alone.",
-    "tiles4": "Each tile is worth 1, 2 or 3 points, shown on the tile itself. Each colour has 4 tiles of each value.",
-    "legend": "The five colours and their patterns",
     "setupTitle": "Setting up",
     "setup1": "Each player gets one tile of each colour, at random.",
     "setup2": "Your tiles are arranged from lowest to highest. Everyone can see that order, but you cannot see the numbers.",
@@ -341,11 +335,7 @@
     "modeRoom": "Private room: create a room, share the code and play with whoever you like. It does not count for ELO.",
     "modeRanked": "Ranked: against an opponent at your level. It counts for ELO and the leaderboard. You need an account.",
     "tipTitle": "A tip",
-    "tip": "Open the deduction board: cross out what you rule out and note candidates for each of your tiles. Anything already visible on other tiles is crossed out for you.",
-    "nameTitle": "Why Quipu",
-    "name1": "A quipu is an Andean system of knotted cords that recorded numbers by the position of each knot.",
-    "name2": "It was used long before the Incas: there are knotted cords at Caral from about 5,000 years ago. The Inca state took it to its greatest scale to keep its accounts.",
-    "offlineNote": "This page also works offline."
+    "tip": "Open the deduction board: cross out what you rule out and note candidates for each of your tiles. Anything already visible on other tiles is crossed out for you."
   },
   "offline": {
     "title": "No connection",

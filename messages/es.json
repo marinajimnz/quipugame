@@ -306,12 +306,6 @@
     "title": "Cómo se juega",
     "intro": "Tienes cinco fichas numeradas. Todo el mundo las ve menos tú. Gana quien descubra antes sus propios números.",
     "backHome": "Volver al inicio",
-    "tilesTitle": "Las fichas",
-    "tiles1": "Hay 60 fichas, del 1 al 60, todas distintas.",
-    "tiles2": "Cada ficha tiene uno de cinco colores, y el color sale del número: 1, 6, 11… son ámbar; 2, 7, 12… lima; 3, 8, 13… rosas; 4, 9, 14… rojas; y 5, 10, 15… azules.",
-    "tiles3": "Cada color tiene además su propio dibujo, para no depender solo del color.",
-    "tiles4": "Cada ficha vale 1, 2 o 3 puntos, y los puntos se ven en la propia ficha. Hay 4 fichas de cada valor en cada color.",
-    "legend": "Los cinco colores y sus dibujos",
     "setupTitle": "Al empezar",
     "setup1": "Cada jugador recibe una ficha de cada color, al azar.",
     "setup2": "Tus fichas se colocan de menor a mayor número. Ese orden lo ve todo el mundo, pero tú no ves los números.",
@@ -341,11 +335,7 @@
     "modeRoom": "Sala privada: creas una sala, compartes el código y juegas con quien quieras. No cuenta para el ELO.",
     "modeRanked": "Clasificatoria: contra un rival de tu nivel. Cuenta para el ELO y la clasificación. Necesitas una cuenta.",
     "tipTitle": "Un consejo",
-    "tip": "Abre el tablero de deducción: tacha lo que descartes y apunta candidatos para cada una de tus fichas. Lo que ya se ve en otras fichas se tacha solo.",
-    "nameTitle": "Por qué Quipu",
-    "name1": "Un quipu es un sistema andino de cuerdas anudadas que guardaba cifras según la posición de cada nudo.",
-    "name2": "Se usaba mucho antes de los incas: hay cuerdas anudadas en Caral de hace unos 5.000 años. El Estado inca lo llevó a su máxima escala para llevar sus cuentas.",
-    "offlineNote": "Esta página funciona también sin conexión."
+    "tip": "Abre el tablero de deducción: tacha lo que descartes y apunta candidatos para cada una de tus fichas. Lo que ya se ve en otras fichas se tacha solo."
   },
   "offline": {
     "title": "Sin conexión",
