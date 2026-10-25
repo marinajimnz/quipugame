@@ -335,11 +335,7 @@
     "modeRoom": "Sala privada: creas una sala, compartes el código y juegas con quien quieras. No cuenta para el ELO.",
     "modeRanked": "Clasificatoria: contra un rival de tu nivel. Cuenta para el ELO y la clasificación. Necesitas una cuenta.",
     "tipTitle": "Un consejo",
-    "tip": "Abre el tablero de deducción: tacha lo que descartes y apunta candidatos para cada una de tus fichas. Lo que ya se ve en otras fichas se tacha solo.",
-    "nameTitle": "Por qué Quipu",
-    "name1": "Un quipu es un sistema andino de cuerdas anudadas que guardaba cifras según la posición de cada nudo.",
-    "name2": "Se usaba mucho antes de los incas: hay cuerdas anudadas en Caral de hace unos 5.000 años. El Estado inca lo llevó a su máxima escala para llevar sus cuentas.",
-    "offlineNote": "Esta página funciona también sin conexión."
+    "tip": "Abre el tablero de deducción: tacha lo que descartes y apunta candidatos para cada una de tus fichas. Lo que ya se ve en otras fichas se tacha solo."
   },
   "offline": {
     "title": "Sin conexión",

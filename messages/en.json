@@ -335,11 +335,7 @@
     "modeRoom": "Private room: create a room, share the code and play with whoever you like. It does not count for ELO.",
     "modeRanked": "Ranked: against an opponent at your level. It counts for ELO and the leaderboard. You need an account.",
     "tipTitle": "A tip",
-    "tip": "Open the deduction board: cross out what you rule out and note candidates for each of your tiles. Anything already visible on other tiles is crossed out for you.",
-    "nameTitle": "Why Quipu",
-    "name1": "A quipu is an Andean system of knotted cords that recorded numbers by the position of each knot.",
-    "name2": "It was used long before the Incas: there are knotted cords at Caral from about 5,000 years ago. The Inca state took it to its greatest scale to keep its accounts.",
-    "offlineNote": "This page also works offline."
+    "tip": "Open the deduction board: cross out what you rule out and note candidates for each of your tiles. Anything already visible on other tiles is crossed out for you."
   },
   "offline": {
     "title": "No connection",

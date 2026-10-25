@@ -76,12 +76,6 @@ export default async function ReglasPage() {
         <p>{t('tip')}</p>
       </Section>
 
-      <Section title={t('nameTitle')}>
-        <p>{t('name1')}</p>
-        <p>{t('name2')}</p>
-      </Section>
-
-      <p className="text-sm text-crema-suave">{t('offlineNote')}</p>
       <Link href="/" className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-espacio-claro px-5 font-semibold ring-1 ring-espacio-borde">
         {t('backHome')}
       </Link>
