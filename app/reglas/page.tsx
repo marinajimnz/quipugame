@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import type { ReactNode } from 'react';
-import { GameTile } from '@/components/game/GameTile';
 
 // Reglas: pública (sin sesión), estática y disponible sin conexión (la guarda el service worker).
 // Fuente normativa: specs/001-mvp/spec.md §4. El texto es propio (P7).
@@ -19,7 +18,6 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 
 export default async function ReglasPage() {
   const t = await getTranslations('rules');
-  const tTile = await getTranslations('tile');
 
   return (
     <main className="flex flex-col gap-7 px-4 py-8 leading-relaxed">
@@ -27,24 +25,6 @@ export default async function ReglasPage() {
         <h1 className="font-display text-4xl font-extrabold tracking-tight">{t('title')}</h1>
         <p className="text-lg">{t('intro')}</p>
       </header>
-
-      <Section title={t('tilesTitle')}>
-        <p>{t('tiles1')}</p>
-        <p>{t('tiles2')}</p>
-        <figure className="flex flex-col gap-2">
-          <div className="flex justify-center gap-1.5">
-            {[0, 1, 2, 3, 4].map((c) => (
-              <div key={c} className="flex flex-col items-center gap-1">
-                <GameTile number={null} colorIndex={c} points={null} state="unknown" size={56} />
-                <span className="text-xs">{tTile(`colors.${c}`)}</span>
-              </div>
-            ))}
-          </div>
-          <figcaption className="text-sm text-crema-suave">{t('legend')}</figcaption>
-        </figure>
-        <p>{t('tiles3')}</p>
-        <p>{t('tiles4')}</p>
-      </Section>
 
       <Section title={t('setupTitle')}>
         <ul className="flex list-disc flex-col gap-1 pl-5">
