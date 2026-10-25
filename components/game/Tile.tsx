@@ -38,6 +38,8 @@ export interface TileProps {
   /** Ancho en px. Alto = ancho × 1,08. */
   size: number;
   selected?: boolean;
+  /** Anima el número con un "pop" (acaba de declararse). */
+  pop?: boolean;
   /** Señala que es lo que toca pulsar ahora: borde que late. */
   hint?: boolean;
   disabled?: boolean;
@@ -77,8 +79,9 @@ function PointBar({ points, ink, outlined }: { points: number | null; ink: strin
   );
 }
 
-function Face({ number, colorIndex, points, state, size }: Pick<TileProps, 'number' | 'colorIndex' | 'points' | 'state' | 'size'>) {
+function Face({ number, colorIndex, points, state, size, pop }: Pick<TileProps, 'number' | 'colorIndex' | 'points' | 'state' | 'size' | 'pop'>) {
   const guess = state === 'guess';
+  const animated = guess || pop;
   // Una ficha apuntada sigue siendo tuya y sin resolver: se pinta apagada, con el número en lugar del candado.
   const unknown = state === 'unknown' || guess;
   const back = state === 'back';
@@ -108,6 +111,8 @@ function Face({ number, colorIndex, points, state, size }: Pick<TileProps, 'numb
             <Padlock />
           ) : (
             <text
+              key={animated ? number : undefined}
+              className={animated ? 'tile-guess-in' : undefined}
               x={50} y={showSymbol ? 69 : 64} textAnchor="middle" fill={guess ? 'var(--crema)' : ink}
               style={{ font: `800 ${showSymbol ? 42 : 50}px var(--font-bricolage), sans-serif`, fontVariantNumeric: 'tabular-nums' }}
             >

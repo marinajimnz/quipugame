@@ -37,3 +37,37 @@ body {
   font-family: var(--font-sans);
   overflow-x: hidden;
 }
+
+/* El número que apuntas en una ficha aparece con un pequeño "pop" (también al cambiarlo). */
+@keyframes tile-guess-in {
+  0% { opacity: 0; transform: scale(0.4) translateY(10px); }
+  60% { opacity: 1; transform: scale(1.18) translateY(0); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.tile-guess-in {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tile-guess-in {
+    animation: tile-guess-in 380ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+/* Una ficha que llega al mazo visible o a tu tablero cae desde arriba y rebota un poco. */
+@keyframes tile-drop {
+  0% { opacity: 0; transform: translateY(-56px); }
+  45% { opacity: 1; transform: translateY(0); }
+  65% { transform: translateY(-8px); }
+  82% { transform: translateY(0); }
+  91% { transform: translateY(-2px); }
+  100% { transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tile-drop {
+    animation: tile-drop 620ms cubic-bezier(0.33, 0, 0.67, 1) both;
+  }
+}
