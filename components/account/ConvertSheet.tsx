@@ -44,7 +44,7 @@ export function ConvertSheet() {
 
   return (
     <>
-      <Button variant="secondary" onClick={() => dialog.current?.showModal()}>
+      <Button onClick={() => dialog.current?.showModal()}>
         {t('cta')}
       </Button>
 

@@ -40,7 +40,7 @@
     "rulesLink": "Cómo se juega"
   },
   "convert": {
-    "cta": "Crear cuenta y conservar mi progreso",
+    "cta": "Crear cuenta",
     "title": "Crea tu cuenta",
     "description": "Conservas tus partidas y tu nombre. Es un solo paso.",
     "submit": "Crear cuenta",
@@ -261,7 +261,6 @@
     "finding": "Entrando en la cola…",
     "yourElo": "Tu ELO: {elo}",
     "guestBody": "Para jugar clasificatorias necesitas una cuenta. Crearla es un paso y conservas tu progreso.",
-    "leaderboardLink": "Ver la clasificación",
     "backToQueue": "Estás en la cola: volver",
     "errors": {
       "guest_not_allowed": "Para jugar clasificatorias necesitas una cuenta.",

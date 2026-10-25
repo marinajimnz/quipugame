@@ -40,7 +40,7 @@
     "rulesLink": "How to play"
   },
   "convert": {
-    "cta": "Create an account and keep my progress",
+    "cta": "Create account",
     "title": "Create your account",
     "description": "You keep your games and your name. It takes one step.",
     "submit": "Create account",
@@ -261,7 +261,6 @@
     "finding": "Joining the queue…",
     "yourElo": "Your ELO: {elo}",
     "guestBody": "You need an account to play ranked games. Creating one takes one step and you keep your progress.",
-    "leaderboardLink": "See the leaderboard",
     "backToQueue": "You are in the queue: go back",
     "errors": {
       "guest_not_allowed": "You need an account to play ranked games.",
