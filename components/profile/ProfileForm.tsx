@@ -71,7 +71,7 @@ export function ProfileForm({
           {AVATAR_KEYS.map((key, i) => (
             <label
               key={key}
-              className="relative flex min-h-11 min-w-11 cursor-pointer items-center justify-center rounded-full has-[:checked]:outline-3 has-[:checked]:outline-offset-2 has-[:checked]:outline-lila has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-grafito"
+              className="relative flex min-h-11 min-w-11 cursor-pointer items-center justify-center rounded-full has-[:checked]:outline-3 has-[:checked]:outline-offset-2 has-[:checked]:outline-acento has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-crema"
             >
               <input
                 type="radio"

@@ -40,7 +40,7 @@ export default async function ReglasPage() {
               </div>
             ))}
           </div>
-          <figcaption className="text-sm text-grafito-suave">{t('legend')}</figcaption>
+          <figcaption className="text-sm text-crema-suave">{t('legend')}</figcaption>
         </figure>
         <p>{t('tiles3')}</p>
         <p>{t('tiles4')}</p>
@@ -60,7 +60,7 @@ export default async function ReglasPage() {
         <p>{t('turn1')}</p>
         <h3 className="font-semibold">{t('turn2Title')}</h3>
         <p>{t('turn2')}</p>
-        <dl className="flex flex-col gap-2 rounded-2xl bg-blanco p-3 ring-1 ring-grafito/10">
+        <dl className="flex flex-col gap-2 rounded-2xl bg-espacio-claro p-3 ring-1 ring-espacio-borde">
           <dt className="font-semibold">{t('classifyTitle')}</dt>
           <dd>{t('classify')}</dd>
           <dt className="font-semibold">{t('compareTitle')}</dt>
@@ -99,11 +99,10 @@ export default async function ReglasPage() {
       <Section title={t('nameTitle')}>
         <p>{t('name1')}</p>
         <p>{t('name2')}</p>
-        <p>{t('name3')}</p>
       </Section>
 
-      <p className="text-sm text-grafito-suave">{t('offlineNote')}</p>
-      <Link href="/" className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-blanco px-5 font-semibold ring-1 ring-grafito/20">
+      <p className="text-sm text-crema-suave">{t('offlineNote')}</p>
+      <Link href="/" className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-espacio-claro px-5 font-semibold ring-1 ring-espacio-borde">
         {t('backHome')}
       </Link>
     </main>

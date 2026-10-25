@@ -68,12 +68,12 @@ export function History({
   }
 
   return (
-    <details className="rounded-2xl bg-blanco/70 px-4 py-2 ring-1 ring-grafito/10">
+    <details className="rounded-2xl bg-espacio-claro/70 px-4 py-2 ring-1 ring-espacio-borde">
       <summary className="min-h-11 cursor-pointer py-2.5 text-sm font-semibold">{t('history')}</summary>
       <ol className="flex flex-col gap-1 pb-2 text-sm">
         {(events ?? []).map((e) => (
           <li key={e.seq} className="flex gap-2">
-            <span className="w-6 shrink-0 text-right tabular-nums text-grafito-suave">{e.seq}</span>
+            <span className="w-6 shrink-0 text-right tabular-nums text-crema-suave">{e.seq}</span>
             <span>{line(e)}</span>
           </li>
         ))}

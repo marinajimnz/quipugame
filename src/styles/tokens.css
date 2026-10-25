@@ -1,0 +1,27 @@
+/* Tokens de DESIGN.md (estilo vector plano brillante). Ningún componente escribe un color a pelo. */
+:root {
+  /* Fondo y superficies */
+  --espacio:        #2A1B47;  /* fondo de aplicación */
+  --espacio-claro:  #3B2A5E;  /* paneles y tarjetas */
+  --espacio-borde:  #563F86;  /* bordes de panel */
+  --crema:          #FDF6E8;  /* texto principal, tinta clara */
+  --grafito:        #2E2440;  /* tinta oscura, sombras */
+
+  /* Acentos de interfaz */
+  --acento:         #FFC93C;  /* amarillo: acción principal, destacados */
+  --lima:           #A8E05F;  /* confirmaciones, tu turno */
+
+  /* Los 5 colores de ficha: color_index = (número − 1) % 5 */
+  --ficha-0:        #F2A93B;  /* ámbar   — número en --grafito */
+  --ficha-1:        #8FD14F;  /* lima    — número en --grafito */
+  --ficha-2:        #E8529E;  /* rosa    — número en --crema */
+  --ficha-3:        #D94444;  /* rojo    — número en --crema */
+  --ficha-4:        #3E7BC4;  /* azul    — número en --crema */
+
+  /* Borde inferior de cada ficha: el mismo color un 25 % más oscuro */
+  --ficha-0-canto:  #B87B22;
+  --ficha-1-canto:  #679B33;
+  --ficha-2-canto:  #AE3571;
+  --ficha-3-canto:  #9E2C2C;
+  --ficha-4-canto:  #2A5588;
+}

@@ -1,36 +1,35 @@
 @import 'tailwindcss';
+@import '../src/styles/tokens.css';
 
-/* Tokens de DESIGN.md. No cambiar las tintas sin volver a medir el contraste. */
+/* Tokens de DESIGN.md (valores en src/styles/tokens.css). Contraste medido en DESIGN.md. */
 @theme inline {
-  --color-crema: #fff2e9;
-  --color-blanco: #ffffff;
-  --color-grafito: #4c4c4c;
-  --color-piedra-hueco: #2e2e2e;
-  --color-lila: #baa9d2;
+  --color-espacio: var(--espacio);
+  --color-espacio-claro: var(--espacio-claro);
+  --color-espacio-borde: var(--espacio-borde);
+  --color-crema: var(--crema);
+  --color-grafito: var(--grafito);
+  --color-acento: var(--acento);
+  --color-lima: var(--lima);
 
   /* Colores de ficha: color_index = (número − 1) % 5 */
-  --color-ficha-0: #ffcb30; /* amarillo */
-  --color-ficha-1: #f49bb4; /* rosa */
-  --color-ficha-2: #ef514e; /* rojo */
-  --color-ficha-3: #2d6ab3; /* azul */
-  --color-ficha-4: #006e58; /* verde */
-  /* Fichas sin resolver y reversos: el color va sobre grafito y necesita 3:1 (WCAG 1.4.11).
-     Amarillo y rosa ya cumplen; rojo, azul y verde usan una variante más clara. */
-  --color-ficha-2-sin-resolver: #f58a87; /* 3,63:1 */
-  --color-ficha-3-sin-resolver: #9bbbe6; /* 4,35:1 */
-  --color-ficha-4-sin-resolver: #80c0ac; /* 4,11:1 (antes #5fa38f, 2,91:1) */
+  --color-ficha-0: var(--ficha-0); /* ámbar */
+  --color-ficha-1: var(--ficha-1); /* lima */
+  --color-ficha-2: var(--ficha-2); /* rosa */
+  --color-ficha-3: var(--ficha-3); /* rojo */
+  --color-ficha-4: var(--ficha-4); /* azul */
 
-  /* Texto: AA (4,5:1) sobre crema y blanco. */
-  --color-grafito-suave: #666666; /* texto secundario: 5,23:1 sobre crema */
-  --color-error: #b83a36; /* errores: 5,17:1 sobre crema (el rojo de ficha da 3,21:1) */
+  /* Texto secundario sobre --espacio y --espacio-claro: 9,6:1 y 7,7:1 */
+  --color-crema-suave: color-mix(in oklab, var(--crema) 78%, var(--espacio));
+  /* Errores sobre fondo oscuro: 7,3:1 sobre --espacio-claro */
+  --color-error: #ff9a94;
 
   --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 html {
-  background: var(--color-crema);
-  color: var(--color-grafito);
+  background: var(--espacio);
+  color: var(--crema);
   -webkit-text-size-adjust: 100%;
 }
 

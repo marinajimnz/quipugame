@@ -96,7 +96,7 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
     return <p role="alert" className="p-4">{t('errors.load')}</p>;
   }
   if (!state || !data) {
-    return <p role="status" className="p-4 text-grafito-suave">{t('sending')}</p>;
+    return <p role="status" className="p-4 text-crema-suave">{t('sending')}</p>;
   }
 
   const myTurn = isMyTurn(state);
@@ -142,13 +142,13 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
           const badge =
             player.state === 'eliminated' ? t('eliminatedBadge') : player.state === 'abandoned' ? t('abandonedBadge') : null;
           return (
-            <section key={player.player_id} className="flex flex-col gap-2 rounded-2xl bg-blanco/70 p-3 ring-1 ring-grafito/10">
+            <section key={player.player_id} className="flex flex-col gap-2 rounded-2xl bg-espacio-claro/70 p-3 ring-1 ring-espacio-borde">
               <header className="flex items-center gap-2">
                 <Avatar avatarKey={player.avatar_key ?? 'default'} name={playerName(label)} size={32} />
                 <h2 className="truncate font-semibold">{playerName(label)}</h2>
-                {badge ? <span className="rounded-full bg-lila text-piedra-hueco px-2 py-0.5 text-xs font-semibold">{badge}</span> : null}
+                {badge ? <span className="rounded-full bg-acento text-grafito px-2 py-0.5 text-xs font-semibold">{badge}</span> : null}
                 {!player.is_bot && player.state === 'active' && state.game.status === 'active' && isDisconnected(player.last_seen_at, serverNow) ? (
-                  <span className="rounded-full bg-grafito px-2 py-0.5 text-xs font-semibold text-crema">{t('disconnectedBadge')}</span>
+                  <span className="rounded-full bg-espacio-borde px-2 py-0.5 text-xs font-semibold text-crema">{t('disconnectedBadge')}</span>
                 ) : null}
               </header>
               <OtherSupport player={player} />
@@ -164,7 +164,7 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
           onSelect={(n) => setDraft({ ...draft, tile: n })}
         />
 
-        <section className="flex flex-col gap-2 rounded-2xl bg-blanco/70 p-3 ring-1 ring-grafito/10">
+        <section className="flex flex-col gap-2 rounded-2xl bg-espacio-claro/70 p-3 ring-1 ring-espacio-borde">
           <h2 className="text-sm font-semibold">{t('mySupport')}</h2>
           <MySupport
             me={state.me}
@@ -181,7 +181,7 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
       </main>
 
       {finished ? null : (
-        <div className="fixed inset-x-0 bottom-0 z-10 mx-auto flex max-w-[430px] flex-col gap-3 border-t border-grafito/15 bg-crema/95 p-3 backdrop-blur">
+        <div className="fixed inset-x-0 bottom-0 z-10 mx-auto flex max-w-[430px] flex-col gap-3 border-t border-espacio-borde bg-espacio/95 p-3 backdrop-blur">
           <TurnActions
             state={state}
             myTurn={myTurn}

@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-10-23T14:33:22.818Z",
+        "reason": "DESIGN.md fixes Inter as the interface face; decided by the project, not by me"
+      }
+    ]
+  }
+}

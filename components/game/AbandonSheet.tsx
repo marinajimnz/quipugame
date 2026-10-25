@@ -16,7 +16,7 @@ export function AbandonSheet({ onAbandon }: { onAbandon: () => Promise<void> }) 
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="min-h-11 self-center rounded-xl px-4 text-sm font-semibold underline focus-visible:outline-2 focus-visible:outline-lila"
+        className="min-h-11 self-center rounded-xl px-4 text-sm font-semibold underline focus-visible:outline-2 focus-visible:outline-acento"
       >
         {t('abandon')}
       </button>

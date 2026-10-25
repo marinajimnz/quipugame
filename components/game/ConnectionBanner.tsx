@@ -9,7 +9,7 @@ export function ConnectionBanner() {
     <p
       role="status"
       aria-live="polite"
-      className="fixed inset-x-0 top-0 z-20 mx-auto max-w-[430px] bg-grafito px-4 py-2 text-center text-sm font-semibold text-crema"
+      className="fixed inset-x-0 top-0 z-20 mx-auto max-w-[430px] bg-acento px-4 py-2 text-center text-sm font-semibold text-grafito"
     >
       {t('connectionLost')}
     </p>

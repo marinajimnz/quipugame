@@ -29,10 +29,10 @@ export function RankedCard({ isGuest, elo, inQueue }: { isGuest: boolean; elo: n
   }
 
   return (
-    <section className="flex flex-col gap-3 rounded-3xl bg-blanco p-4 shadow-sm ring-1 ring-grafito/10">
+    <section className="flex flex-col gap-3 rounded-3xl bg-espacio-claro p-4 shadow-sm ring-1 ring-espacio-borde">
       <div className="flex items-baseline justify-between gap-2">
         <h2 className="font-display text-2xl font-extrabold">{t('title')}</h2>
-        {!isGuest ? <span className="text-sm tabular-nums text-grafito-suave">{t('yourElo', { elo })}</span> : null}
+        {!isGuest ? <span className="text-sm tabular-nums text-crema-suave">{t('yourElo', { elo })}</span> : null}
       </div>
 
       {isGuest ? (
@@ -43,7 +43,7 @@ export function RankedCard({ isGuest, elo, inQueue }: { isGuest: boolean; elo: n
       ) : inQueue ? (
         <Link
           href="/cola"
-          className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-lila text-piedra-hueco px-5 font-semibold focus-visible:outline-2 focus-visible:outline-grafito"
+          className="inline-flex min-h-11 items-center justify-center rounded-[22px] bg-acento text-grafito px-5 font-extrabold shadow-[0_6px_0_color-mix(in_oklab,var(--acento)_75%,black)] active:translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-crema"
         >
           {t('backToQueue')}
         </Link>

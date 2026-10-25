@@ -88,14 +88,14 @@ export function QueueScreen() {
     <main className="flex min-h-dvh flex-col gap-6 px-4 py-10">
       <h1 className="font-display text-4xl font-extrabold tracking-tight">{t('title')}</h1>
 
-      <div className="flex flex-col items-center gap-2 rounded-3xl bg-blanco p-6 ring-1 ring-grafito/10" aria-live="polite">
-        <p className="text-sm text-grafito-suave">{t('waited')}</p>
+      <div className="flex flex-col items-center gap-2 rounded-3xl bg-espacio-claro p-6 ring-1 ring-espacio-borde" aria-live="polite">
+        <p className="text-sm text-crema-suave">{t('waited')}</p>
         <p className="font-display text-6xl font-extrabold tabular-nums">{formatSeconds(waited)}</p>
         <p className="text-sm tabular-nums">{t('range', { min: Math.max(100, q.elo! - window), max: q.elo! + window })}</p>
       </div>
 
       {waited >= OFFER_BOT_AFTER_S && !dismissedBot ? (
-        <section role="status" className="flex flex-col gap-3 rounded-3xl bg-lila text-piedra-hueco p-4">
+        <section role="status" className="flex flex-col gap-3 rounded-3xl bg-espacio-claro p-4 ring-2 ring-acento">
           <h2 className="font-display text-xl font-extrabold">{t('slowTitle')}</h2>
           <p className="text-sm">{t('slowBody')}</p>
           <div className="grid grid-cols-2 gap-2">

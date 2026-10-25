@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getTranslations } from 'next-intl/server';
 import type { ReactNode } from 'react';
+import { Fondo } from '@/components/layout/Fondo';
 import { ServiceWorker } from '@/components/pwa/ServiceWorker';
 import './globals.css';
 
@@ -32,7 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#fff2e9',
+  themeColor: '#2a1b47',
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
@@ -40,10 +41,12 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
 
   return (
     <html lang={locale} className={`${bricolage.variable} ${inter.variable}`}>
-      <body className="min-h-dvh bg-crema text-grafito antialiased">
+      <body className="min-h-dvh bg-espacio text-crema antialiased">
         <NextIntlClientProvider>
           {/* Móvil primero: 390 px de diseño; en escritorio es la misma pantalla centrada. */}
-          <div className="mx-auto min-h-dvh w-full max-w-[430px]">{children}</div>
+          <Fondo>
+            <div className="mx-auto min-h-dvh w-full max-w-[430px]">{children}</div>
+          </Fondo>
         </NextIntlClientProvider>
         <ServiceWorker />
       </body>

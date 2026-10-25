@@ -53,7 +53,7 @@ export function MySupport({
               selected={selectedSlot === s.slot}
               onPress={selectableSlot ? () => onSelectSlot?.(s.slot) : undefined}
             />
-            <span className="text-xs tabular-nums text-grafito-suave">{t('slotLabel', { n: s.slot + 1 })}</span>
+            <span className="text-xs tabular-nums text-crema-suave">{t('slotLabel', { n: s.slot + 1 })}</span>
           </div>
         );
       })}

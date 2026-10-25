@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-// T080: instalable como app. Colores de DESIGN.md (crema de fondo).
+// T080: instalable como app. Colores de DESIGN.md (espacio de fondo).
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Quipu',
@@ -11,8 +11,8 @@ export default function manifest(): MetadataRoute.Manifest {
     scope: '/',
     display: 'standalone',
     orientation: 'portrait',
-    background_color: '#fff2e9',
-    theme_color: '#fff2e9',
+    background_color: '#2a1b47',
+    theme_color: '#2a1b47',
     icons: [
       { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
       { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },

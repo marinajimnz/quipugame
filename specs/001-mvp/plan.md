@@ -34,9 +34,9 @@ Emparejamiento, turnos agotados, turnos de bot y caducidad de salas. Cuatro trab
 
 **Riesgo asumido.** `pg_cron` tiene granularidad de un segundo en Supabase y los trabajos no se solapan si se protegen con `pg_try_advisory_lock`. Todos lo usan.
 
-### D5 — Dos variantes del componente de ficha
+### D5 — Un solo componente de ficha
 
-Del diseño: la ficha ornamentada (barras en los márgenes, sombras de hueco) no sobrevive por debajo de unos 100 px. Habrá `<TileDetailed>` y `<TileCompact>`, con la misma API de props y distinto dibujo. No es un `scale()` del mismo SVG.
+Con el estilo vector plano (ver `DESIGN.md`) el mismo dibujo escala bien: un solo `<Tile>` con prop `size`, dibujado en SVG por código. Por debajo de 56 px oculta el símbolo de la esquina y deja número y puntos.
 
 ---
 
@@ -333,9 +333,7 @@ app/
 
 ```
 components/game/
-  Tile.tsx            despacha a Detailed o Compact según prop `size`
-  TileDetailed.tsx    SVG ornamentado, ≥100 px
-  TileCompact.tsx     SVG simplificado, 44–99 px
+  Tile.tsx            ficha en SVG, un solo dibujo que escala con `size`
   Support.tsx         las 5 ranuras colgando de la barra
   Pool.tsx            mazo visible
   ClueList.tsx        pistas enganchadas al soporte

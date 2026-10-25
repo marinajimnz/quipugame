@@ -12,13 +12,13 @@ export function ClueList({ clues, empty = false }: { clues: Clue[]; empty?: bool
   const { clueText } = useGameText();
 
   if (clues.length === 0) {
-    return empty ? <p className="text-sm text-grafito-suave">{t('noClues')}</p> : null;
+    return empty ? <p className="text-sm text-crema-suave">{t('noClues')}</p> : null;
   }
 
   return (
     <ul className="grid grid-cols-1 gap-1.5">
       {clues.map((c) => (
-        <li key={c.id} className="flex items-center gap-2 rounded-xl bg-blanco/70 p-1.5 ring-1 ring-grafito/10">
+        <li key={c.id} className="flex items-center gap-2 rounded-xl bg-espacio-claro/70 p-1.5 ring-1 ring-espacio-borde">
           <GameTile
             number={c.tile_number}
             colorIndex={(c.tile_number - 1) % 5}

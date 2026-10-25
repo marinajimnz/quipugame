@@ -32,16 +32,16 @@ export function OfflineScreen() {
       {last ? (
         <div className="flex flex-col gap-2">
           <Button onClick={() => setOpen(true)}>{t('openBoard')}</Button>
-          <p className="text-sm text-grafito-suave">
+          <p className="text-sm text-crema-suave">
             {t('savedAt', { when: format.dateTime(new Date(last.savedAt), { dateStyle: 'short', timeStyle: 'short' }) })}
           </p>
           <DeductionBoard open={open} onClose={() => setOpen(false)} gameId={last.gameId} state={last.state} />
         </div>
       ) : (
-        <p className="text-sm text-grafito-suave">{t('noSaved')}</p>
+        <p className="text-sm text-crema-suave">{t('noSaved')}</p>
       )}
 
-      <Link href="/reglas" className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-blanco px-5 font-semibold ring-1 ring-grafito/20">
+      <Link href="/reglas" className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-espacio-claro px-5 font-semibold ring-1 ring-espacio-borde">
         {t('rules')}
       </Link>
       <Button variant="secondary" onClick={() => location.reload()}>{t('retry')}</Button>

@@ -76,14 +76,14 @@ export function RoomScreen({ code, userId }: { code: string; userId: string }) {
     return (
       <main className="flex min-h-dvh flex-col justify-center gap-4 px-4 py-8">
         <p role="alert" className="text-lg">{t(`errors.${roomErrorKey(join.error as { message?: string })}`)}</p>
-        <Link href="/" className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-blanco px-5 font-semibold ring-1 ring-grafito/20">
+        <Link href="/" className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-espacio-claro px-5 font-semibold ring-1 ring-espacio-borde">
           {t('backHome')}
         </Link>
       </main>
     );
   }
   if (!room.data || !members.data) {
-    return <p role="status" className="p-4 text-grafito-suave">{t('joining')}</p>;
+    return <p role="status" className="p-4 text-crema-suave">{t('joining')}</p>;
   }
 
   const r = room.data;
@@ -126,14 +126,14 @@ export function RoomScreen({ code, userId }: { code: string; userId: string }) {
   return (
     <main className="flex min-h-dvh flex-col gap-5 px-4 py-6">
       <header className="flex flex-col gap-1">
-        <p className="text-sm font-medium text-grafito-suave">{t('codeLabel')}</p>
+        <p className="text-sm font-medium text-crema-suave">{t('codeLabel')}</p>
         <p className="font-display text-6xl font-extrabold tracking-[0.12em] tabular-nums" aria-label={r.code.split('').join(' ')}>
           {r.code}
         </p>
       </header>
 
       {r.status === 'expired' ? (
-        <p role="alert" className="rounded-2xl bg-lila text-piedra-hueco p-4 font-semibold">{t('closed')}</p>
+        <p role="alert" className="rounded-2xl bg-acento text-grafito p-4 font-semibold">{t('closed')}</p>
       ) : (
         <div className="grid grid-cols-2 gap-2">
           <Button onClick={share}>{t('share')}</Button>
@@ -153,24 +153,24 @@ export function RoomScreen({ code, userId }: { code: string; userId: string }) {
       <section className="flex flex-col gap-2" aria-label={t('members')}>
         <div className="flex items-baseline justify-between">
           <h2 className="font-display text-2xl font-extrabold">{t('members')}</h2>
-          <p className="text-sm tabular-nums text-grafito-suave">{t('seatsCount', { count: list.length, seats: r.seats })}</p>
+          <p className="text-sm tabular-nums text-crema-suave">{t('seatsCount', { count: list.length, seats: r.seats })}</p>
         </div>
         <ul className="flex flex-col gap-2">
           {list.map((m) => {
             const name = m.profiles?.display_name ?? '';
             return (
-              <li key={m.profile_id} className="flex items-center gap-3 rounded-2xl bg-blanco p-3 ring-1 ring-grafito/10">
+              <li key={m.profile_id} className="flex items-center gap-3 rounded-2xl bg-espacio-claro p-3 ring-1 ring-espacio-borde">
                 <Avatar avatarKey={m.profiles?.avatar_key ?? 'default'} name={name} size={40} />
                 <span className="min-w-0 flex-1 truncate font-semibold">{name}</span>
                 {m.profile_id === r.host_id ? (
-                  <span className="rounded-full bg-lila text-piedra-hueco px-2.5 py-0.5 text-xs font-semibold">{t('host')}</span>
+                  <span className="rounded-full bg-acento text-grafito px-2.5 py-0.5 text-xs font-semibold">{t('host')}</span>
                 ) : null}
-                {m.profile_id === userId ? <span className="text-xs text-grafito-suave">{t('you')}</span> : null}
+                {m.profile_id === userId ? <span className="text-xs text-crema-suave">{t('you')}</span> : null}
               </li>
             );
           })}
         </ul>
-        {r.fill_with_bots ? <p className="text-sm text-grafito-suave">{t('botsNote')}</p> : null}
+        {r.fill_with_bots ? <p className="text-sm text-crema-suave">{t('botsNote')}</p> : null}
       </section>
 
       {r.status === 'open' ? (
@@ -187,7 +187,7 @@ export function RoomScreen({ code, userId }: { code: string; userId: string }) {
           <Button variant="secondary" onClick={leave}>{t('leave')}</Button>
         </div>
       ) : (
-        <Link href="/" className="mt-auto inline-flex min-h-11 items-center justify-center rounded-2xl bg-blanco px-5 font-semibold ring-1 ring-grafito/20">
+        <Link href="/" className="mt-auto inline-flex min-h-11 items-center justify-center rounded-2xl bg-espacio-claro px-5 font-semibold ring-1 ring-espacio-borde">
           {t('backHome')}
         </Link>
       )}

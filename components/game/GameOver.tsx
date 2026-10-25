@@ -27,18 +27,18 @@ export function GameOver({
         : t('lost', { name: playerName(winner) });
 
   return (
-    <section className="flex flex-col gap-4 rounded-3xl bg-lila text-piedra-hueco p-4" aria-live="polite">
+    <section className="flex flex-col gap-4 rounded-3xl bg-espacio-claro p-4 ring-2 ring-acento" aria-live="polite">
       <h1 className="font-display text-3xl font-extrabold">{headline}</h1>
       {state.game.mode === 'ranked' ? <EloChange gameId={gameId} userId={userId} /> : null}
-      <div className="flex flex-col gap-1.5 rounded-2xl bg-blanco/80 p-3 text-grafito">
+      <div className="flex flex-col gap-1.5 rounded-2xl bg-espacio/70 p-3">
         <h2 className="text-sm font-semibold">{t('yourNumbers')}</h2>
-        <MySupport me={state.me} />
+        <MySupport me={state.me} size={52} />
       </div>
       <div className="flex flex-col gap-2">
         {state.game.mode === 'practice' ? <PracticeAgain bots={state.players.length} /> : null}
         <Link
           href="/"
-          className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-blanco px-5 text-base font-semibold ring-1 ring-grafito/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-grafito"
+          className="inline-flex min-h-11 items-center justify-center rounded-[22px] bg-espacio-borde px-5 text-base font-bold shadow-[0_5px_0_color-mix(in_oklab,var(--espacio-borde)_70%,black)] active:translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crema"
         >
           {t('backHome')}
         </Link>

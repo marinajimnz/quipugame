@@ -9,7 +9,7 @@ import { createClient } from '@/lib/supabase/client';
 import { cleanRoomCode, isRoomCode } from '@/lib/room/roomErrors';
 
 const choice =
-  'min-h-11 rounded-xl text-sm font-semibold ring-1 ring-grafito/25 aria-checked:bg-lila aria-checked:text-piedra-hueco aria-checked:ring-0 focus-visible:outline-2 focus-visible:outline-lila';
+  'min-h-11 rounded-xl text-sm font-semibold ring-1 ring-espacio-borde aria-checked:bg-acento aria-checked:text-grafito aria-checked:ring-0 focus-visible:outline-2 focus-visible:outline-acento';
 
 /** Crear una sala privada: 2–4 plazas, con o sin bots. No afecta al ELO. */
 export function CreateRoomForm() {
@@ -33,7 +33,7 @@ export function CreateRoomForm() {
   }
 
   return (
-    <section className="flex flex-col gap-4 rounded-3xl bg-blanco p-4 shadow-sm ring-1 ring-grafito/10">
+    <section className="flex flex-col gap-4 rounded-3xl bg-espacio-claro p-4 shadow-sm ring-1 ring-espacio-borde">
       <h2 className="font-display text-2xl font-extrabold">{t('title')}</h2>
 
       <div role="radiogroup" aria-label={t('seats')} className="grid grid-cols-3 gap-2">
@@ -45,7 +45,7 @@ export function CreateRoomForm() {
       </div>
 
       <label className="flex min-h-11 items-center gap-3 text-sm font-medium">
-        <input type="checkbox" checked={bots} onChange={(e) => setBots(e.target.checked)} className="size-5 accent-grafito" />
+        <input type="checkbox" checked={bots} onChange={(e) => setBots(e.target.checked)} className="size-5 accent-acento" />
         {t('bots')}
       </label>
 
@@ -69,7 +69,7 @@ export function JoinRoomForm() {
   }
 
   return (
-    <form onSubmit={submit} className="flex flex-col gap-3 rounded-3xl bg-blanco p-4 shadow-sm ring-1 ring-grafito/10">
+    <form onSubmit={submit} className="flex flex-col gap-3 rounded-3xl bg-espacio-claro p-4 shadow-sm ring-1 ring-espacio-borde">
       <h2 className="font-display text-2xl font-extrabold">{t('title')}</h2>
       <TextField
         label={t('label')}

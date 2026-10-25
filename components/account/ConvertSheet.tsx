@@ -51,13 +51,13 @@ export function ConvertSheet() {
       <dialog
         ref={dialog}
         aria-labelledby="convert-title"
-        className="m-0 mt-auto w-full max-w-[430px] rounded-t-3xl bg-crema p-5 text-grafito backdrop:bg-grafito/50 sm:mx-auto"
+        className="m-0 mt-auto w-full max-w-[430px] rounded-t-3xl bg-espacio-claro p-5 text-crema backdrop:bg-black/60 sm:mx-auto"
       >
         <div className="flex flex-col gap-4">
           <h2 id="convert-title" className="font-display text-2xl font-extrabold">
             {t('title')}
           </h2>
-          <p className="text-sm text-grafito-suave">{t('description')}</p>
+          <p className="text-sm text-crema-suave">{t('description')}</p>
 
           {message ? (
             <p role="status">{message}</p>

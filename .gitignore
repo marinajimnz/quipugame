@@ -11,3 +11,4 @@ __pycache__/
 !.env.local.example
 next-env.d.ts
 *.tsbuildinfo
+.assets-preview/

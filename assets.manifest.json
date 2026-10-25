@@ -1,0 +1,88 @@
+{
+  "_notas": [
+    "Los patrones de fondo (estrellas, ondas) y el grano NO se generan con IA: salen de scripts/build_patterns.py, que garantiza que repiten sin costura.",
+    "Recraft v3 no admite negative_prompt ni fondo transparente: el negativo se añade al prompt como 'Avoid: ...' y la transparencia se consigue después.",
+    "post=whiteToAlpha: se pide blanco sobre negro y el script convierte la luminosidad en canal alfa.",
+    "post=removeBackground: el script pasa la imagen por fal-ai/bria/background/remove (una llamada extra de pago por imagen).",
+    "Todos los assets reciben granulado al final (grain en el script): ruido fino que solo toca los píxeles opacos."
+  ],
+  "negativo": "text, letters, numbers, words, watermark, signature, photograph, 3d render, realistic, gradient, airbrush, noise, texture, grain, drop shadow blur, perspective, characters, people, faces, logo, user interface, buttons",
+  "removeBackgroundModel": "fal-ai/bria/background/remove",
+  "assets": [
+    {
+      "name": "nube-1",
+      "output": "public/decor/nube-1.png",
+      "model": "fal-ai/recraft-v3",
+      "style": "vector_illustration",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "prompt": "a single simple cloud shape made of overlapping rounded blobs, pure white on a solid pure black background, flat vector, chunky and friendly, very rounded corners, no gradient, no outline, no shading",
+      "post": "whiteToAlpha"
+    },
+    {
+      "name": "nube-2",
+      "output": "public/decor/nube-2.png",
+      "model": "fal-ai/recraft-v3",
+      "style": "vector_illustration",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "prompt": "a single simple cloud shape made of overlapping rounded blobs, pure white on a solid pure black background, flat vector, chunky and friendly, very rounded corners, no gradient, no outline, no shading",
+      "post": "whiteToAlpha"
+    },
+    {
+      "name": "nube-3",
+      "output": "public/decor/nube-3.png",
+      "model": "fal-ai/recraft-v3",
+      "style": "vector_illustration",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "prompt": "a single simple cloud shape made of overlapping rounded blobs, pure white on a solid pure black background, flat vector, chunky and friendly, very rounded corners, no gradient, no outline, no shading",
+      "post": "whiteToAlpha"
+    },
+    {
+      "name": "isla-1",
+      "output": "public/decor/isla-1.png",
+      "model": "fal-ai/recraft-v3",
+      "style": "vector_illustration",
+      "size": {
+        "width": 768,
+        "height": 768
+      },
+      "prompt": "a single small floating island seen from the front, flat vector illustration, a rounded grassy top in bright lime green with a soft wavy edge, thick soil underneath in warm brown with rounded drips hanging below, two or three simple rocks, very rounded shapes, bold flat colors with one darker tone for shadow, no gradient, no texture, no outline, no characters, no buildings, no text, on a plain solid light grey background",
+      "post": "removeBackground"
+    },
+    {
+      "name": "isla-2",
+      "output": "public/decor/isla-2.png",
+      "model": "fal-ai/recraft-v3",
+      "style": "vector_illustration",
+      "size": {
+        "width": 768,
+        "height": 768
+      },
+      "prompt": "a single small floating island seen from the front, flat vector illustration, a rounded grassy top in bright lime green with a soft wavy edge, thick soil underneath in warm brown with rounded drips hanging below, two or three simple rocks, very rounded shapes, bold flat colors with one darker tone for shadow, no gradient, no texture, no outline, no characters, no buildings, no text, on a plain solid light grey background",
+      "post": "removeBackground"
+    },
+    {
+      "name": "isla-3",
+      "output": "public/decor/isla-3.png",
+      "model": "fal-ai/recraft-v3",
+      "style": "vector_illustration",
+      "size": {
+        "width": 768,
+        "height": 768
+      },
+      "prompt": "a single small floating island seen from the front, flat vector illustration, a rounded grassy top in bright lime green with a soft wavy edge, thick soil underneath in warm brown with rounded drips hanging below, two or three simple rocks, very rounded shapes, bold flat colors with one darker tone for shadow, no gradient, no texture, no outline, no characters, no buildings, no text, on a plain solid light grey background",
+      "post": "removeBackground"
+    }
+  ],
+  "grano": {
+    "intensidad": 14
+  }
+}

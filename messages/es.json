@@ -1,7 +1,8 @@
 {
   "app": {
     "name": "Quipu",
-    "tagline": "Deduce tus propios números antes que nadie."
+    "tagline": "Deduce tus propios números antes que nadie.",
+    "descriptor": "Juego de deducción"
   },
   "common": {
     "loading": "Cargando…",
@@ -75,11 +76,11 @@
   },
   "tile": {
     "colors": [
-      "amarillo",
+      "ámbar",
+      "lima",
       "rosa",
       "rojo",
-      "azul",
-      "verde"
+      "azul"
     ],
     "solved": "Ficha {number}, {color}, {points, plural, one {# punto} other {# puntos}}",
     "unknown": "Ficha sin resolver, {color}",
@@ -298,7 +299,7 @@
     "backHome": "Volver al inicio",
     "tilesTitle": "Las fichas",
     "tiles1": "Hay 60 fichas, del 1 al 60, todas distintas.",
-    "tiles2": "Cada ficha tiene uno de cinco colores, y el color sale del número: 1, 6, 11… son amarillas; 2, 7, 12… rosas; 3, 8, 13… rojas; 4, 9, 14… azules; y 5, 10, 15… verdes.",
+    "tiles2": "Cada ficha tiene uno de cinco colores, y el color sale del número: 1, 6, 11… son ámbar; 2, 7, 12… lima; 3, 8, 13… rosas; 4, 9, 14… rojas; y 5, 10, 15… azules.",
     "tiles3": "Cada color tiene además su propio dibujo, para no depender solo del color.",
     "tiles4": "Cada ficha vale 1, 2 o 3 puntos, y los puntos se ven en la propia ficha. Hay 4 fichas de cada valor en cada color.",
     "legend": "Los cinco colores y sus dibujos",
@@ -335,7 +336,6 @@
     "nameTitle": "Por qué Quipu",
     "name1": "Un quipu es un sistema andino de cuerdas anudadas que guardaba cifras según la posición de cada nudo.",
     "name2": "Se usaba mucho antes de los incas: hay cuerdas anudadas en Caral de hace unos 5.000 años. El Estado inca lo llevó a su máxima escala para llevar sus cuentas.",
-    "name3": "Por eso las fichas usan la geometría andina: escalonada, concéntrica y en ángulo recto.",
     "offlineNote": "Esta página funciona también sin conexión."
   },
   "offline": {

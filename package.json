@@ -11,9 +11,11 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:db": "vitest run --config vitest.db.config.ts",
-    "db:types": "supabase gen types typescript --linked --schema public > src/types/database.ts"
+    "db:types": "supabase gen types typescript --linked --schema public > src/types/database.ts",
+    "assets": "node --experimental-strip-types scripts/generate-assets.ts"
   },
   "devDependencies": {
+    "@fal-ai/client": "^1.10.1",
     "@supabase/supabase-js": "^2.118.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^26.6.5",
@@ -23,6 +25,7 @@
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.4.3",
     "postcss": "^8.5.31",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4.3.3",
     "typescript": "~5.9",
     "vitest": "^5.0.5"

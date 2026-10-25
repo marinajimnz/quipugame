@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
+import { Wordmark } from '@/components/brand/Wordmark';
 import { PracticeForm } from '@/components/home/PracticeForm';
 import { CreateRoomForm, JoinRoomForm } from '@/components/home/RoomForms';
 import { RankedCard } from '@/components/ranked/RankedCard';
@@ -25,18 +26,21 @@ export default async function HomePage() {
 
   return (
     <main className="flex min-h-dvh flex-col justify-center gap-6 px-4 py-10">
-      <h1 className="font-display text-5xl font-extrabold tracking-tight">{t('app.name')}</h1>
-      <p className="text-lg leading-snug">{t('app.tagline')}</p>
+      <h1 className="sr-only">{t('app.name')}</h1>
+      <div className="flex justify-center">
+        <Wordmark size={260} showTagline />
+      </div>
+      <p className="text-center text-lg leading-snug">{t('app.tagline')}</p>
 
       {profile ? (
         <Link
           href="/perfil"
-          className="flex min-h-11 items-center gap-3 rounded-2xl bg-blanco p-3 shadow-sm ring-1 ring-grafito/10 focus-visible:outline-2 focus-visible:outline-lila"
+          className="flex min-h-11 items-center gap-3 rounded-2xl bg-espacio-claro p-3 shadow-sm ring-1 ring-espacio-borde focus-visible:outline-2 focus-visible:outline-acento"
         >
           <Avatar avatarKey={profile.avatar_key} name={profile.display_name} />
           <span className="flex flex-col">
             <span className="font-semibold">{t('home.greeting', { name: profile.display_name })}</span>
-            <span className="text-sm text-grafito-suave">{t('home.profileLink')}</span>
+            <span className="text-sm text-crema-suave">{t('home.profileLink')}</span>
           </span>
         </Link>
       ) : null}

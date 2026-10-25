@@ -38,10 +38,10 @@ export function PracticeForm() {
   }
 
   const choice =
-    'min-h-11 rounded-xl text-sm font-semibold ring-1 ring-grafito/25 aria-checked:bg-lila aria-checked:text-piedra-hueco aria-checked:ring-0 focus-visible:outline-2 focus-visible:outline-lila';
+    'min-h-11 rounded-xl text-sm font-semibold ring-1 ring-espacio-borde aria-checked:bg-acento aria-checked:text-grafito aria-checked:ring-0 focus-visible:outline-2 focus-visible:outline-acento';
 
   return (
-    <section className="flex flex-col gap-4 rounded-3xl bg-blanco p-4 shadow-sm ring-1 ring-grafito/10">
+    <section className="flex flex-col gap-4 rounded-3xl bg-espacio-claro p-4 shadow-sm ring-1 ring-espacio-borde">
       <h2 className="font-display text-2xl font-extrabold">{t('title')}</h2>
 
       <div role="radiogroup" aria-label={t('bots')} className="grid grid-cols-3 gap-2">

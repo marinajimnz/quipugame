@@ -23,13 +23,13 @@ export function TurnBar({
 
   return (
     <header
-      className={`flex items-center justify-between gap-3 rounded-2xl px-4 py-3 ring-1 ring-grafito/10 ${mine ? 'bg-lila text-piedra-hueco' : 'bg-blanco'}`}
+      className={`flex items-center justify-between gap-3 rounded-2xl px-4 py-3 ring-1 ring-espacio-borde ${mine ? 'bg-acento text-grafito' : 'bg-espacio-claro'}`}
     >
       <div className="min-w-0">
         <p className="truncate font-display text-xl font-extrabold">
           {mine ? t('yourTurn') : t('turnOf', { name: turnName })}
         </p>
-        <p className={`text-sm ${mine ? '' : 'text-grafito-suave'}`}>{t('reserve', { count: reserve })}</p>
+        <p className={`text-sm ${mine ? '' : 'text-crema-suave'}`}>{t('reserve', { count: reserve })}</p>
       </div>
       {left !== null ? (
         <p

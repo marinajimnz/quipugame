@@ -23,14 +23,14 @@ export default async function ClasificacionPage() {
   const row = (r: Row, mine: boolean) => (
     <li
       key={r.id}
-      className={`grid grid-cols-[2.5rem_1fr_auto] items-center gap-3 rounded-2xl p-2.5 ring-1 ring-grafito/10 ${mine ? 'bg-lila text-piedra-hueco' : 'bg-blanco'}`}
+      className={`grid grid-cols-[2.5rem_1fr_auto] items-center gap-3 rounded-2xl p-2.5 ring-1 ring-espacio-borde ${mine ? 'bg-acento text-grafito' : 'bg-espacio-claro'}`}
     >
       <span className="text-center font-display text-lg font-extrabold tabular-nums">{r.rank}</span>
       <span className="flex min-w-0 items-center gap-2">
         <Avatar avatarKey={r.avatar_key} name={r.display_name} size={36} />
         <span className="flex min-w-0 flex-col">
           <span className="truncate font-semibold">{mine ? t('nameYou', { name: r.display_name }) : r.display_name}</span>
-          <span className={`text-xs tabular-nums ${mine ? '' : 'text-grafito-suave'}`}>{t('gamesCount', { count: r.ranked_games })}</span>
+          <span className={`text-xs tabular-nums ${mine ? '' : 'text-crema-suave'}`}>{t('gamesCount', { count: r.ranked_games })}</span>
         </span>
       </span>
       <span className="font-display text-lg font-extrabold tabular-nums">{r.elo}</span>
@@ -41,7 +41,7 @@ export default async function ClasificacionPage() {
     <main className="flex min-h-dvh flex-col gap-4 px-4 py-8">
       <header className="flex flex-col gap-1">
         <h1 className="font-display text-4xl font-extrabold tracking-tight">{t('title')}</h1>
-        <p className="text-sm text-grafito-suave">{t('subtitle')}</p>
+        <p className="text-sm text-crema-suave">{t('subtitle')}</p>
       </header>
 
       {board.top.length === 0 ? <p>{t('empty')}</p> : <ol className="flex flex-col gap-1.5">{board.top.map((r) => row(r, r.id === auth.user?.id))}</ol>}
