@@ -51,10 +51,6 @@ export function RankedCard({ isGuest, elo, inQueue }: { isGuest: boolean; elo: n
           <Button disabled={busy} onClick={find}>{busy ? t('finding') : t('find')}</Button>
         </>
       )}
-
-      <Link href="/clasificacion" className="min-h-11 py-2 text-center text-sm font-semibold underline">
-        {t('leaderboardLink')}
-      </Link>
     </div>
   );
 }
