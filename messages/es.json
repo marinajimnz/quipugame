@@ -1,8 +1,8 @@
 {
   "app": {
     "name": "Quipu",
-    "tagline": "Compara, deduce, gana.",
-    "descriptor": "Juego de deducción"
+    "tagline": "¿Podrás saber tus números antes que el rival?",
+    "descriptor": "Compara, deduce, gana."
   },
   "common": {
     "loading": "Cargando…",
