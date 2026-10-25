@@ -11,10 +11,7 @@
     "close": "Close"
   },
   "home": {
-    "greeting": "Hi, {name}",
-    "profileLink": "My profile",
-    "underConstruction": "We are building the first game.",
-    "rulesLink": "How to play"
+    "underConstruction": "We are building the first game."
   },
   "auth": {
     "title": "Sign in to {app}",
@@ -64,15 +61,13 @@
     "won": "Wins",
     "winRate": "Win rate",
     "signOut": "Sign out",
-    "back": "Back to home",
     "errors": {
       "tooShort": "The name needs at least 3 characters.",
       "tooLong": "The name can have at most 16 characters.",
       "invalidChars": "The name contains characters that are not allowed.",
       "taken": "That name is already taken. Try another one.",
       "generic": "It could not be saved. Please try again."
-    },
-    "leaderboard": "See the leaderboard"
+    }
   },
   "tile": {
     "colors": [
@@ -298,7 +293,6 @@
     "you": "You",
     "yourPosition": "Your position",
     "notRanked": "You will appear once you complete 5 ranked games.",
-    "back": "Back to home",
     "gamesCount": "{count, plural, one {# ranked game} other {# ranked games}}",
     "nameYou": "{name} · You"
   },

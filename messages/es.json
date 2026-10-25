@@ -11,10 +11,7 @@
     "close": "Cerrar"
   },
   "home": {
-    "greeting": "Hola, {name}",
-    "profileLink": "Mi perfil",
-    "underConstruction": "Estamos construyendo la primera partida.",
-    "rulesLink": "Cómo se juega"
+    "underConstruction": "Estamos construyendo la primera partida."
   },
   "auth": {
     "title": "Entrar en {app}",
@@ -64,15 +61,13 @@
     "won": "Ganadas",
     "winRate": "Victorias",
     "signOut": "Salir",
-    "back": "Volver al inicio",
     "errors": {
       "tooShort": "El nombre necesita al menos 3 caracteres.",
       "tooLong": "El nombre admite como máximo 16 caracteres.",
       "invalidChars": "El nombre contiene caracteres que no se admiten.",
       "taken": "Ese nombre ya está en uso. Prueba con otro.",
       "generic": "No se ha podido guardar. Inténtalo de nuevo."
-    },
-    "leaderboard": "Ver la clasificación"
+    }
   },
   "tile": {
     "colors": [
@@ -298,7 +293,6 @@
     "you": "Tú",
     "yourPosition": "Tu posición",
     "notRanked": "Aparecerás cuando completes 5 clasificatorias.",
-    "back": "Volver al inicio",
     "gamesCount": "{count, plural, one {# clasificatoria} other {# clasificatorias}}",
     "nameYou": "{name} · Tú"
   },

@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { Avatar } from '@/components/profile/Avatar';
 import { createClient } from '@/lib/supabase/server';
@@ -52,8 +51,6 @@ export default async function ClasificacionPage() {
           {board.me ? <ol>{row(board.me, true)}</ol> : <p className="text-sm">{t('notRanked')}</p>}
         </section>
       ) : null}
-
-      <Link href="/" className="mt-auto min-h-11 py-2 text-center text-sm underline">{t('back')}</Link>
     </main>
   );
 }
