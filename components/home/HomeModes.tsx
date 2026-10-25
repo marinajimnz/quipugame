@@ -24,12 +24,7 @@ export function HomeModes({ ranked, defaultOpen = null }: { ranked: ReactNode; d
     {
       key: 'room',
       label: tRoom('title'),
-      panel: (
-        <div className="flex flex-col gap-5">
-          <CreateRoomForm />
-          <JoinRoomForm />
-        </div>
-      ),
+      panel: <RoomOptions />,
     },
   ];
 
@@ -46,16 +41,9 @@ export function HomeModes({ ranked, defaultOpen = null }: { ranked: ReactNode; d
                 aria-expanded={expanded}
                 aria-controls={`${id}-${key}-panel`}
                 onClick={() => setOpen(expanded ? null : key)}
-                className="flex min-h-14 w-full items-center justify-between gap-3 rounded-3xl px-5 font-display text-2xl font-extrabold focus-visible:outline-2 focus-visible:outline-acento aria-expanded:text-acento"
+                className="flex min-h-14 w-full items-center rounded-3xl px-5 font-display text-2xl font-extrabold focus-visible:outline-2 focus-visible:outline-acento aria-expanded:text-acento"
               >
                 {label}
-                <svg
-                  width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}
-                  strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"
-                  className={`shrink-0 motion-safe:transition-transform ${expanded ? 'rotate-180' : ''}`}
-                >
-                  <path d="M6 9l6 6 6-6" />
-                </svg>
               </button>
             </h2>
             {/* Cuando está cerrado no se pinta (ni se enfoca); al abrir entra con un fundido. */}
@@ -72,6 +60,38 @@ export function HomeModes({ ranked, defaultOpen = null }: { ranked: ReactNode; d
           </section>
         );
       })}
+    </div>
+  );
+}
+
+/** Sala privada: primero eliges crear una o unirte con código, y entonces salen sus opciones. */
+function RoomOptions() {
+  const tCreate = useTranslations('createRoom');
+  const tJoin = useTranslations('joinRoom');
+  const [choice, setChoice] = useState<'create' | 'join' | null>(null);
+  const id = useId();
+
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="grid grid-cols-2 gap-2">
+        {(['create', 'join'] as const).map((c) => (
+          <button
+            key={c}
+            type="button"
+            aria-expanded={choice === c}
+            aria-controls={`${id}-room`}
+            onClick={() => setChoice(choice === c ? null : c)}
+            className="min-h-11 rounded-xl px-2 text-sm font-semibold ring-1 ring-espacio-borde aria-expanded:bg-acento aria-expanded:text-grafito aria-expanded:ring-0 focus-visible:outline-2 focus-visible:outline-acento"
+          >
+            {c === 'create' ? tCreate('create') : tJoin('title')}
+          </button>
+        ))}
+      </div>
+      {choice ? (
+        <div id={`${id}-room`} key={choice} className="motion-safe:animate-[panel-in_220ms_ease-out]">
+          {choice === 'create' ? <CreateRoomForm /> : <JoinRoomForm />}
+        </div>
+      ) : null}
     </div>
   );
 }
