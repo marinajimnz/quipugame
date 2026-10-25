@@ -2,10 +2,11 @@ import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { Wordmark } from '@/components/brand/Wordmark';
 import { HomeModes } from '@/components/home/HomeModes';
+import { TutorialPrompt } from '@/components/home/TutorialPrompt';
 import { RankedCard } from '@/components/ranked/RankedCard';
 import { createClient } from '@/lib/supabase/server';
 
-export default async function HomePage() {
+export default async function HomePage({ searchParams }: { searchParams: Promise<{ modo?: string }> }) {
   const t = await getTranslations();
   const supabase = await createClient();
   const { data: auth } = await supabase.auth.getUser();
@@ -15,6 +16,8 @@ export default async function HomePage() {
   if (activeGame) redirect(`/partida/${activeGame}`);
   const { data: queue } = await supabase.rpc('get_queue_status');
   const inQueue = Boolean((queue as { in_queue?: boolean } | null)?.in_queue);
+  // ?modo=practica abre directamente la práctica (viene del final del tutorial).
+  const practice = (await searchParams).modo === 'practica';
   const { data: profile } = await supabase
     .from('profiles')
     .select('elo, is_guest')
@@ -29,8 +32,10 @@ export default async function HomePage() {
       </div>
       <p className="text-balance text-center text-lg leading-snug">{t('app.tagline')}</p>
 
+      <TutorialPrompt />
+
       <HomeModes
-        defaultOpen={inQueue ? 'ranked' : null}
+        defaultOpen={inQueue ? 'ranked' : practice ? 'practice' : null}
         ranked={profile ? <RankedCard isGuest={profile.is_guest} elo={profile.elo} inQueue={inQueue} /> : null}
       />
     </main>

@@ -1,12 +1,12 @@
 // Service worker de Quipu (T080). Sencillo a propósito:
-//   · /reglas y /sin-conexion: se guardan al instalar (con sus JS y CSS) y se sirven sin conexión.
+//   · /reglas, /tutorial y /sin-conexion: se guardan al instalar (con sus JS y CSS) y se sirven sin conexión.
 //   · Recursos estáticos con hash (/_next/static, /icons): primero caché.
 //   · Todo lo demás, incluidas las partidas, va SIEMPRE a la red: una partida cacheada es una
 //     partida mal pintada. Sin conexión, las páginas se sustituyen por /sin-conexion.
 //   · Nunca toca otras webs (Supabase incluida) ni peticiones que no sean GET.
 
 const CACHE = 'quipu-v1';
-const OFFLINE_PAGES = ['/reglas', '/sin-conexion'];
+const OFFLINE_PAGES = ['/reglas', '/tutorial', '/sin-conexion'];
 const PRECACHE = [...OFFLINE_PAGES, '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png'];
 
 async function precache() {

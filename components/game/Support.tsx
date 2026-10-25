@@ -38,7 +38,7 @@ export function OtherSupport({ player, clues = [], size = 52 }: { player: OtherP
  * ascendente es público. Si ya me han eliminado o ha terminado la partida, enseña mis números.
  */
 export function MySupport({
-  me, clues = [], guesses = {}, size = 54, selectableSlot = false, selectedSlot, onSelectSlot,
+  me, clues = [], guesses = {}, size = 54, selectableSlot = false, selectedSlot, onSelectSlot, onlySlot,
 }: {
   me: GameState['me'];
   clues?: Clue[];
@@ -48,6 +48,8 @@ export function MySupport({
   selectableSlot?: boolean;
   selectedSlot?: number | null;
   onSelectSlot?: (slot: number) => void;
+  /** La única posición que se puede elegir (lo usa el tutorial). Sin esto, todas. */
+  onlySlot?: number;
 }) {
   const t = useTranslations('game');
   // Las fichas que acabas de declarar (su número deja de ser un candado) hacen "pop".
@@ -58,6 +60,7 @@ export function MySupport({
       <OrderArrow>
       <div className="flex gap-1.5">
         {me.support.map((s) => {
+          const pickable = selectableSlot && (onlySlot === undefined || onlySlot === s.slot);
           const resolved = s.resolved_number !== null;
           const guess = resolved ? undefined : guesses[s.slot];
           return (
@@ -70,8 +73,8 @@ export function MySupport({
                 size={size}
                 pop={popped.has(s.slot)}
                 selected={selectedSlot === s.slot}
-                hint={selectableSlot && selectedSlot == null}
-                onPress={selectableSlot ? () => onSelectSlot?.(s.slot) : undefined}
+                hint={pickable && selectedSlot == null}
+                onPress={pickable ? () => onSelectSlot?.(s.slot) : undefined}
               />
               <span className="sr-only">{t('slotLabel', { n: s.slot + 1 })}</span>
             </div>
