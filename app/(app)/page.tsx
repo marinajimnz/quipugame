@@ -1,8 +1,7 @@
 import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { Wordmark } from '@/components/brand/Wordmark';
-import { PracticeForm } from '@/components/home/PracticeForm';
-import { CreateRoomForm, JoinRoomForm } from '@/components/home/RoomForms';
+import { HomeModes } from '@/components/home/HomeModes';
 import { RankedCard } from '@/components/ranked/RankedCard';
 import { createClient } from '@/lib/supabase/server';
 
@@ -30,10 +29,10 @@ export default async function HomePage() {
       </div>
       <p className="text-center text-lg leading-snug">{t('app.tagline')}</p>
 
-      <PracticeForm />
-      {profile ? <RankedCard isGuest={profile.is_guest} elo={profile.elo} inQueue={inQueue} /> : null}
-      <CreateRoomForm />
-      <JoinRoomForm />
+      <HomeModes
+        defaultOpen={inQueue ? 'ranked' : null}
+        ranked={profile ? <RankedCard isGuest={profile.is_guest} elo={profile.elo} inQueue={inQueue} /> : null}
+      />
     </main>
   );
 }

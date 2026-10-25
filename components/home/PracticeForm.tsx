@@ -41,9 +41,7 @@ export function PracticeForm() {
     'min-h-11 rounded-xl text-sm font-semibold ring-1 ring-espacio-borde aria-checked:bg-acento aria-checked:text-grafito aria-checked:ring-0 focus-visible:outline-2 focus-visible:outline-acento';
 
   return (
-    <section className="flex flex-col gap-4 rounded-3xl bg-espacio-claro p-4 shadow-sm ring-1 ring-espacio-borde">
-      <h2 className="font-display text-2xl font-extrabold">{t('title')}</h2>
-
+    <div className="flex flex-col gap-4">
       <div role="radiogroup" aria-label={t('bots')} className="grid grid-cols-3 gap-2">
         {[1, 2, 3].map((n) => (
           <button key={n} type="button" role="radio" aria-checked={bots === n} onClick={() => setBots(n)} className={choice}>
@@ -62,7 +60,7 @@ export function PracticeForm() {
 
       {error ? <p role="alert" className="text-sm text-error">{t('error')}</p> : null}
       <Button disabled={busy} onClick={start}>{busy ? t('starting') : t('start')}</Button>
-    </section>
+    </div>
   );
 }
 
