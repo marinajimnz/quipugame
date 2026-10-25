@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { WORDMARK_DOTS, WORDMARK_H, WORDMARK_PATH, WORDMARK_W } from './wordmarkData';
+import { WORDMARK_H, WORDMARK_PATH, WORDMARK_W } from './wordmarkData';
 
 // Capas de extrusión, de la más lejana a la más cercana, cada una 3 px más abajo y a la derecha.
 const LAYERS = ['var(--ficha-4)', 'var(--ficha-2)', 'var(--ficha-0)', 'var(--ficha-1)'];
@@ -7,7 +7,7 @@ const STEP = 3;
 const EXTRA = LAYERS.length * STEP;
 
 /**
- * Logotipo: rótulo grueso con extrusión de color en capas y una fila de puntos dentro de cada letra.
+ * Logotipo: rótulo grueso con extrusión de color en capas, con las letras lisas.
  * El texto está convertido a trazados (scripts/build_wordmark.py): no depende de ninguna fuente.
  * `size` es el ancho en px.
  */
@@ -24,9 +24,6 @@ export function Wordmark({ size = 240, showTagline = false }: { size?: number; s
           return <path key={color} d={WORDMARK_PATH} transform={`translate(${d} ${d})`} fill={color} />;
         })}
         <path d={WORDMARK_PATH} fill="var(--crema)" />
-        {WORDMARK_DOTS.map(([cx, cy, r]) => (
-          <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r={r} fill="var(--acento)" />
-        ))}
       </svg>
       {showTagline ? (
         <p

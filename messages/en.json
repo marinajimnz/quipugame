@@ -1,7 +1,7 @@
 {
   "app": {
     "name": "Quipu",
-    "tagline": "Work out your own numbers before anyone else.",
+    "tagline": "Compare, deduce, win.",
     "descriptor": "Deduction game"
   },
   "common": {
@@ -328,7 +328,8 @@
     "modeRoom": "Private room: create a room, share the code and play with whoever you like. It does not count for ELO.",
     "modeRanked": "Ranked: against an opponent at your level. It counts for ELO and the leaderboard. You need an account.",
     "tipTitle": "A tip",
-    "tip": "Open the deduction board: cross out what you rule out and note candidates for each of your tiles. Anything already visible on other tiles is crossed out for you."
+    "tip": "Open the deduction board: cross out what you rule out and note candidates for each of your tiles. Anything already visible on other tiles is crossed out for you.",
+    "tryIt": "Try it yourself: guided tutorial"
   },
   "offline": {
     "title": "No connection",
@@ -349,5 +350,86 @@
   "install": {
     "button": "Install app",
     "iosHint": "To install Quipu on your phone, tap Share and then “Add to Home Screen”."
+  },
+  "tutorial": {
+    "title": "Tutorial",
+    "progress": "Step {step} of {total}",
+    "next": "Next",
+    "back": "Back",
+    "skip": "Skip",
+    "botName": "Quipu",
+    "botThinking": "Quipu is playing…",
+    "openBoard": "Open the board",
+    "showSolution": "Show the solution",
+    "retry": "That's not it. Go over the clues and try again: in the tutorial you can retry.",
+    "stages": {
+      "board": {
+        "title": "Your tiles",
+        "body": "These five are yours: everyone can see their numbers except you. Quipu's, on the other hand, you can see. Whoever works out their own numbers first wins."
+      },
+      "order": {
+        "title": "Always in order",
+        "body": "You have one tile of each colour, laid out from lowest to highest. You don't know the numbers, but you do know the order: the leftmost is the smallest. This will be key."
+      },
+      "reveal": {
+        "title": "Reveal",
+        "body": "Each turn has two parts. First you reveal: pick a colour and a tile comes out of the reserve for everyone to see. Tap the amber tile."
+      },
+      "classify": {
+        "title": "Classify",
+        "body": "Now ask for a clue about your tiles. Tap the 31 that just came out, choose Classify and ask: it tells you which of your tiles it fits between."
+      },
+      "classified": {
+        "title": "Below all of them",
+        "body": "The 31 fits below all of them: your five numbers are greater than 31. The clue stays under your row for everyone to see, and the 31 can't be used again."
+      },
+      "botTurn": {
+        "title": "Quipu's turn",
+        "body": "Now Quipu plays. Its clues are public too, and every tile that comes into view is a number that can't be yours."
+      },
+      "reveal2": {
+        "title": "Your turn again",
+        "body": "First, reveal. This time tap the blue tile."
+      },
+      "compare": {
+        "title": "Compare",
+        "body": "Tap the 55 and choose Compare. Then tap your blue tile, the fifth one, and ask: you'll learn whether both are worth the same points."
+      },
+      "compared": {
+        "title": "Same points",
+        "body": "Yes: your blue tile is worth the same as the 55, 1 point. The clue sits under that tile. You can already work out a lot."
+      },
+      "deduce": {
+        "title": "Deduce",
+        "body": "Think about your blue tile. It's greater than 31 and worth 1 point: it can only be 35 or 45. If it were 35, the other four wouldn't fit between 31 and 35. On the board, tap your blue tile and note down 45."
+      },
+      "deduced": {
+        "title": "Well spotted!",
+        "body": "On the board, whatever is already in view is crossed out for you, and you cross out what you rule out. With 45 settled, the rest follows in a chain."
+      },
+      "declare": {
+        "title": "Declare",
+        "body": "The amber one is between 31 and 45: 36 or 41. If it were 41, the pink would have to be 43 and the red 44, but 44 is in view. So it's 36, and the same way you get 38, 39 and 42. Type them in and declare."
+      },
+      "declareNote": {
+        "title": "Only one chance",
+        "body": "In a real game you can only declare once: get all five right and you win; miss one and you're out. Open Declare when you've got it."
+      }
+    },
+    "done": {
+      "title": "You know how to play!",
+      "recap1": "Each turn: reveal a colour and ask for a clue with a tile in view.",
+      "recap2": "Clues are public: learn from everyone else's too.",
+      "recap3": "Declare when you're sure: you only get one chance.",
+      "play": "Play against bots",
+      "home": "Back to home",
+      "again": "Replay the tutorial"
+    },
+    "prompt": {
+      "title": "First time?",
+      "body": "Learn to play in three minutes with a guided game.",
+      "start": "Start the tutorial",
+      "dismiss": "Not now"
+    }
   }
 }
