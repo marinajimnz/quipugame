@@ -27,7 +27,7 @@ export default async function HomePage() {
       <div className="flex justify-center">
         <Wordmark size={260} showTagline />
       </div>
-      <p className="text-center text-lg leading-snug">{t('app.tagline')}</p>
+      <p className="text-balance text-center text-lg leading-snug">{t('app.tagline')}</p>
 
       <HomeModes
         defaultOpen={inQueue ? 'ranked' : null}

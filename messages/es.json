@@ -1,8 +1,8 @@
 {
   "app": {
     "name": "Quipu",
-    "tagline": "Deduce tus propios números antes que nadie.",
-    "descriptor": "Juego de deducción"
+    "tagline": "¿Podrás saber tus números antes que el rival?",
+    "descriptor": "Compara, deduce, gana."
   },
   "common": {
     "loading": "Cargando…",
@@ -328,7 +328,8 @@
     "modeRoom": "Sala privada: creas una sala, compartes el código y juegas con quien quieras. No cuenta para el ELO.",
     "modeRanked": "Clasificatoria: contra un rival de tu nivel. Cuenta para el ELO y la clasificación. Necesitas una cuenta.",
     "tipTitle": "Un consejo",
-    "tip": "Abre el tablero de deducción: tacha lo que descartes y apunta candidatos para cada una de tus fichas. Lo que ya se ve en otras fichas se tacha solo."
+    "tip": "Abre el tablero de deducción: tacha lo que descartes y apunta candidatos para cada una de tus fichas. Lo que ya se ve en otras fichas se tacha solo.",
+    "tryIt": "Pruébalo tú: tutorial guiado"
   },
   "offline": {
     "title": "Sin conexión",
@@ -349,5 +350,86 @@
   "install": {
     "button": "Instalar app",
     "iosHint": "Para instalar Quipu en el móvil, pulsa Compartir y luego «Añadir a pantalla de inicio»."
+  },
+  "tutorial": {
+    "title": "Tutorial",
+    "progress": "Paso {step} de {total}",
+    "next": "Siguiente",
+    "back": "Atrás",
+    "skip": "Saltar",
+    "botName": "Quipu",
+    "botThinking": "Quipu está jugando…",
+    "openBoard": "Abrir el tablero",
+    "showSolution": "Ver la solución",
+    "retry": "No es eso. Repasa las pistas y prueba otra vez: en el tutorial puedes repetir.",
+    "stages": {
+      "board": {
+        "title": "Tus fichas",
+        "body": "Estas cinco son tuyas: todo el mundo ve sus números menos tú. Las de Quipu, en cambio, sí las ves. Gana quien descubra antes sus propios números."
+      },
+      "order": {
+        "title": "Siempre en orden",
+        "body": "Tienes una ficha de cada color, colocadas de menor a mayor. No sabes los números, pero sí el orden: la de la izquierda es la más pequeña. Esto será clave."
+      },
+      "reveal": {
+        "title": "Revelar",
+        "body": "Cada turno tiene dos partes. Primero revelas: eliges un color y sale una ficha de la reserva a la vista de todos. Toca la ficha ámbar."
+      },
+      "classify": {
+        "title": "Clasificar",
+        "body": "Ahora pides una pista sobre tus fichas. Toca la 31, que acaba de salir, elige Clasificar y pide la pista: te dirá entre cuáles de tus fichas encaja."
+      },
+      "classified": {
+        "title": "Por debajo de todas",
+        "body": "La 31 encaja por debajo de todas: tus cinco números son mayores que 31. La pista queda bajo tu fila, a la vista de todos, y la 31 ya no se puede volver a usar."
+      },
+      "botTurn": {
+        "title": "Turno de Quipu",
+        "body": "Ahora juega Quipu. Sus pistas también son públicas, y cada ficha que sale a la vista es un número que no puede ser tuyo."
+      },
+      "reveal2": {
+        "title": "Tu turno otra vez",
+        "body": "Primero, revelar. Esta vez toca la ficha azul."
+      },
+      "compare": {
+        "title": "Comparar",
+        "body": "Toca la 55 y elige Comparar. Después toca tu ficha azul, la quinta, y pide la pista: sabrás si las dos valen los mismos puntos."
+      },
+      "compared": {
+        "title": "Mismos puntos",
+        "body": "Sí: tu ficha azul vale lo mismo que la 55, 1 punto. La pista queda bajo esa ficha. Con esto ya puedes deducir mucho."
+      },
+      "deduce": {
+        "title": "Deducir",
+        "body": "Piensa en tu ficha azul. Es mayor que 31 y vale 1 punto: solo puede ser la 35 o la 45. Si fuera la 35, las otras cuatro no cabrían entre 31 y 35. En el tablero, toca tu ficha azul y apunta el 45."
+      },
+      "deduced": {
+        "title": "¡Bien visto!",
+        "body": "En el tablero, lo que ya está a la vista se tacha solo y tú tachas lo que descartes. Con la 45 fijada, el resto sale en cadena."
+      },
+      "declare": {
+        "title": "Declarar",
+        "body": "La ámbar está entre 31 y 45: la 36 o la 41. Si fuera la 41, la rosa tendría que ser la 43 y la roja la 44, pero la 44 está a la vista. Así que es la 36, y siguiendo igual salen la 38, la 39 y la 42. Escríbelos y declara."
+      },
+      "declareNote": {
+        "title": "Una sola oportunidad",
+        "body": "En una partida de verdad solo puedes declarar una vez: si aciertas los cinco, ganas; si fallas uno, quedas fuera. Abre Declarar cuando lo tengas."
+      }
+    },
+    "done": {
+      "title": "¡Ya sabes jugar!",
+      "recap1": "Cada turno: revela un color y pide una pista con una ficha a la vista.",
+      "recap2": "Las pistas son públicas: aprende también de las de los demás.",
+      "recap3": "Declara cuando estés seguro: solo tienes una oportunidad.",
+      "play": "Jugar contra bots",
+      "home": "Volver al inicio",
+      "again": "Repetir el tutorial"
+    },
+    "prompt": {
+      "title": "¿Primera vez?",
+      "body": "Aprende a jugar en tres minutos con una partida guiada.",
+      "start": "Empezar el tutorial",
+      "dismiss": "Ahora no"
+    }
   }
 }
