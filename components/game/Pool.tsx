@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { useFresh } from '@/lib/game/useFresh';
 import type { PublicTile } from '@/lib/game/types';
 import { GameTile } from './GameTile';
 
@@ -13,14 +14,15 @@ export function Pool({
   pool, selectable, selected, onSelect,
 }: { pool: PublicTile[]; selectable: boolean; selected: number | null; onSelect: (n: number) => void }) {
   const t = useTranslations('game');
+  const fresh = useFresh(pool.map((tile) => tile.number));
 
   return (
     <section aria-label={t('pool')} className="flex flex-col gap-1.5">
       <h2 className="text-sm font-semibold">{t('pool')}</h2>
       <div className="flex flex-wrap justify-center gap-1.5">
         {pool.map((tile) => (
+          <span key={tile.number} className={fresh.has(tile.number) ? 'tile-drop' : undefined}>
           <GameTile
-            key={tile.number}
             number={tile.number}
             colorIndex={tile.color_index}
             points={tile.points}
@@ -30,6 +32,7 @@ export function Pool({
             hint={selectable && selected === null}
             onPress={selectable ? () => onSelect(tile.number) : undefined}
           />
+          </span>
         ))}
       </div>
     </section>

@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useState, type CSSProperties } from 'react';
+import { useFresh } from '@/lib/game/useFresh';
 import { useGameText } from '@/lib/game/useGameText';
 import type { Clue } from '@/lib/game/types';
 import { TILE_POINTS } from '@/src/game/pointsTable';
@@ -18,6 +19,7 @@ const GAP = 6; // el mismo hueco que separa las fichas del soporte (gap-1.5)
  * Las pistas que caen en el mismo sitio se apilan y se despliegan al pulsar.
  */
 export function ClueRail({ clues, tileSize }: { clues: Clue[]; tileSize: number }) {
+  const fresh = useFresh(clues.map((c) => c.id));
   if (clues.length === 0) return null;
 
   const half = `${tileSize / 2}px`;
@@ -32,7 +34,7 @@ export function ClueRail({ clues, tileSize }: { clues: Clue[]; tileSize: number 
     <div className="grid items-start gap-y-2" style={{ gridTemplateColumns: columns }}>
       {compares.map((list, slot) =>
         list.length ? (
-          <ClueStack key={`c${slot}`} clues={list} style={{ gridRow: 1, gridColumn: `${3 * slot + 1} / span 2`, justifySelf: 'center' }} />
+          <ClueStack key={`c${slot}`} clues={list} fresh={fresh} style={{ gridRow: 1, gridColumn: `${3 * slot + 1} / span 2`, justifySelf: 'center' }} />
         ) : null,
       )}
       {ranges.map((list, pos) => {
@@ -44,18 +46,18 @@ export function ClueRail({ clues, tileSize }: { clues: Clue[]; tileSize: number 
             : pos === 5
               ? { gridColumn: '14', justifySelf: 'end' }
               : { gridColumn: `${3 * pos - 1} / span 3`, justifySelf: 'center' };
-        return <ClueStack key={`r${pos}`} clues={list} style={{ gridRow: rangeRow, ...place }} />;
+        return <ClueStack key={`r${pos}`} clues={list} fresh={fresh} style={{ gridRow: rangeRow, ...place }} />;
       })}
     </div>
   );
 }
 
-function ClueChip({ clue }: { clue: Clue }) {
+function ClueChip({ clue, fresh }: { clue: Clue; fresh: ReadonlySet<string> }) {
   const { clueText } = useGameText();
   const miss = clue.kind === 'compare' && clue.answer_same === false;
 
   return (
-    <span className="flex flex-col items-center">
+    <span className={`flex flex-col items-center ${fresh.has(clue.id) ? 'tile-drop' : ''}`}>
       <span className={`block ${miss ? '-rotate-90' : ''}`}>
         <GameTile
           number={clue.tile_number}
@@ -71,7 +73,7 @@ function ClueChip({ clue }: { clue: Clue }) {
 }
 
 /** Una pista sola se ve tal cual; varias en el mismo sitio forman un montón con contador. */
-function ClueStack({ clues, style }: { clues: Clue[]; style: CSSProperties }) {
+function ClueStack({ clues, style, fresh }: { clues: Clue[]; style: CSSProperties; fresh: ReadonlySet<string> }) {
   const t = useTranslations('game');
   const [open, setOpen] = useState(false);
   const newest = clues[clues.length - 1];
@@ -79,7 +81,7 @@ function ClueStack({ clues, style }: { clues: Clue[]; style: CSSProperties }) {
   if (clues.length === 1) {
     return (
       <div style={style}>
-        <ClueChip clue={newest} />
+        <ClueChip clue={newest} fresh={fresh} />
       </div>
     );
   }
@@ -94,17 +96,17 @@ function ClueStack({ clues, style }: { clues: Clue[]; style: CSSProperties }) {
       className="relative flex min-h-11 min-w-11 flex-col items-center gap-1 rounded-xl p-0.5 focus-visible:outline-2 focus-visible:outline-acento"
     >
       {open ? (
-        clues.map((c) => <ClueChip key={c.id} clue={c} />)
+        clues.map((c) => <ClueChip key={c.id} clue={c} fresh={fresh} />)
       ) : (
         <span className="relative block" style={{ paddingBottom: Math.min(clues.length - 1, 2) * 6 }}>
           {/* Las dos anteriores asoman por debajo para que se lea como montón. */}
           {clues.slice(-3, -1).map((c, i, behind) => (
             <span key={c.id} aria-hidden="true" className="absolute inset-x-0 top-0 block" style={{ transform: `translateY(${(behind.length - i) * 6}px)` }}>
-              <ClueChip clue={c} />
+              <ClueChip clue={c} fresh={fresh} />
             </span>
           ))}
           <span className="relative block">
-            <ClueChip clue={newest} />
+            <ClueChip clue={newest} fresh={fresh} />
           </span>
         </span>
       )}

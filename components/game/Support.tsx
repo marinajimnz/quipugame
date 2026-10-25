@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { useFresh } from '@/lib/game/useFresh';
 import { TILE_POINTS } from '@/src/game/pointsTable';
 import type { Clue, GameState, OtherPlayer } from '@/lib/game/types';
 import { ClueRail } from './ClueRail';
@@ -11,6 +12,8 @@ const SLOTS = [0, 1, 2, 3, 4];
 
 /** Soporte de otro jugador: sus 5 fichas, visibles para ti, y debajo sus pistas. */
 export function OtherSupport({ player, clues = [], size = 52 }: { player: OtherPlayer; clues?: Clue[]; size?: number }) {
+  // Cuando declara, todas sus fichas hacen "pop".
+  const popped = useFresh(player.has_declared ? ['declared'] : []).size > 0;
   return (
     <div className="mx-auto flex w-fit flex-col gap-2">
       <OrderArrow>
@@ -18,7 +21,7 @@ export function OtherSupport({ player, clues = [], size = 52 }: { player: OtherP
         {SLOTS.map((slot) => {
           const tile = player.support.find((s) => s.slot === slot);
           return tile ? (
-            <GameTile key={slot} number={tile.number} colorIndex={tile.color_index} points={tile.points} state="public" size={size} />
+            <GameTile key={slot} number={tile.number} colorIndex={tile.color_index} points={tile.points} state="public" size={size} pop={popped} />
           ) : (
             <span key={slot} style={{ width: size }} />
           );
@@ -47,6 +50,8 @@ export function MySupport({
   onSelectSlot?: (slot: number) => void;
 }) {
   const t = useTranslations('game');
+  // Las fichas que acabas de declarar (su número deja de ser un candado) hacen "pop".
+  const popped = useFresh(me.support.filter((s) => s.resolved_number !== null).map((s) => s.slot));
 
   return (
     <div className="mx-auto flex w-fit flex-col gap-2">
@@ -63,6 +68,7 @@ export function MySupport({
                 points={resolved ? TILE_POINTS[s.resolved_number!] : null}
                 state={resolved ? 'solved' : guess !== undefined ? 'guess' : 'unknown'}
                 size={size}
+                pop={popped.has(s.slot)}
                 selected={selectedSlot === s.slot}
                 hint={selectableSlot && selectedSlot == null}
                 onPress={selectableSlot ? () => onSelectSlot?.(s.slot) : undefined}
