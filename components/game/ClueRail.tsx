@@ -9,13 +9,15 @@ import { TILE_POINTS } from '@/src/game/pointsTable';
 import { GameTile } from './GameTile';
 
 const CHIP = 36; // ancho de la ficha de pista, en px
+const EDGE_SHIFT = 10; // las pistas de «menor que todas» / «mayor que todas» asoman hacia fuera, en px
 const GAP = 6; // el mismo hueco que separa las fichas del soporte (gap-1.5)
 
 /**
  * Pistas de un jugador colocadas bajo su soporte. Usa una rejilla que calca la fila del soporte
  * (cada ficha son dos medias columnas y entre fichas va el hueco), así cada pista cae justo:
  * · comparar: bajo la ficha comparada; recta si coinciden los puntos, girada 90° a la izquierda si no.
- * · encajar: entre las dos fichas que la rodean; en el borde si queda por debajo o por encima de todas.
+ * · encajar: entre las dos fichas que la rodean; en el borde, algo desplazada hacia fuera, si queda
+ *   por debajo (izquierda) o por encima (derecha) de todas.
  * Las pistas que caen en el mismo sitio se apilan y se despliegan al pulsar.
  */
 export function ClueRail({ clues, tileSize }: { clues: Clue[]; tileSize: number }) {
@@ -42,9 +44,9 @@ export function ClueRail({ clues, tileSize }: { clues: Clue[]; tileSize: number 
         // Columnas (desde 1): la ficha i ocupa 3i+1 y 3i+2; el hueco entre i e i+1 es 3i+3.
         const place: CSSProperties =
           pos === 0
-            ? { gridColumn: '1', justifySelf: 'start' }
+            ? { gridColumn: '1', justifySelf: 'start', transform: `translateX(-${EDGE_SHIFT}px)` }
             : pos === 5
-              ? { gridColumn: '14', justifySelf: 'end' }
+              ? { gridColumn: '14', justifySelf: 'end', transform: `translateX(${EDGE_SHIFT}px)` }
               : { gridColumn: `${3 * pos - 1} / span 3`, justifySelf: 'center' };
         return <ClueStack key={`r${pos}`} clues={list} fresh={fresh} style={{ gridRow: rangeRow, ...place }} />;
       })}
