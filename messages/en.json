@@ -161,7 +161,8 @@
     "abandonKeep": "Keep playing",
     "eventTurnTimeout": "{name} ran out of time: the server plays for them. Timed-out turns in a row: {consecutive}.",
     "clueStackShow": "Show all {count} clues",
-    "clueStackHide": "Collapse the {count} clues"
+    "clueStackHide": "Collapse the {count} clues",
+    "orderHint": "Order from lowest to highest, left to right"
   },
   "declare": {
     "title": "Declare your code",

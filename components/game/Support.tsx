@@ -5,6 +5,7 @@ import { TILE_POINTS } from '@/src/game/pointsTable';
 import type { Clue, GameState, OtherPlayer } from '@/lib/game/types';
 import { ClueRail } from './ClueRail';
 import { GameTile } from './GameTile';
+import { OrderArrow } from './OrderArrow';
 
 const SLOTS = [0, 1, 2, 3, 4];
 
@@ -12,6 +13,7 @@ const SLOTS = [0, 1, 2, 3, 4];
 export function OtherSupport({ player, clues = [], size = 52 }: { player: OtherPlayer; clues?: Clue[]; size?: number }) {
   return (
     <div className="mx-auto flex w-fit flex-col gap-2">
+      <OrderArrow>
       <div className="flex gap-1.5">
         {SLOTS.map((slot) => {
           const tile = player.support.find((s) => s.slot === slot);
@@ -22,6 +24,7 @@ export function OtherSupport({ player, clues = [], size = 52 }: { player: OtherP
           );
         })}
       </div>
+      </OrderArrow>
       <ClueRail clues={clues} tileSize={size} />
     </div>
   );
@@ -32,7 +35,7 @@ export function OtherSupport({ player, clues = [], size = 52 }: { player: OtherP
  * ascendente es público. Si ya me han eliminado o ha terminado la partida, enseña mis números.
  */
 export function MySupport({
-  me, clues = [], guesses = {}, size = 62, selectableSlot = false, selectedSlot, onSelectSlot,
+  me, clues = [], guesses = {}, size = 54, selectableSlot = false, selectedSlot, onSelectSlot,
 }: {
   me: GameState['me'];
   clues?: Clue[];
@@ -47,6 +50,7 @@ export function MySupport({
 
   return (
     <div className="mx-auto flex w-fit flex-col gap-2">
+      <OrderArrow>
       <div className="flex gap-1.5">
         {me.support.map((s) => {
           const resolved = s.resolved_number !== null;
@@ -68,6 +72,7 @@ export function MySupport({
           );
         })}
       </div>
+      </OrderArrow>
       <ClueRail clues={clues} tileSize={size} />
     </div>
   );

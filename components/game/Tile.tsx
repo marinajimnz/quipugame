@@ -89,6 +89,13 @@ function Face({ number, colorIndex, points, state, size }: Pick<TileProps, 'numb
 
   return (
     <svg viewBox={`0 0 ${TILE_W} ${TILE_H}`} width="100%" height="100%" aria-hidden="true" focusable="false">
+      {/* Base opaca bajo las fichas apagadas: lo que haya detrás (la flecha del orden) no se transparenta. */}
+      {unknown ? (
+        <>
+          <rect y={CANTO} width={FACE} height={FACE} rx={RADIUS} fill="var(--espacio-claro)" />
+          <rect width={FACE} height={FACE} rx={RADIUS} fill="var(--espacio-claro)" />
+        </>
+      ) : null}
       <rect y={CANTO} width={FACE} height={FACE} rx={RADIUS} fill={EDGE[colorIndex]} fillOpacity={dim} />
       <rect width={FACE} height={FACE} rx={RADIUS} fill={fill} fillOpacity={dim} />
 

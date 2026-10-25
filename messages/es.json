@@ -161,7 +161,8 @@
     "abandonKeep": "Seguir jugando",
     "eventTurnTimeout": "Se agota el tiempo de {name}: juega el servidor. Turnos agotados seguidos: {consecutive}.",
     "clueStackShow": "Ver las {count} pistas",
-    "clueStackHide": "Recoger las {count} pistas"
+    "clueStackHide": "Recoger las {count} pistas",
+    "orderHint": "Orden de menor a mayor, de izquierda a derecha"
   },
   "declare": {
     "title": "Declarar tu código",
