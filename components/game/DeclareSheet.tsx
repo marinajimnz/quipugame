@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Sheet } from '@/components/ui/Sheet';
 import { validateDeclaration, type DeclarationIssue } from '@/lib/game/validateDeclaration';
@@ -12,7 +12,7 @@ type Stage = 'edit' | 'confirm' | 'result';
 
 /** Hoja de declaración: validación local, resumen y confirmación explícita (una sola oportunidad). */
 export function DeclareSheet({
-  open, onClose, slotColors, guesses = {}, onDeclare,
+  open, onClose, slotColors, guesses = {}, onDeclare, coach,
 }: {
   open: boolean;
   onClose: () => void;
@@ -20,6 +20,8 @@ export function DeclareSheet({
   /** Lo apuntado en el tablero: rellena los huecos al abrir. */
   guesses?: Record<number, number>;
   onDeclare: (numbers: number[]) => Promise<boolean>;
+  /** Globo del tutorial, arriba de la hoja (fuera del tutorial no hay). */
+  coach?: ReactNode;
 }) {
   const t = useTranslations('declare');
   const [values, setValues] = useState<string[]>(() => [0, 1, 2, 3, 4].map((i) => (guesses[i] ? String(guesses[i]) : '')));
@@ -61,6 +63,7 @@ export function DeclareSheet({
 
   return (
     <Sheet open={open} onClose={close} title={t('title')}>
+      {coach ? <div className="mb-4">{coach}</div> : null}
       {stage === 'edit' ? (
         <div className="flex flex-col gap-4">
           <p className="text-sm">{t('intro')}</p>

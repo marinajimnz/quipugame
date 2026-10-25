@@ -17,9 +17,15 @@ export function draftReady(d: ClueDraft): boolean {
   return d.tile !== null && (d.kind === 'classify' || (d.kind === 'compare' && d.slot !== null));
 }
 
+/** Lo único que se puede elegir (lo usa el tutorial). Sin esto, vale todo. */
+export interface TurnLimits {
+  colors?: readonly number[];
+  kinds?: readonly NonNullable<ClueDraft['kind']>[];
+}
+
 /** Panel de acciones del turno: revelar un color, o elegir ficha y tipo de pista. */
 export function TurnActions({
-  state, myTurn, waitingFor, draft, onDraft, onReveal, onAsk, pending,
+  state, myTurn, waitingFor, draft, onDraft, onReveal, onAsk, pending, only,
 }: {
   state: GameState;
   myTurn: boolean;
@@ -29,6 +35,7 @@ export function TurnActions({
   onReveal: (color: number) => void;
   onAsk: () => void;
   pending: boolean;
+  only?: TurnLimits;
 }) {
   const t = useTranslations('game');
 
@@ -52,19 +59,22 @@ export function TurnActions({
           </>
         ) : (
           <div className="flex flex-wrap justify-center gap-1.5">
-            {reserve.map((count, color) => (
-              <GameTile
-                key={color}
-                number={null}
-                colorIndex={color}
-                points={null}
-                state="back"
-                size={52}
-                disabled={pending || count === 0}
-                hint={!pending && count > 0}
-                onPress={() => onReveal(color)}
-              />
-            ))}
+            {reserve.map((count, color) => {
+              const open = count > 0 && (!only?.colors || only.colors.includes(color));
+              return (
+                <GameTile
+                  key={color}
+                  number={null}
+                  colorIndex={color}
+                  points={null}
+                  state="back"
+                  size={52}
+                  disabled={pending || !open}
+                  hint={!pending && open}
+                  onPress={() => onReveal(color)}
+                />
+              );
+            })}
           </div>
         )}
       </div>
@@ -92,9 +102,10 @@ export function TurnActions({
             <button
               key={kind}
               type="button"
+              disabled={only?.kinds && !only.kinds.includes(kind)}
               aria-pressed={draft.kind === kind}
               onClick={() => onDraft({ ...draft, kind, slot: kind === 'classify' ? null : draft.slot })}
-              className={`min-h-11 rounded-xl text-sm font-semibold ring-1 ring-espacio-borde ${draft.kind === null ? 'outline-2 outline-offset-2 outline-dashed outline-acento motion-safe:animate-pulse' : ''} aria-pressed:bg-acento aria-pressed:text-grafito aria-pressed:ring-0 focus-visible:outline-2 focus-visible:outline-acento`}
+              className={`min-h-11 rounded-xl text-sm font-semibold ring-1 ring-espacio-borde disabled:opacity-40 ${draft.kind === null && !(only?.kinds && !only.kinds.includes(kind)) ? 'outline-2 outline-offset-2 outline-dashed outline-acento motion-safe:animate-pulse' : ''} aria-pressed:bg-acento aria-pressed:text-grafito aria-pressed:ring-0 focus-visible:outline-2 focus-visible:outline-acento`}
             >
               {t(kind)}
             </button>

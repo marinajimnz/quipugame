@@ -11,8 +11,15 @@ import { GameTile } from './GameTile';
  * de 44 px y con aire entre ellos. Si la pantalla fuera más estrecha, baja a 44 px.
  */
 export function Pool({
-  pool, selectable, selected, onSelect,
-}: { pool: PublicTile[]; selectable: boolean; selected: number | null; onSelect: (n: number) => void }) {
+  pool, selectable, selected, onSelect, only,
+}: {
+  pool: PublicTile[];
+  selectable: boolean;
+  selected: number | null;
+  onSelect: (n: number) => void;
+  /** Las únicas fichas que se pueden elegir (lo usa el tutorial). Sin esto, todas. */
+  only?: readonly number[];
+}) {
   const t = useTranslations('game');
   const fresh = useFresh(pool.map((tile) => tile.number));
 
@@ -20,7 +27,9 @@ export function Pool({
     <section aria-label={t('pool')} className="flex flex-col gap-1.5 rounded-2xl bg-espacio-claro/70 p-3 ring-1 ring-espacio-borde">
       <h2 className="text-sm font-semibold">{t('pool')}</h2>
       <div className="flex flex-wrap justify-center gap-1.5">
-        {pool.map((tile) => (
+        {pool.map((tile) => {
+          const pickable = selectable && (!only || only.includes(tile.number));
+          return (
           <span key={tile.number} className={fresh.has(tile.number) ? 'tile-drop' : undefined}>
           <GameTile
             number={tile.number}
@@ -29,11 +38,12 @@ export function Pool({
             state="public"
             size={52}
             selected={selected === tile.number}
-            hint={selectable && selected === null}
-            onPress={selectable ? () => onSelect(tile.number) : undefined}
+            hint={pickable && selected === null}
+            onPress={pickable ? () => onSelect(tile.number) : undefined}
           />
           </span>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

@@ -362,6 +362,7 @@
     "openBoard": "Open the board",
     "showSolution": "Show the solution",
     "retry": "That's not it. Go over the clues and try again: in the tutorial you can retry.",
+    "tryAgain": "Try again",
     "stages": {
       "board": {
         "title": "Your tiles",

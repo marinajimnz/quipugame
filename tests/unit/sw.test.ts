@@ -87,12 +87,14 @@ beforeEach(async () => {
   fetched = [];
   network = {
     '/reglas': html('Cómo se juega', ['/_next/static/chunks/reglas.js', '/_next/static/css/app.css']),
+    '/tutorial': html('Tutorial', ['/_next/static/chunks/tutorial.js', '/_next/static/css/app.css']),
     '/sin-conexion': html('Sin conexión', ['/_next/static/chunks/offline.js', '/_next/static/css/app.css']),
     '/manifest.webmanifest': () => new Response('{}'),
     '/icons/icon-192.png': () => new Response('png'),
     '/icons/icon-512.png': () => new Response('png'),
     '/_next/static/chunks/reglas.js': () => new Response('js'),
     '/_next/static/chunks/offline.js': () => new Response('js'),
+    '/_next/static/chunks/tutorial.js': () => new Response('js'),
     '/_next/static/css/app.css': () => new Response('css'),
     '/partida/abc': html('partida en vivo'),
   };
@@ -101,18 +103,26 @@ beforeEach(async () => {
 });
 
 describe('service worker', () => {
-  it('al instalar guarda /reglas y /sin-conexion con sus JS y CSS', async () => {
+  it('al instalar guarda /reglas, /tutorial y /sin-conexion con sus JS y CSS', async () => {
     const cached = [...store.get('quipu-v1')!.keys()].sort();
     expect(cached).toEqual([
       '/_next/static/chunks/offline.js',
       '/_next/static/chunks/reglas.js',
+      '/_next/static/chunks/tutorial.js',
       '/_next/static/css/app.css',
       '/icons/icon-192.png',
       '/icons/icon-512.png',
       '/manifest.webmanifest',
       '/reglas',
       '/sin-conexion',
+      '/tutorial',
     ]);
+  });
+
+  it('sin conexión, /tutorial se sirve desde la caché', async () => {
+    online = false;
+    const res = await request('/tutorial', { mode: 'navigate' });
+    expect(await res!.text()).toContain('Tutorial');
   });
 
   it('las partidas van siempre a la red y nunca se guardan', async () => {

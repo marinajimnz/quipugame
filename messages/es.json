@@ -362,6 +362,7 @@
     "openBoard": "Abrir el tablero",
     "showSolution": "Ver la solución",
     "retry": "No es eso. Repasa las pistas y prueba otra vez: en el tutorial puedes repetir.",
+    "tryAgain": "Probar otra vez",
     "stages": {
       "board": {
         "title": "Tus fichas",

@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Sheet } from '@/components/ui/Sheet';
 import { autoStruck } from '@/lib/game/autoStrike';
@@ -24,8 +24,15 @@ const NUMBERS = Array.from({ length: 60 }, (_, i) => i + 1);
  * el número que crees que tiene. Es solo una ayuda: no decide nada del juego.
  */
 export function DeductionBoard({
-  open, onClose, gameId, state,
-}: { open: boolean; onClose: () => void; gameId: string; state: GameState }) {
+  open, onClose, gameId, state, coach,
+}: {
+  open: boolean;
+  onClose: () => void;
+  gameId: string;
+  state: GameState;
+  /** Globo del tutorial, arriba de la hoja (fuera del tutorial no hay). */
+  coach?: ReactNode;
+}) {
   const t = useTranslations('deduction');
   const tGame = useTranslations('game');
   const tTile = useTranslations('tile');
@@ -58,6 +65,7 @@ export function DeductionBoard({
   return (
     <Sheet open={open} onClose={onClose} title={t('title')}>
       <div className="flex flex-col gap-3">
+        {coach}
         <section aria-label={t('mine')} className="sticky -top-4 z-10 -mx-4 flex flex-col gap-1.5 bg-espacio-claro px-4 pb-2 pt-1">
           <div className="flex justify-center gap-1.5">
             {state.me.support.map((s) => {
