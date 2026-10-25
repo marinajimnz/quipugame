@@ -1,11 +1,9 @@
-import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { Wordmark } from '@/components/brand/Wordmark';
 import { PracticeForm } from '@/components/home/PracticeForm';
 import { CreateRoomForm, JoinRoomForm } from '@/components/home/RoomForms';
 import { RankedCard } from '@/components/ranked/RankedCard';
-import { Avatar } from '@/components/profile/Avatar';
 import { createClient } from '@/lib/supabase/server';
 
 export default async function HomePage() {
@@ -20,7 +18,7 @@ export default async function HomePage() {
   const inQueue = Boolean((queue as { in_queue?: boolean } | null)?.in_queue);
   const { data: profile } = await supabase
     .from('profiles')
-    .select('display_name, avatar_key, elo, is_guest')
+    .select('elo, is_guest')
     .eq('id', auth.user!.id)
     .single();
 
@@ -32,22 +30,6 @@ export default async function HomePage() {
       </div>
       <p className="text-center text-lg leading-snug">{t('app.tagline')}</p>
 
-      {profile ? (
-        <Link
-          href="/perfil"
-          className="flex min-h-11 items-center gap-3 rounded-2xl bg-espacio-claro p-3 shadow-sm ring-1 ring-espacio-borde focus-visible:outline-2 focus-visible:outline-acento"
-        >
-          <Avatar avatarKey={profile.avatar_key} name={profile.display_name} />
-          <span className="flex flex-col">
-            <span className="font-semibold">{t('home.greeting', { name: profile.display_name })}</span>
-            <span className="text-sm text-crema-suave">{t('home.profileLink')}</span>
-          </span>
-        </Link>
-      ) : null}
-
-      <Link href="/reglas" className="min-h-11 self-start py-2 text-sm font-semibold underline">
-        {t('home.rulesLink')}
-      </Link>
       <PracticeForm />
       {profile ? <RankedCard isGuest={profile.is_guest} elo={profile.elo} inQueue={inQueue} /> : null}
       <CreateRoomForm />
