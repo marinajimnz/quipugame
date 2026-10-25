@@ -1,9 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
+import { Button } from '@/components/ui/Button';
+import { Sheet } from '@/components/ui/Sheet';
+import { useLiveGame } from '@/lib/game/liveGame';
 
 const ICON = {
   width: 24,
@@ -47,14 +50,15 @@ const ITEMS: {
   },
 ];
 
-// Pantallas de juego: sin menú para no salir por accidente y dejar espacio al tablero.
-const HIDDEN_ON = ['/partida', '/cola', '/sala'];
-
 export function MainNav({ children }: { children: ReactNode }) {
   const t = useTranslations('nav');
+  const tGame = useTranslations('game');
   const pathname = usePathname();
-  if (HIDDEN_ON.some((p) => pathname === p || pathname.startsWith(`${p}/`)))
-    return <>{children}</>;
+  const router = useRouter();
+  // Con una partida en curso, cualquier apartado pregunta antes si quieres abandonarla.
+  const abandon = useLiveGame((s) => s.abandon);
+  const [leaveTo, setLeaveTo] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
 
   return (
     <>
@@ -71,6 +75,11 @@ export function MainNav({ children }: { children: ReactNode }) {
                 <Link
                   href={href}
                   aria-current={active ? 'page' : undefined}
+                  onClick={(e) => {
+                    if (!abandon) return;
+                    e.preventDefault();
+                    setLeaveTo(href);
+                  }}
                   className={`flex min-h-14 flex-col items-center justify-center gap-0.5 px-3 text-xs font-semibold focus-visible:outline-2 focus-visible:outline-acento ${
                     active ? 'text-acento' : 'text-crema-suave hover:text-crema'
                   }`}
@@ -86,6 +95,28 @@ export function MainNav({ children }: { children: ReactNode }) {
       <div className="pb-[calc(3.5rem+env(safe-area-inset-bottom))]">
         {children}
       </div>
+
+      <Sheet open={leaveTo !== null && abandon !== null} onClose={() => setLeaveTo(null)} title={tGame('abandonTitle')}>
+        <div className="flex flex-col gap-3">
+          <p>{tGame('abandonBody')}</p>
+          <Button
+            disabled={busy}
+            onClick={async () => {
+              const to = leaveTo;
+              setBusy(true);
+              await abandon?.();
+              setBusy(false);
+              setLeaveTo(null);
+              if (to) router.push(to);
+            }}
+          >
+            {tGame('abandonConfirm')}
+          </Button>
+          <Button variant="secondary" onClick={() => setLeaveTo(null)}>
+            {tGame('abandonKeep')}
+          </Button>
+        </div>
+      </Sheet>
     </>
   );
 }

@@ -2,10 +2,11 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { gameErrorKey } from '@/lib/game/errors';
 import { saveLastGame } from '@/lib/game/lastGame';
+import { useLiveGame } from '@/lib/game/liveGame';
 import { labelsOf } from '@/lib/game/playerLabel';
 import { isMyTurn } from '@/lib/game/types';
 import { useMarks } from '@/lib/game/deductionStore';
@@ -54,6 +55,21 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
   const eventSeq = state?.event_seq;
   usePresence(gameId, state?.game.status === 'active' && state.me.state === 'active');
 
+  // Mientras juegas, el gesto de atrás (deslizar desde el borde, botón atrás) no te saca de la
+  // partida: se queda aquí y pregunta si quieres abandonar.
+  const [abandonOpen, setAbandonOpen] = useState(false);
+  const inPlay = state?.game.status === 'active' && state.me.state === 'active';
+  useEffect(() => {
+    if (!inPlay) return;
+    window.history.pushState(null, '');
+    const onPop = () => {
+      window.history.pushState(null, '');
+      setAbandonOpen(true);
+    };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, [inPlay]);
+
   // Para abrir el tablero de deducción sin conexión (/sin-conexion).
   useEffect(() => {
     if (state) saveLastGame(gameId, state);
@@ -94,6 +110,23 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
     onSettled: refresh,
   });
 
+  async function abandon() {
+    const { error } = await supabase.rpc('abandon_game', { p_game_id: gameId });
+    if (error) setErrorKey(gameErrorKey(error));
+    await refresh();
+  }
+
+  // El menú de navegación pregunta antes de dejar la partida: le damos cómo abandonarla.
+  const abandonRef = useRef(abandon);
+  useEffect(() => {
+    abandonRef.current = abandon;
+  });
+  useEffect(() => {
+    if (!inPlay) return;
+    useLiveGame.setState({ abandon: () => abandonRef.current() });
+    return () => useLiveGame.setState({ abandon: null });
+  }, [inPlay]);
+
   if (loadError && !state) {
     return <p role="alert" className="p-4">{t('errors.load')}</p>;
   }
@@ -108,12 +141,6 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
   const pending = reveal.isPending || ask.isPending;
   const clueTime = myTurn && state.game.phase === 'clue';
   const myClues = state.clues.filter((c) => c.asker_id === state.me.player_id);
-
-  async function abandon() {
-    const { error } = await supabase.rpc('abandon_game', { p_game_id: gameId });
-    if (error) setErrorKey(gameErrorKey(error));
-    await refresh();
-  }
 
   async function declare(numbers: number[]): Promise<boolean> {
     const { data: result, error } = await supabase.rpc('declare_code', { p_game_id: gameId, p_numbers: numbers });
@@ -144,7 +171,7 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
           const badge =
             player.state === 'eliminated' ? t('eliminatedBadge') : player.state === 'abandoned' ? t('abandonedBadge') : null;
           return (
-            <section key={player.player_id} className="flex flex-col gap-2 rounded-2xl bg-espacio-claro/70 p-3 ring-1 ring-espacio-borde">
+            <section key={player.player_id} className="flex flex-col gap-2">
               <header className="flex items-center gap-2">
                 <Avatar avatarKey={player.avatar_key ?? 'default'} name={playerName(label)} size={32} />
                 <h2 className="truncate font-semibold">{playerName(label)}</h2>
@@ -165,7 +192,7 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
           onSelect={(n) => setDraft({ ...draft, tile: n })}
         />
 
-        <section className="flex flex-col gap-2 rounded-2xl bg-espacio-claro/70 p-3 ring-1 ring-espacio-borde">
+        <section className="flex flex-col gap-2">
           <h2 className="text-sm font-semibold">{t('mySupport')}</h2>
           <MySupport
             me={state.me}
@@ -177,11 +204,11 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
           />
         </section>
 
-        {canAbandon ? <AbandonSheet onAbandon={abandon} /> : null}
+        {canAbandon ? <AbandonSheet onAbandon={abandon} open={abandonOpen} onOpenChange={setAbandonOpen} /> : null}
       </main>
 
       {finished ? null : (
-        <div className="fixed inset-x-0 bottom-0 z-10 mx-auto flex max-w-[430px] flex-col gap-3 border-t border-espacio-borde bg-espacio/95 p-3 backdrop-blur">
+        <div className="fixed inset-x-0 bottom-[calc(3.5rem+env(safe-area-inset-bottom))] z-10 mx-auto flex max-w-[430px] flex-col gap-3 border-t border-espacio-borde bg-espacio/95 p-3 backdrop-blur">
           <TurnActions
             state={state}
             myTurn={myTurn}
