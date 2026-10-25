@@ -158,7 +158,9 @@
     "abandonBody": "Se contará como derrota. No podrás volver a ella.",
     "abandonConfirm": "Sí, abandonar",
     "abandonKeep": "Seguir jugando",
-    "eventTurnTimeout": "Se agota el tiempo de {name}: juega el servidor. Turnos agotados seguidos: {consecutive}."
+    "eventTurnTimeout": "Se agota el tiempo de {name}: juega el servidor. Turnos agotados seguidos: {consecutive}.",
+    "clueStackShow": "Ver las {count} pistas",
+    "clueStackHide": "Recoger las {count} pistas"
   },
   "declare": {
     "title": "Declarar tu código",
@@ -182,15 +184,16 @@
   },
   "deduction": {
     "title": "Tablero de deducción",
-    "help": "Tacha lo que descartes. Las fichas visibles para todos se tachan solas.",
+    "help": "Tacha lo que descartes y rodea lo que sea posible. Las fichas visibles para todos se tachan solas.",
     "modeStrike": "Tachar",
-    "modeCandidate": "Candidatos de la ficha {n}",
+    "modeCircle": "Rodear",
     "mode": "Modo",
-    "auto": "Visible: se tacha solo",
-    "struck": "Tachado por ti",
-    "candidateFor": "Candidato de las fichas {slots}",
+    "struck": "tachado por ti",
+    "circled": "rodeado por ti",
     "reset": "Borrar mis marcas",
-    "cell": "{number}, {points, plural, one {# punto} other {# puntos}}"
+    "cell": "{number}, {points, plural, one {# punto} other {# puntos}}",
+    "view": "Vista",
+    "viewAll": "Completo"
   },
   "practice": {
     "title": "Practicar",

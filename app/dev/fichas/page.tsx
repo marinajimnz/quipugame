@@ -18,7 +18,7 @@ export default function FichasPage() {
         <section key={size} className="flex flex-col gap-3">
           <h2 className="text-sm font-semibold">{size} px</h2>
           {(['public', 'unknown', 'back'] as const).map((state) => (
-            <div key={state} className="flex flex-wrap items-end gap-2">
+            <div key={state} className="flex flex-wrap items-end justify-center gap-2">
               {SAMPLE.map((n) => (
                 <GameTile
                   key={n}
@@ -31,7 +31,7 @@ export default function FichasPage() {
               ))}
             </div>
           ))}
-          <div className="flex flex-wrap items-end gap-2">
+          <div className="flex flex-wrap items-end justify-center gap-2">
             {[3, 22, 41, 58, 60].map((n) => (
               <GameTile key={n} number={n} colorIndex={(n - 1) % 5} points={TILE_POINTS[n]} state="public" size={size} selected={n === 22} />
             ))}

@@ -31,7 +31,6 @@ export function TurnActions({
   pending: boolean;
 }) {
   const t = useTranslations('game');
-  const tTile = useTranslations('tile');
 
   if (state.game.status !== 'active') return null;
   if (state.me.state !== 'active') return <p className="text-sm">{t('eliminatedNotice')}</p>;
@@ -52,21 +51,18 @@ export function TurnActions({
             </Button>
           </>
         ) : (
-          <div className="grid grid-cols-5 justify-items-center gap-1.5">
+          <div className="flex flex-wrap justify-center gap-1.5">
             {reserve.map((count, color) => (
-              <div key={color} className="flex flex-col items-center gap-0.5">
-                <GameTile
-                  number={null}
-                  colorIndex={color}
-                  points={null}
-                  state="back"
-                  size={52}
-                  disabled={pending || count === 0}
-                  onPress={() => onReveal(color)}
-                />
-                <span className="text-xs tabular-nums text-crema-suave" aria-hidden="true">{count}</span>
-                <span className="sr-only">{t('revealColor', { color: tTile(`colors.${color}`), count })}</span>
-              </div>
+              <GameTile
+                key={color}
+                number={null}
+                colorIndex={color}
+                points={null}
+                state="back"
+                size={52}
+                disabled={pending || count === 0}
+                onPress={() => onReveal(color)}
+              />
             ))}
           </div>
         )}

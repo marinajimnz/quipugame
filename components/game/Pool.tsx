@@ -17,7 +17,7 @@ export function Pool({
   return (
     <section aria-label={t('pool')} className="flex flex-col gap-1.5">
       <h2 className="text-sm font-semibold">{t('pool')}</h2>
-      <div className="grid grid-cols-6 justify-items-center gap-1.5">
+      <div className="flex flex-wrap justify-center gap-1.5">
         {pool.map((tile) => (
           <GameTile
             key={tile.number}

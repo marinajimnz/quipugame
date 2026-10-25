@@ -62,7 +62,7 @@ export function DeclareSheet({
       {stage === 'edit' ? (
         <div className="flex flex-col gap-4">
           <p className="text-sm">{t('intro')}</p>
-          <div className="flex justify-between gap-1.5">
+          <div className="flex justify-center gap-1.5">
             {slotColors.map((color, i) => (
               <div key={i} className="flex flex-col items-center gap-1">
                 <GameTile number={null} colorIndex={color} points={null} state="unknown" size={48} />
@@ -94,7 +94,7 @@ export function DeclareSheet({
       {stage === 'confirm' ? (
         <div className="flex flex-col gap-4">
           <p className="font-semibold">{t('reviewTitle')}</p>
-          <div className="flex justify-between gap-1.5">
+          <div className="flex justify-center gap-1.5">
             {numbers.map((n, i) => (
               <GameTile key={i} number={n} colorIndex={slotColors[i]} points={TILE_POINTS[n]} state="solved" size={58} />
             ))}

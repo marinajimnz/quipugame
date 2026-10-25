@@ -16,7 +16,7 @@ const INK = ['var(--grafito)', 'var(--grafito)', 'var(--crema)', 'var(--crema)',
 
 // Un símbolo por color (P6: el color nunca es el único portador de información).
 // Cada forma cabe en una caja de lado 2 centrada en el origen.
-const SYMBOLS: string[] = [
+export const SYMBOLS: string[] = [
   'M0 -1A1 1 0 1 1 0 1A1 1 0 1 1 0 -1Z', //                                0 ámbar · círculo
   'M0 -1.05L1.1 0.85H-1.1Z', //                                            1 lima · triángulo
   'M-0.9 -0.9H0.9V0.9H-0.9Z', //                                           2 rosa · cuadrado
@@ -116,7 +116,8 @@ function Face({ number, colorIndex, points, state, size }: Pick<TileProps, 'numb
  */
 export function Tile({ size, selected = false, disabled = false, onPress, label, ...face }: TileProps) {
   const height = Math.round((size * TILE_H) / TILE_W);
-  const box = { width: size, height, minWidth: 44, minHeight: 44 };
+  // El mínimo de 44 px es por el objetivo táctil: una ficha que no se pulsa puede ser más pequeña.
+  const box = onPress ? { width: size, height, minWidth: 44, minHeight: 44 } : { width: size, height };
   const ring = selected
     ? 'outline-3 outline-offset-2 outline-[var(--acento)]'
     : 'focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-[var(--acento)]';

@@ -32,7 +32,7 @@ export default async function ReglasPage() {
         <p>{t('tiles1')}</p>
         <p>{t('tiles2')}</p>
         <figure className="flex flex-col gap-2">
-          <div className="flex justify-between gap-1.5">
+          <div className="flex justify-center gap-1.5">
             {[0, 1, 2, 3, 4].map((c) => (
               <div key={c} className="flex flex-col items-center gap-1">
                 <GameTile number={null} colorIndex={c} points={null} state="unknown" size={56} />

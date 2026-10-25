@@ -18,12 +18,10 @@ import { useGameText } from '@/lib/game/useGameText';
 import { createClient } from '@/lib/supabase/client';
 import { Avatar } from '@/components/profile/Avatar';
 import { AbandonSheet } from './AbandonSheet';
-import { ClueList } from './ClueList';
 import { ConnectionBanner } from './ConnectionBanner';
 import { DeclareSheet } from './DeclareSheet';
 import { DeductionBoard } from './DeductionBoard';
 import { GameOver } from './GameOver';
-import { History } from './History';
 import { Pool } from './Pool';
 import { MySupport, OtherSupport } from './Support';
 import { TurnActions, EMPTY_DRAFT, type ClueDraft } from './TurnActions';
@@ -151,8 +149,7 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
                   <span className="rounded-full bg-espacio-borde px-2 py-0.5 text-xs font-semibold text-crema">{t('disconnectedBadge')}</span>
                 ) : null}
               </header>
-              <OtherSupport player={player} />
-              <ClueList clues={clues} />
+              <OtherSupport player={player} clues={clues} />
             </section>
           );
         })}
@@ -168,15 +165,13 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
           <h2 className="text-sm font-semibold">{t('mySupport')}</h2>
           <MySupport
             me={state.me}
+            clues={myClues}
             selectableSlot={clueTime && draft.kind === 'compare' && !pending}
             selectedSlot={draft.slot}
             onSelectSlot={(slot) => setDraft({ ...draft, slot })}
           />
-          <h3 className="mt-1 text-sm font-semibold">{t('cluesTitle')}</h3>
-          <ClueList clues={myClues} empty />
         </section>
 
-        <History gameId={gameId} eventSeq={state.event_seq} labels={labels} />
         {canAbandon ? <AbandonSheet onAbandon={abandon} /> : null}
       </main>
 

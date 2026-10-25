@@ -34,7 +34,7 @@ export function GameOver({
         <h2 className="text-sm font-semibold">{t('yourNumbers')}</h2>
         <MySupport me={state.me} size={52} />
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-4">
         {state.game.mode === 'practice' ? <PracticeAgain bots={state.players.length} /> : null}
         <Link
           href="/"

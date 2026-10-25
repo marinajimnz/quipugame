@@ -158,7 +158,9 @@
     "abandonBody": "It will count as a loss. You will not be able to come back.",
     "abandonConfirm": "Yes, leave",
     "abandonKeep": "Keep playing",
-    "eventTurnTimeout": "{name} ran out of time: the server plays for them. Timed-out turns in a row: {consecutive}."
+    "eventTurnTimeout": "{name} ran out of time: the server plays for them. Timed-out turns in a row: {consecutive}.",
+    "clueStackShow": "Show all {count} clues",
+    "clueStackHide": "Collapse the {count} clues"
   },
   "declare": {
     "title": "Declare your code",
@@ -182,15 +184,16 @@
   },
   "deduction": {
     "title": "Deduction board",
-    "help": "Cross out what you rule out. Tiles everyone can see are crossed out for you.",
+    "help": "Strike out what you rule out and circle what is possible. Tiles visible to everyone are struck out automatically.",
     "modeStrike": "Cross out",
-    "modeCandidate": "Candidates for tile {n}",
+    "modeCircle": "Circle",
     "mode": "Mode",
-    "auto": "Visible: crossed out automatically",
-    "struck": "Crossed out by you",
-    "candidateFor": "Candidate for tiles {slots}",
+    "struck": "crossed out by you",
+    "circled": "circled by you",
     "reset": "Clear my marks",
-    "cell": "{number}, {points, plural, one {# point} other {# points}}"
+    "cell": "{number}, {points, plural, one {# point} other {# points}}",
+    "view": "View",
+    "viewAll": "All"
   },
   "practice": {
     "title": "Practice",

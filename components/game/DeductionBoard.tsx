@@ -8,14 +8,18 @@ import { autoStruck } from '@/lib/game/autoStrike';
 import { EMPTY_MARKS, useDeductionStore } from '@/lib/game/deductionStore';
 import type { GameState } from '@/lib/game/types';
 import { TILE_POINTS } from '@/src/game/pointsTable';
+import { GameTile } from './GameTile';
+import { SYMBOLS, TILE_H, TILE_W } from './Tile';
 import { TILE_FILL, TILE_INK } from './tileColors';
 
-type Mode = 'strike' | number; // número = posición (0–4) cuyos candidatos se anotan
+type Mode = 'strike' | 'circle'; // tachar = descartado · rodear = posible
+type View = 'all' | number; // número = color (0–4) que se muestra solo
 
 const NUMBERS = Array.from({ length: 60 }, (_, i) => i + 1);
 
 /**
- * Tablero personal con las 60 fichas, en columnas por color. Tachado manual, tachado automático
+ * Tablero personal con las 60 fichas: completo (en orden, cada columna es un color) o un color
+ * solo, con las casillas más grandes. Tachado manual, tachado automático
  * de lo que ya es público (distinto aspecto) y candidatos por posición. Es solo una ayuda:
  * no decide nada del juego.
  */
@@ -24,9 +28,13 @@ export function DeductionBoard({
 }: { open: boolean; onClose: () => void; gameId: string; state: GameState }) {
   const t = useTranslations('deduction');
   const tGame = useTranslations('game');
-  const marks = useDeductionStore((s) => s.games[gameId]) ?? EMPTY_MARKS;
-  const { toggleStrike, toggleCandidate, clear } = useDeductionStore.getState();
+  const tTile = useTranslations('tile');
+  const stored = useDeductionStore((s) => s.games[gameId]);
+  const marks = { ...EMPTY_MARKS, ...stored };
+  const { toggleStrike, toggleCircle, clear } = useDeductionStore.getState();
   const [mode, setMode] = useState<Mode>('strike');
+  const [view, setView] = useState<View>('all');
+  const shown = view === 'all' ? NUMBERS : NUMBERS.filter((n) => (n - 1) % 5 === view);
 
   useEffect(() => {
     void useDeductionStore.persist.rehydrate();
@@ -36,7 +44,7 @@ export function DeductionBoard({
 
   function press(n: number) {
     if (mode === 'strike') toggleStrike(gameId, n);
-    else toggleCandidate(gameId, mode, n);
+    else toggleCircle(gameId, n);
   }
 
   return (
@@ -44,64 +52,84 @@ export function DeductionBoard({
       <div className="flex flex-col gap-3">
         <p className="text-sm">{t('help')}</p>
 
-        <div role="radiogroup" aria-label={t('mode')} className="grid grid-cols-7 gap-1.5">
-          <button
-            type="button" role="radio" aria-checked={mode === 'strike'} onClick={() => setMode('strike')}
-            className="col-span-2 min-h-11 rounded-xl text-sm font-semibold ring-1 ring-espacio-borde aria-checked:bg-acento aria-checked:text-grafito aria-checked:ring-0 focus-visible:outline-2 focus-visible:outline-acento"
-          >
-            {t('modeStrike')}
-          </button>
-          {[0, 1, 2, 3, 4].map((slot) => (
+        <div role="radiogroup" aria-label={t('mode')} className="grid grid-cols-2 gap-1.5">
+          {(['strike', 'circle'] as const).map((m) => (
             <button
-              key={slot} type="button" role="radio" aria-checked={mode === slot}
-              aria-label={t('modeCandidate', { n: slot + 1 })}
-              onClick={() => setMode(slot)}
-              className="min-h-11 rounded-xl text-sm font-semibold tabular-nums ring-1 ring-espacio-borde aria-checked:bg-acento aria-checked:text-grafito aria-checked:ring-0 focus-visible:outline-2 focus-visible:outline-acento"
+              key={m} type="button" role="radio" aria-checked={mode === m} onClick={() => setMode(m)}
+              className="min-h-11 rounded-xl text-sm font-semibold ring-1 ring-espacio-borde aria-checked:bg-acento aria-checked:text-grafito aria-checked:ring-0 focus-visible:outline-2 focus-visible:outline-acento"
             >
-              {slot + 1}
+              {m === 'strike' ? t('modeStrike') : t('modeCircle')}
             </button>
           ))}
         </div>
 
-        <div className="grid grid-cols-5 gap-1.5" role="group" aria-label={t('title')}>
-          {NUMBERS.slice().sort((a, b) => ((a - 1) % 5) - ((b - 1) % 5) || a - b).map((n) => {
+        <div role="tablist" aria-label={t('view')} className="grid grid-cols-7 gap-1.5">
+          <button
+            type="button" role="tab" aria-selected={view === 'all'} onClick={() => setView('all')}
+            className="col-span-2 min-h-11 rounded-xl text-sm font-semibold ring-1 ring-espacio-borde aria-selected:bg-crema aria-selected:text-grafito aria-selected:ring-0 focus-visible:outline-2 focus-visible:outline-acento"
+          >
+            {t('viewAll')}
+          </button>
+          {[0, 1, 2, 3, 4].map((color) => (
+            <button
+              key={color} type="button" role="tab" aria-selected={view === color}
+              aria-label={tTile(`colors.${color}`)}
+              onClick={() => setView(color)}
+              style={{ background: TILE_FILL[color] }}
+              className="flex min-h-11 items-center justify-center rounded-xl aria-selected:ring-3 aria-selected:ring-crema aria-selected:ring-offset-2 aria-selected:ring-offset-espacio focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-acento"
+            >
+              <svg viewBox="-1.2 -1.2 2.4 2.4" width={20} height={20} aria-hidden="true" focusable="false">
+                <path d={SYMBOLS[color]} fill={TILE_INK[color]} />
+              </svg>
+            </button>
+          ))}
+        </div>
+
+        <div
+          className={`grid justify-items-center gap-1.5 ${view === 'all' ? 'grid-cols-5' : 'grid-cols-4'}`}
+          role="tabpanel"
+          aria-label={t('title')}
+        >
+          {shown.map((n) => {
             const color = (n - 1) % 5;
             const byMe = marks.struck.includes(n);
             const byAuto = auto.has(n);
-            const slots = Object.entries(marks.candidates)
-              .filter(([, list]) => list.includes(n))
-              .map(([slot]) => Number(slot) + 1);
-            const struck = byMe || byAuto;
+            const circled = marks.circled.includes(n);
+            const size = view === 'all' ? 56 : 72;
 
             return (
               <button
                 key={n}
                 type="button"
                 onClick={() => press(n)}
-                aria-label={t('cell', { number: n, points: TILE_POINTS[n] })}
-                aria-pressed={byMe}
+                aria-label={`${t('cell', { number: n, points: TILE_POINTS[n] })}${byMe ? `, ${t('struck')}` : circled ? `, ${t('circled')}` : ''}`}
                 data-auto={byAuto || undefined}
-                style={{ background: TILE_FILL[color], color: TILE_INK[color] }}
-                className={`relative flex min-h-11 flex-col items-center justify-center rounded-lg px-1 py-1 font-display font-extrabold tabular-nums ring-1 ring-grafito/40 focus-visible:outline-3 focus-visible:outline-offset-1 focus-visible:outline-crema ${struck ? 'opacity-35' : ''} ${byAuto ? 'saturate-50' : ''}`}
+                className="relative rounded-[22%] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-crema"
               >
-                <span className={`text-xl leading-none ${struck ? 'line-through decoration-2' : ''}`}>{n}</span>
-                <span className="text-[10px] leading-none" aria-hidden="true">
-                  {'•'.repeat(TILE_POINTS[n])}
+                <span aria-hidden="true" className={`block ${byMe || byAuto ? 'opacity-35' : ''} ${byAuto ? 'saturate-50' : ''}`}>
+                  <GameTile number={n} colorIndex={color} points={TILE_POINTS[n]} state="public" size={size} />
                 </span>
-                {byAuto && !byMe ? (
-                  <span className="absolute inset-x-1 top-1/2 h-0.5 -rotate-12 bg-current opacity-80" aria-hidden="true" />
-                ) : null}
-                {slots.length ? (
-                  <span className="absolute -right-1 -top-1 rounded-full bg-grafito px-1 text-[10px] leading-4 text-crema" aria-hidden="true">
-                    {slots.join('')}
-                  </span>
+                {/* Marcas dibujadas sobre la ficha, en el mismo lienzo (100 × 108) y con la tinta de su color. */}
+                {byMe || byAuto || circled ? (
+                  <svg
+                    viewBox={`0 0 ${TILE_W} ${TILE_H}`}
+                    className="pointer-events-none absolute inset-0 h-full w-full"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    {byMe || byAuto ? (
+                      <line x1={14} y1={90} x2={86} y2={14} stroke="var(--crema)" strokeWidth={byMe ? 7 : 5} strokeLinecap="round" />
+                    ) : null}
+                    {circled ? (
+                      <ellipse cx={50} cy={53} rx={36} ry={24} fill="none" stroke={TILE_INK[color]} strokeWidth={6} />
+                    ) : null}
+                  </svg>
                 ) : null}
               </button>
             );
           })}
         </div>
 
-        <p className="text-xs text-crema-suave">{t('auto')}</p>
         <Button variant="secondary" onClick={() => clear(gameId)}>{t('reset')}</Button>
         <span className="sr-only">{tGame('deduction')}</span>
       </div>

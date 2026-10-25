@@ -5,18 +5,21 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import { toggleIn } from './autoStrike';
 
 interface Marks {
-  struck: number[]; //                       tachados por mí
-  candidates: Record<number, number[]>; //   posición (0–4) -> números anotados
+  struck: number[]; //  tachados por mí: descartados
+  circled: number[]; // rodeados por mí: posibles
 }
 
 interface DeductionStore {
   games: Record<string, Marks>;
   toggleStrike: (gameId: string, n: number) => void;
-  toggleCandidate: (gameId: string, slot: number, n: number) => void;
+  toggleCircle: (gameId: string, n: number) => void;
   clear: (gameId: string) => void;
 }
 
-const empty: Marks = { struck: [], candidates: {} };
+const empty: Marks = { struck: [], circled: [] };
+
+// Las marcas guardadas antes de existir `circled` no lo traen.
+const marksOf = (games: Record<string, Marks>, gameId: string): Marks => ({ ...empty, ...games[gameId] });
 
 /**
  * Lo que el jugador apunta en su tablero de deducción. No sale del dispositivo (no es estado
@@ -26,16 +29,18 @@ export const useDeductionStore = create<DeductionStore>()(
   persist(
     (set) => ({
       games: {},
+      // Tachar y rodear se excluyen: marcar una cosa quita la otra.
       toggleStrike: (gameId, n) =>
         set((s) => {
-          const marks = s.games[gameId] ?? empty;
-          return { games: { ...s.games, [gameId]: { ...marks, struck: toggleIn(marks.struck, n) } } };
+          const marks = marksOf(s.games, gameId);
+          const circled = marks.circled.filter((x) => x !== n);
+          return { games: { ...s.games, [gameId]: { struck: toggleIn(marks.struck, n), circled } } };
         }),
-      toggleCandidate: (gameId, slot, n) =>
+      toggleCircle: (gameId, n) =>
         set((s) => {
-          const marks = s.games[gameId] ?? empty;
-          const next = toggleIn(marks.candidates[slot] ?? [], n);
-          return { games: { ...s.games, [gameId]: { ...marks, candidates: { ...marks.candidates, [slot]: next } } } };
+          const marks = marksOf(s.games, gameId);
+          const struck = marks.struck.filter((x) => x !== n);
+          return { games: { ...s.games, [gameId]: { struck, circled: toggleIn(marks.circled, n) } } };
         }),
       clear: (gameId) =>
         set((s) => {
