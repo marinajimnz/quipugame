@@ -8,6 +8,7 @@ import { autoStruck } from '@/lib/game/autoStrike';
 import { useDeductionStore, useMarks } from '@/lib/game/deductionStore';
 import type { GameState } from '@/lib/game/types';
 import { TILE_POINTS } from '@/src/game/pointsTable';
+import { ClueRail } from './ClueRail';
 import { GameTile } from './GameTile';
 import { SYMBOLS, TILE_H, TILE_W } from './Tile';
 import { TILE_FILL, TILE_INK } from './tileColors';
@@ -67,31 +68,35 @@ export function DeductionBoard({
       <div className="flex flex-col gap-3">
         {coach}
         <section aria-label={t('mine')} className="sticky -top-4 z-10 -mx-4 flex flex-col gap-1.5 bg-espacio-claro px-4 pb-2 pt-1">
-          <div className="flex justify-center gap-1.5">
-            {state.me.support.map((s) => {
-              const guess = marks.guesses[s.slot];
-              return s.resolved_number !== null ? (
-                <GameTile
-                  key={s.slot}
-                  number={s.resolved_number}
-                  colorIndex={s.color_index}
-                  points={TILE_POINTS[s.resolved_number]}
-                  state="solved"
-                  size={52}
-                />
-              ) : (
-                <GameTile
-                  key={s.slot}
-                  number={guess ?? null}
-                  colorIndex={s.color_index}
-                  points={null}
-                  state={guess ? 'guess' : 'unknown'}
-                  size={52}
-                  selected={guessSlot === s.slot}
-                  onPress={() => pickSlot(s.slot, s.color_index)}
-                />
-              );
-            })}
+          {/* Fila y pistas comparten ancho: ClueRail calca la fila para colocar cada pista en su sitio. */}
+          <div className="mx-auto flex w-fit flex-col gap-2">
+            <div className="flex justify-center gap-1.5">
+              {state.me.support.map((s) => {
+                const guess = marks.guesses[s.slot];
+                return s.resolved_number !== null ? (
+                  <GameTile
+                    key={s.slot}
+                    number={s.resolved_number}
+                    colorIndex={s.color_index}
+                    points={TILE_POINTS[s.resolved_number]}
+                    state="solved"
+                    size={52}
+                  />
+                ) : (
+                  <GameTile
+                    key={s.slot}
+                    number={guess ?? null}
+                    colorIndex={s.color_index}
+                    points={null}
+                    state={guess ? 'guess' : 'unknown'}
+                    size={52}
+                    selected={guessSlot === s.slot}
+                    onPress={() => pickSlot(s.slot, s.color_index)}
+                  />
+                );
+              })}
+            </div>
+            <ClueRail clues={state.clues.filter((c) => c.asker_id === state.me.player_id)} tileSize={52} />
           </div>
           <p className="text-center text-sm font-medium" aria-live="polite">
             {guessSlot === null ? t('mineHelp') : t('pickGuess', { n: guessSlot + 1 })}
