@@ -17,7 +17,7 @@ export default async function PerfilPage() {
   const winRate = profile.games_played > 0 ? Math.round((profile.games_won / profile.games_played) * 100) : 0;
 
   return (
-    <main className="flex min-h-dvh flex-col gap-6 px-4 py-8">
+    <main className="flex min-h-pantalla flex-col gap-6 px-4 py-8">
       <header className="flex items-center gap-3">
         <Avatar avatarKey={profile.avatar_key} name={profile.display_name} size={64} />
         <div className="flex min-w-0 flex-col">

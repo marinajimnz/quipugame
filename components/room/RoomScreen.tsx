@@ -74,7 +74,7 @@ export function RoomScreen({ code, userId }: { code: string; userId: string }) {
 
   if (join.error) {
     return (
-      <main className="flex min-h-dvh flex-col justify-center gap-4 px-4 py-8">
+      <main className="flex min-h-pantalla flex-col justify-center gap-4 px-4 py-8">
         <p role="alert" className="text-lg">{t(`errors.${roomErrorKey(join.error as { message?: string })}`)}</p>
         <Link href="/" className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-espacio-claro px-5 font-semibold ring-1 ring-espacio-borde">
           {t('backHome')}
@@ -124,7 +124,7 @@ export function RoomScreen({ code, userId }: { code: string; userId: string }) {
   }
 
   return (
-    <main className="flex min-h-dvh flex-col gap-5 px-4 py-6">
+    <main className="flex min-h-pantalla flex-col gap-5 px-4 py-6">
       <header className="flex flex-col gap-1">
         <p className="text-sm font-medium text-crema-suave">{t('codeLabel')}</p>
         <p className="font-display text-6xl font-extrabold tracking-[0.12em] tabular-nums" aria-label={r.code.split('').join(' ')}>

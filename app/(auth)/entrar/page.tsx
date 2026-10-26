@@ -15,7 +15,7 @@ export default async function EntrarPage({ searchParams }: { searchParams: Promi
   const t = await getTranslations();
 
   return (
-    <main className="flex min-h-dvh flex-col justify-center gap-8 px-4 py-10">
+    <main className="flex min-h-pantalla flex-col justify-center gap-8 px-4 py-10">
       <h1 className="sr-only">{t('auth.title', { app: t('app.name') })}</h1>
       <div className="flex justify-center">
         <Wordmark size={280} showTagline />

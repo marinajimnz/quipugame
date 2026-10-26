@@ -27,6 +27,12 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
+/* Alto de pantalla útil: el de la ventana menos la barra de navegación, si la hay (MainNav
+   define --nav-h). Así lo que va al final de una pantalla queda por encima de la barra. */
+@utility min-h-pantalla {
+  min-height: calc(100dvh - var(--nav-h, 0px));
+}
+
 html {
   background: var(--espacio);
   color: var(--crema);

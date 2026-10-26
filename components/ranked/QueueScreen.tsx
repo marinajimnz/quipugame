@@ -54,7 +54,7 @@ export function QueueScreen() {
 
   if (!q.in_queue) {
     return (
-      <main className="flex min-h-dvh flex-col justify-center gap-4 px-4 py-8">
+      <main className="flex min-h-pantalla flex-col justify-center gap-4 px-4 py-8">
         <p>{t('notInQueue')}</p>
         <Button
           onClick={async () => {
@@ -85,7 +85,7 @@ export function QueueScreen() {
   }
 
   return (
-    <main className="flex min-h-dvh flex-col gap-6 px-4 py-10">
+    <main className="flex min-h-pantalla flex-col gap-6 px-4 py-10">
       <h1 className="font-display text-4xl font-extrabold tracking-tight">{t('title')}</h1>
 
       <div className="flex flex-col items-center gap-2 rounded-3xl bg-espacio-claro p-6 ring-1 ring-espacio-borde" aria-live="polite">
