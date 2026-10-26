@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import type { ReactNode } from 'react';
+import { GameTile } from '@/components/game/GameTile';
 
 // Reglas: pública (sin sesión), estática y disponible sin conexión (la guarda el service worker).
 // Fuente normativa: specs/001-mvp/spec.md §4. El texto es propio (P7).
@@ -47,6 +48,23 @@ export default async function ReglasPage() {
           <dd>{t('compare')}</dd>
         </dl>
         <p>{t('turn3')}</p>
+      </Section>
+
+      <Section title={t('barsTitle')}>
+        <p>{t('bars1')}</p>
+        <p>{t('bars2')}</p>
+        <ul className="flex flex-col gap-3 rounded-2xl bg-espacio-claro p-3 ring-1 ring-espacio-borde">
+          <li className="flex items-center gap-4">
+            <GameTile number={55} colorIndex={4} points={1} state="public" size={44} />
+            <span>{t('barsSame')}</span>
+          </li>
+          <li className="flex items-center gap-4">
+            <span className="block -rotate-90">
+              <GameTile number={55} colorIndex={4} points={1} state="public" size={44} />
+            </span>
+            <span>{t('barsDifferent')}</span>
+          </li>
+        </ul>
       </Section>
 
       <Section title={t('declareTitle')}>

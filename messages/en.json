@@ -77,7 +77,7 @@
       "red",
       "blue"
     ],
-    "solved": "Tile {number}, {color}, {points, plural, one {# point} other {# points}}",
+    "solved": "Tile {number}, {color}, {points, plural, one {# bar} other {# bars}}",
     "unknown": "Unsolved tile, {color}",
     "guess": "Unsolved tile, {color}; you think it is {number}",
     "back": "Face-down tile, {color}"
@@ -107,14 +107,14 @@
     "classify": "Place",
     "compare": "Compare",
     "classifyHelp": "It will tell you which two of your tiles it fits between.",
-    "compareHelp": "It will tell you whether it has the same points as one of your tiles.",
+    "compareHelp": "It will tell you whether it has the same bars as one of your tiles.",
     "pickSlot": "Now tap the tile of yours to compare with.",
     "confirmClue": "Ask for the clue",
     "sending": "Sending…",
     "cluesTitle": "Clues",
     "noClues": "No clues yet.",
     "clueClassify": "{position, select, 0 {Fits below all of them} 5 {Fits above all of them} other {Fits between tile {a} and tile {b}}}",
-    "clueCompare": "Same points as tile {slot}? {same, select, true {Yes} other {No}}",
+    "clueCompare": "Same bars as tile {slot}? {same, select, true {Yes} other {No}}",
     "history": "History",
     "eventGameStarted": "The game starts.",
     "eventTileRevealed": "{name} reveals tile {number}.",
@@ -148,7 +148,8 @@
       "backHome": "Back to home",
       "eloChange": "{delta, plural, =0 {Your ELO does not change: {after}} other {{sign}{abs} ELO: now {after}}}"
     },
-    "disconnectedBadge": "Disconnected",
+    "guestBadge": "Guest",
+    "verifiedBadge": "Verified",
     "connectionLost": "No connection. Reconnecting…",
     "abandon": "Leave the game",
     "abandonTitle": "Leave the game?",
@@ -189,7 +190,7 @@
     "struck": "crossed out by you",
     "circled": "circled by you",
     "reset": "Clear my marks",
-    "cell": "{number}, {points, plural, one {# point} other {# points}}",
+    "cell": "{number}, {points, plural, one {# bar} other {# bars}}",
     "view": "View",
     "viewAll": "All",
     "mine": "Your tiles",
@@ -312,7 +313,12 @@
     "classifyTitle": "Place",
     "classify": "Which two of my tiles does this one fit between? The answer tells you how many of your tiles are lower: “below all of them”, “between tile 2 and tile 3”, “above all of them”…",
     "compareTitle": "Compare",
-    "compare": "Does it have the same points as my tile number such-and-such? The answer is yes or no.",
+    "compare": "Does it have the same bars as this tile of mine? The answer is yes or no.",
+    "barsTitle": "The bars on each tile",
+    "bars1": "At the bottom of every tile there are three bars, filled in one, two or three. It is one more clue: two tiles with the same number of filled bars are a match.",
+    "bars2": "The answer to Compare hangs under the tile of yours you asked about, with the reserve tile you used:",
+    "barsSame": "Upright: it has the same bars as yours.",
+    "barsDifferent": "Turned on its side: it has a different number of bars than yours.",
     "turn3": "The tile you use is spent and stays in view. Clues and their answers are public: you can also learn from what others ask.",
     "declareTitle": "Declaring",
     "declare1": "When you think you know your five numbers, declare. You can do it at any moment, even outside your turn.",
@@ -394,15 +400,15 @@
       },
       "compare": {
         "title": "Compare",
-        "body": "Tap the 55 and choose Compare. Then tap your blue tile, the fifth one, and ask: you'll learn whether both are worth the same points."
+        "body": "Tap the 55 and choose Compare. Then tap your blue tile, the fifth one, and ask: you'll learn whether both have the same filled bars."
       },
       "compared": {
-        "title": "Same points",
-        "body": "Yes: your blue tile is worth the same as the 55, 1 point. The clue sits under that tile. You can already work out a lot."
+        "title": "Same bars",
+        "body": "The 55 sits upright under your blue tile: that means yes, both have the same filled bars (one). Had it been turned on its side, the answer would have been no. You can already work out a lot."
       },
       "deduce": {
         "title": "Deduce",
-        "body": "Think about your blue tile. It's greater than 31 and worth 1 point: it can only be 35 or 45. If it were 35, the other four wouldn't fit between 31 and 35. On the board, tap your blue tile and note down 45."
+        "body": "Think about your blue tile. It's greater than 31 and has one filled bar: it can only be 35 or 45. If it were 35, the other four wouldn't fit between 31 and 35. On the board, tap your blue tile and note down 45."
       },
       "deduced": {
         "title": "Well spotted!",

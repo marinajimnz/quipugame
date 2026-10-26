@@ -10,10 +10,8 @@ import { useLiveGame } from '@/lib/game/liveGame';
 import { labelsOf } from '@/lib/game/playerLabel';
 import { isMyTurn } from '@/lib/game/types';
 import { useMarks } from '@/lib/game/deductionStore';
-import { isDisconnected } from '@/lib/game/presence';
 import { useGameChannel } from '@/lib/game/useGameChannel';
 import { useGameState } from '@/lib/game/useGameState';
-import { useNow } from '@/lib/game/useNow';
 import { useOnline } from '@/lib/game/useOnline';
 import { usePresence } from '@/lib/game/usePresence';
 import { useGameText } from '@/lib/game/useGameText';
@@ -35,7 +33,6 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
   const connected = useGameChannel(gameId);
   const { data, error: loadError, isError } = useGameState(gameId, connected);
   const online = useOnline();
-  const now = useNow(1000);
   const { playerName } = useGameText();
 
   // El borrador de pista pertenece al estado en que se creó: cuando llega un evento nuevo
@@ -152,7 +149,6 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
     return (result as { correct: boolean }).correct;
   }
 
-  const serverNow = now + data.clockOffsetMs;
   const canAbandon = state.game.status === 'active' && state.me.state === 'active';
 
   return (
@@ -177,8 +173,10 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
                 <Avatar avatarKey={player.avatar_key ?? 'default'} name={playerName(label)} size={32} />
                 <h2 className="truncate font-semibold">{playerName(label)}</h2>
                 {badge ? <span className="rounded-full bg-acento text-grafito px-2 py-0.5 text-xs font-semibold">{badge}</span> : null}
-                {!player.is_bot && player.state === 'active' && state.game.status === 'active' && isDisconnected(player.last_seen_at, serverNow) ? (
-                  <span className="rounded-full bg-espacio-borde px-2 py-0.5 text-xs font-semibold text-crema">{t('disconnectedBadge')}</span>
+                {!player.is_bot ? (
+                  <span className="rounded-full bg-espacio-borde px-2 py-0.5 text-xs font-semibold text-crema">
+                    {player.is_guest ? t('guestBadge') : t('verifiedBadge')}
+                  </span>
                 ) : null}
               </header>
               <OtherSupport player={player} clues={clues} />
