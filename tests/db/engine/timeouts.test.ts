@@ -31,6 +31,15 @@ describe('tick_timeouts', () => {
     ]);
   });
 
+  it('las partidas de práctica no tienen límite de tiempo', async () => {
+    const game = await createGame([a, b], 'practice');
+    await exec(`update public.games set turn_deadline = ${OVERDUE} where id = '${game.id}'; select game_internal.tick_timeouts()`);
+
+    expect(await kinds(game)).toEqual(['game_started']);
+    const { data: g } = await admin.from('games').select('current_seat, status').eq('id', game.id).single();
+    expect(g).toMatchObject({ current_seat: 0, status: 'active' });
+  });
+
   it('fase revelar: el servidor revela un color y clasifica esa ficha', async () => {
     const game = await createGame([a, b]);
     await exec(`update public.games set turn_deadline = ${OVERDUE} where id = '${game.id}'; select game_internal.tick_timeouts()`);

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { formatSeconds, secondsLeft } from '@/lib/game/turnTimer';
 import type { GameState } from '@/lib/game/types';
 
-/** Turno, cronómetro y fichas que quedan en la reserva. El reloj es el del servidor. */
+/** Turno, cronómetro y fichas que quedan en la reserva. El reloj es el del servidor; en práctica no hay. */
 export function TurnBar({
   state, clockOffsetMs, turnName, mine,
 }: { state: GameState; clockOffsetMs: number; turnName: string; mine: boolean }) {
@@ -17,7 +17,8 @@ export function TurnBar({
     return () => clearInterval(id);
   }, []);
 
-  const left = state.game.status === 'active' ? secondsLeft(state.game.turn_deadline, clockOffsetMs, now) : null;
+  const timed = state.game.status === 'active' && state.game.mode !== 'practice';
+  const left = timed ? secondsLeft(state.game.turn_deadline, clockOffsetMs, now) : null;
   const reserve = state.game.reserve_by_color.reduce((a, b) => a + b, 0);
   const urgent = left !== null && left <= 10;
 

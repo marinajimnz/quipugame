@@ -329,6 +329,7 @@
     "timeTitle": "Tiempo",
     "time1": "Cada turno dura 60 segundos. Si se te acaba, el servidor juega por ti: revela un color al azar y clasifica esa ficha.",
     "time2": "Tres turnos agotados seguidos cuentan como abandono.",
+    "time3": "En las partidas de práctica contra bots no hay límite de tiempo.",
     "modesTitle": "Modos de juego",
     "modePractice": "Práctica: contra 1 a 3 bots. Para aprender sin presión. No cuenta para el ELO.",
     "modeRoom": "Sala privada: creas una sala, compartes el código y juegas con quien quieras. No cuenta para el ELO.",

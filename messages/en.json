@@ -329,6 +329,7 @@
     "timeTitle": "Time",
     "time1": "Each turn lasts 60 seconds. If you run out, the server plays for you: it reveals a random colour and places that tile.",
     "time2": "Three timed-out turns in a row count as leaving the game.",
+    "time3": "Practice games against bots have no time limit.",
     "modesTitle": "Game modes",
     "modePractice": "Practice: against 1 to 3 bots. To learn without pressure. It does not count for ELO.",
     "modeRoom": "Private room: create a room, share the code and play with whoever you like. It does not count for ELO.",
