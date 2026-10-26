@@ -62,6 +62,7 @@ export default async function ReglasPage() {
       <Section title={t('timeTitle')}>
         <p>{t('time1')}</p>
         <p>{t('time2')}</p>
+        <p>{t('time3')}</p>
       </Section>
 
       <Section title={t('modesTitle')}>
