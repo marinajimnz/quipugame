@@ -32,7 +32,7 @@ Toda migración es un fichero versionado en `supabase/migrations/`. No se toca e
 ## Tabla de puntos
 
 `supabase/seed/points_table.sql` y `src/game/pointsTable.ts` los genera
-`scripts/generate_points_table.py`. No se editan a mano:
+`scripts/generate_points_table.py` a partir de la tabla del tablero físico (1, 2, 3 de cinco en cinco). No se editan a mano:
 
 ```bash
 python3 scripts/generate_points_table.py

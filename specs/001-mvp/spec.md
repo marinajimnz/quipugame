@@ -61,18 +61,18 @@ Esta sección es normativa. Cualquier ambigüedad se resuelve aquí, no en el c�
 - Cada ficha tiene además un **valor de puntos**: 1, 2 o 3. Hay 20 fichas de cada valor, repartidas de forma equilibrada: **4 fichas de cada valor de puntos dentro de cada color**.
 - La tabla número → puntos es **fija y pública**. No se aleatoriza entre partidas: forma parte del tablero de referencia que el jugador consulta.
 
-**Tabla de puntos: fijada.** Generada con `scripts/generate_points_table.py` (semilla `20261023`) y verificada contra seis criterios: equilibrio 4/4/4 por color, ausencia de fórmula aritmética que la prediga (ninguna supera el 60 % de acierto frente al ~39 % del azar), rachas de como mucho 3 consecutivos, reparto parejo por bloques de 10, correlación número/puntos de +0,047 y ausencia de periodicidad y de simetría especular.
+**Tabla de puntos: fijada.** Es la del tablero físico de Quinteto: los puntos se repiten 1, 2, 3 de cinco en cinco (1-5 → 1, 6-10 → 2, 11-15 → 3, 16-20 → 1, …). Cumple el equilibrio 4/4/4 por color. La escribe `scripts/generate_points_table.py`.
 
-Los datos semilla viven en `supabase/seed/points_table.sql` y su equivalente para el cliente en `src/game/pointsTable.ts`. **No se editan a mano:** si hay que cambiarlos, se regeneran con otra semilla y se vuelven a verificar.
+Los datos semilla viven en `supabase/seed/points_table.sql` y su equivalente para el cliente en `src/game/pointsTable.ts`. **No se editan a mano:** se regeneran con el script. La migración `20261026130000_points_from_board.sql` actualizó la base de datos desde la tabla generada al azar que se usó al principio.
 
 | Número : puntos |
 |---|
-| 1:2 2:1 3:1 4:2 5:2 6:3 7:1 8:2 9:3 10:2 |
-| 11:1 12:3 13:3 14:1 15:3 16:1 17:2 18:3 19:3 20:2 |
-| 21:1 22:2 23:1 24:1 25:1 26:3 27:1 28:2 29:3 30:3 |
-| 31:2 32:2 33:2 34:1 35:1 36:3 37:1 38:3 39:2 40:3 |
-| 41:3 42:3 43:2 44:3 45:1 46:1 47:2 48:1 49:2 50:3 |
-| 51:2 52:3 53:3 54:2 55:1 56:2 57:3 58:1 59:1 60:2 |
+| 1:1 2:1 3:1 4:1 5:1 6:2 7:2 8:2 9:2 10:2 |
+| 11:3 12:3 13:3 14:3 15:3 16:1 17:1 18:1 19:1 20:1 |
+| 21:2 22:2 23:2 24:2 25:2 26:3 27:3 28:3 29:3 30:3 |
+| 31:1 32:1 33:1 34:1 35:1 36:2 37:2 38:2 39:2 40:2 |
+| 41:3 42:3 43:3 44:3 45:3 46:1 47:1 48:1 49:1 50:1 |
+| 51:2 52:2 53:2 54:2 55:2 56:3 57:3 58:3 59:3 60:3 |
 
 ### 4.2 Preparación
 
@@ -367,7 +367,7 @@ Mantiene, por cada una de sus 5 posiciones, el conjunto de números todavía pos
 
 | Decisión | Resolución |
 |---|---|
-| Tabla de puntos de las 60 fichas | Generada y verificada por script, semilla `20261023`. Fijada en la sección 4.1 |
+| Tabla de puntos de las 60 fichas | La del tablero físico (puntos 1, 2, 3 de cinco en cinco). Fijada en la sección 4.1 |
 | Clasificatorias de 3–4 jugadores | Fuera del MVP. 3 y 4 jugadores solo en salas privadas |
 | Cuentas de invitado | Invitado juega contra bots y en salas privadas; clasificatoria exige convertir la cuenta |
 

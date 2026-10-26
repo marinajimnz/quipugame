@@ -401,15 +401,15 @@
       },
       "compare": {
         "title": "Compare",
-        "body": "Tap the 55 and choose Compare. Then tap your blue tile, the fifth one, and ask: you'll learn whether both have the same filled bars."
+        "body": "Tap the 60 and choose Compare. Then tap your blue tile, the fifth one, and ask: you'll learn whether both have the same filled bars."
       },
       "compared": {
         "title": "Same bars",
-        "body": "The 55 sits upright under your blue tile: that means yes, both have the same filled bars (one). Had it been turned on its side, the answer would have been no. You can already work out a lot."
+        "body": "The 60 sits upright under your blue tile: that means yes, both have the same filled bars (three). Had it been turned on its side, the answer would have been no. You can already work out a lot."
       },
       "deduce": {
         "title": "Deduce",
-        "body": "Think about your blue tile. It's greater than 31 and has one filled bar: it can only be 35 or 45. If it were 35, the other four wouldn't fit between 31 and 35. On the board, tap your blue tile and note down 45."
+        "body": "Think about your blue tile. It's greater than 31 and has three filled bars. Of the blue tiles with three bars, only the 45 and the 60 are greater than 31, and the 60 is in plain sight: it has to be the 45. On the board, tap your blue tile and note down 45."
       },
       "deduced": {
         "title": "Well spotted!",

@@ -100,7 +100,7 @@ describe('tile_definitions', () => {
       expect(del.error).not.toBeNull();
     }
     const { data } = await admin.from('tile_definitions').select('points').eq('number', 1).single();
-    expect(data?.points).toBe(2); // valor de la tabla fijada
+    expect(data?.points).toBe(1); // valor de la tabla fijada (la del tablero físico)
   });
 });
 

@@ -43,7 +43,7 @@ Tres restricciones que no son negociables y que debes comprobar en cada tarea qu
 - Ninguna función devuelve al jugador los números de sus propias fichas mientras la partida esté activa **y él siga activo**. Un jugador eliminado o que ha abandonado, o cualquiera al terminar la partida, sí los recibe.
 - Toda función que muta una partida la bloquea primero con `select ... from games where id = ... for update`.
 
-La tabla de puntos de `supabase/seed/points_table.sql` y `src/game/pointsTable.ts` está generada por script y verificada. No la edites a mano: si hay que cambiarla, se cambia la semilla en `scripts/generate_points_table.py` y se vuelve a ejecutar.
+La tabla de puntos de `supabase/seed/points_table.sql` y `src/game/pointsTable.ts` es la del tablero físico (puntos 1, 2, 3 de cinco en cinco) y la genera `scripts/generate_points_table.py`. No la edites a mano: si hay que cambiarla, se cambia el script y se vuelve a ejecutar, y se añade una migración que actualice `tile_definitions`.
 
 ---
 

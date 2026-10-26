@@ -19,8 +19,8 @@ const POOL = [56, 12, 8, 44, 25];
 export const FIRST_REVEAL = { color: 0, tile: 31 } as const; //  ámbar
 const BOT_REVEAL = 23; //                                           rosa
 const BOT_CLUE_TILE = 12;
-export const SECOND_REVEAL = { color: 4, tile: 55 } as const; // azul
-/** La comparación del guion: la 55 con tu ficha 5 (la azul). */
+export const SECOND_REVEAL = { color: 4, tile: 60 } as const; // azul
+/** La comparación del guion: la 60 con tu ficha 5 (la azul). */
 export const COMPARE_SLOT = 4;
 
 /**
