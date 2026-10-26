@@ -10,7 +10,7 @@ export const TILE_H = 108;
 const FACE = 100;
 const RADIUS = 22; // 22 % del lado
 const CANTO = 8;
-// Por debajo de este ancho (px) se oculta el símbolo de la esquina: solo número y puntos.
+// Por debajo de este ancho (px) se oculta el símbolo de la esquina: solo número y barras.
 const SYMBOL_FROM = 56;
 
 const FILL = ['var(--ficha-0)', 'var(--ficha-1)', 'var(--ficha-2)', 'var(--ficha-3)', 'var(--ficha-4)'];
@@ -21,7 +21,7 @@ export interface TileProps {
   /** Número de la ficha; null si no se conoce. */
   number: number | null;
   colorIndex: number;
-  /** Puntos de la ficha (1–3); null si no se conocen. */
+  /** Barras llenas de la ficha (1–3); null si no se conocen. */
   points: number | null;
   /**
    * solved: tuya, ya resuelta · public: visible para todos · unknown: ficha tuya sin resolver ·
@@ -55,7 +55,7 @@ function Padlock() {
   );
 }
 
-/** Barra de puntos: tres segmentos; se rellenan tantos como puntos tenga la ficha. */
+/** Barras de la ficha: tres segmentos; se rellenan tantos como barras tenga la ficha (su «puntuación»). */
 function PointBar({ points, ink, outlined }: { points: number | null; ink: string; outlined: boolean }) {
   return (
     <g>

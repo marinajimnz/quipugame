@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { Tile } from './Tile';
 import type { TileProps } from './Tile';
 
-/** Tile con su etiqueta accesible traducida ("Ficha 23, azul, 2 puntos"). */
+/** Tile con su etiqueta accesible traducida ("Ficha 23, azul, 2 barras"). */
 export function GameTile(props: Omit<TileProps, 'label'>) {
   const t = useTranslations('tile');
   const color = t(`colors.${props.colorIndex}`);

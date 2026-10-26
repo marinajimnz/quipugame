@@ -153,6 +153,7 @@ export function tutorialState(stage: number, botMoves = 0): GameState {
         display_name: null,
         avatar_key: null,
         is_bot: true,
+        is_guest: false,
         state: 'active',
         has_declared: false,
         last_seen_at: '2026-01-01T00:00:00Z',

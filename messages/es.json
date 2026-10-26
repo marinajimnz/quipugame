@@ -77,7 +77,7 @@
       "rojo",
       "azul"
     ],
-    "solved": "Ficha {number}, {color}, {points, plural, one {# punto} other {# puntos}}",
+    "solved": "Ficha {number}, {color}, {points, plural, one {# barra} other {# barras}}",
     "unknown": "Ficha sin resolver, {color}",
     "guess": "Ficha sin resolver, {color}; crees que es el {number}",
     "back": "Ficha boca abajo, {color}"
@@ -90,7 +90,7 @@
     "botBadge": "Bot",
     "turnOf": "Turno de {name}",
     "yourTurn": "Tu turno",
-    "reserve": "Reserva: {count}",
+    "reserve": "{count, plural, one {Queda # ficha en la reserva} other {Quedan # fichas en la reserva}}",
     "time": "Tiempo",
     "phaseReveal": "Elige un color y revela una ficha de la reserva.",
     "phaseClue": "Elige una de las fichas a elegir y pide una pista.",
@@ -107,14 +107,14 @@
     "classify": "Clasificar",
     "compare": "Comparar",
     "classifyHelp": "Te dirá entre qué dos de tus fichas encaja.",
-    "compareHelp": "Te dirá si tiene los mismos puntos que una de tus fichas.",
+    "compareHelp": "Te dirá si tiene las mismas barras que una de tus fichas.",
     "pickSlot": "Ahora toca la ficha tuya con la que comparar.",
     "confirmClue": "Pedir pista",
     "sending": "Enviando…",
     "cluesTitle": "Pistas",
     "noClues": "Todavía no hay pistas.",
     "clueClassify": "{position, select, 0 {Encaja por debajo de todas} 5 {Encaja por encima de todas} other {Encaja entre la {a} y la {b}}}",
-    "clueCompare": "¿Mismos puntos que la ficha {slot}? {same, select, true {Sí} other {No}}",
+    "clueCompare": "¿Mismas barras que la ficha {slot}? {same, select, true {Sí} other {No}}",
     "history": "Historial",
     "eventGameStarted": "Empieza la partida.",
     "eventTileRevealed": "{name} revela la ficha {number}.",
@@ -148,7 +148,8 @@
       "backHome": "Volver al inicio",
       "eloChange": "{delta, plural, =0 {Tu ELO no cambia: {after}} other {{sign}{abs} de ELO: ahora {after}}}"
     },
-    "disconnectedBadge": "Desconectado",
+    "guestBadge": "Invitado",
+    "verifiedBadge": "Verificado",
     "connectionLost": "Sin conexión. Reconectando…",
     "abandon": "Abandonar partida",
     "abandonTitle": "¿Abandonar la partida?",
@@ -189,7 +190,7 @@
     "struck": "tachado por ti",
     "circled": "rodeado por ti",
     "reset": "Borrar mis marcas",
-    "cell": "{number}, {points, plural, one {# punto} other {# puntos}}",
+    "cell": "{number}, {points, plural, one {# barra} other {# barras}}",
     "view": "Vista",
     "viewAll": "Completo",
     "mine": "Tus fichas",
@@ -312,7 +313,12 @@
     "classifyTitle": "Clasificar",
     "classify": "¿Entre qué dos de mis fichas encaja esta? La respuesta dice cuántas de tus fichas son menores: «por debajo de todas», «entre la 2 y la 3», «por encima de todas»…",
     "compareTitle": "Comparar",
-    "compare": "¿Tiene los mismos puntos que mi ficha número tal? La respuesta es sí o no.",
+    "compare": "¿Tiene las mismas barras que esta ficha mía? La respuesta es sí o no.",
+    "barsTitle": "Las barras de cada ficha",
+    "bars1": "Abajo de cada ficha hay tres barras, y se rellenan una, dos o tres. Es una pista más: dos fichas con las mismas barras llenas «empatan».",
+    "bars2": "La respuesta a Comparar se queda colgada bajo la ficha tuya que preguntaste, con la ficha de la reserva que usaste:",
+    "barsSame": "Recta: tiene las mismas barras que la tuya.",
+    "barsDifferent": "Girada de lado: tiene un número de barras distinto al de la tuya.",
     "turn3": "La ficha que usas queda gastada, a la vista de todos. Las pistas y sus respuestas son públicas: también puedes aprender de lo que preguntan los demás.",
     "declareTitle": "Declarar",
     "declare1": "Cuando creas que sabes tus cinco números, declara. Puedes hacerlo en cualquier momento, también fuera de tu turno.",
@@ -394,15 +400,15 @@
       },
       "compare": {
         "title": "Comparar",
-        "body": "Toca la 55 y elige Comparar. Después toca tu ficha azul, la quinta, y pide la pista: sabrás si las dos valen los mismos puntos."
+        "body": "Toca la 55 y elige Comparar. Después toca tu ficha azul, la quinta, y pide la pista: sabrás si las dos tienen las mismas barras llenas."
       },
       "compared": {
-        "title": "Mismos puntos",
-        "body": "Sí: tu ficha azul vale lo mismo que la 55, 1 punto. La pista queda bajo esa ficha. Con esto ya puedes deducir mucho."
+        "title": "Mismas barras",
+        "body": "La 55 ha quedado recta bajo tu ficha azul: eso significa que sí, las dos tienen las mismas barras llenas (una). Si hubiera quedado girada de lado, habría sido un no. Con esto ya puedes deducir mucho."
       },
       "deduce": {
         "title": "Deducir",
-        "body": "Piensa en tu ficha azul. Es mayor que 31 y vale 1 punto: solo puede ser la 35 o la 45. Si fuera la 35, las otras cuatro no cabrían entre 31 y 35. En el tablero, toca tu ficha azul y apunta el 45."
+        "body": "Piensa en tu ficha azul. Es mayor que 31 y tiene una barra llena: solo puede ser la 35 o la 45. Si fuera la 35, las otras cuatro no cabrían entre 31 y 35. En el tablero, toca tu ficha azul y apunta el 45."
       },
       "deduced": {
         "title": "¡Bien visto!",

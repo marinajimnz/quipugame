@@ -15,7 +15,7 @@ const GAP = 6; // el mismo hueco que separa las fichas del soporte (gap-1.5)
 /**
  * Pistas de un jugador colocadas bajo su soporte. Usa una rejilla que calca la fila del soporte
  * (cada ficha son dos medias columnas y entre fichas va el hueco), así cada pista cae justo:
- * · comparar: bajo la ficha comparada; recta si coinciden los puntos, girada 90° a la izquierda si no.
+ * · comparar: bajo la ficha comparada; recta si tienen las mismas barras, girada 90° a la izquierda si no.
  * · encajar: entre las dos fichas que la rodean; en el borde, algo desplazada hacia fuera, si queda
  *   por debajo (izquierda) o por encima (derecha) de todas.
  * Las pistas que caen en el mismo sitio se apilan y se despliegan al pulsar.

@@ -17,6 +17,7 @@ export interface OtherPlayer {
   display_name: string | null; // null en los bots
   avatar_key: string | null;
   is_bot: boolean;
+  is_guest: boolean; // invitado (sin cuenta); false en los bots
   state: PlayerState;
   has_declared: boolean;
   last_seen_at: string;
