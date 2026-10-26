@@ -90,7 +90,7 @@
     "botBadge": "Bot",
     "turnOf": "{name}'s turn",
     "yourTurn": "Your turn",
-    "reserve": "Reserve: {count}",
+    "reserve": "{count, plural, one {# tile left in the reserve} other {# tiles left in the reserve}}",
     "time": "Time",
     "phaseReveal": "Pick a colour and reveal a tile from the reserve.",
     "phaseClue": "Pick one of the tiles to choose from and ask for a clue.",

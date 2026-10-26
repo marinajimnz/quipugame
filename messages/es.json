@@ -90,7 +90,7 @@
     "botBadge": "Bot",
     "turnOf": "Turno de {name}",
     "yourTurn": "Tu turno",
-    "reserve": "Reserva: {count}",
+    "reserve": "{count, plural, one {Queda # ficha en la reserva} other {Quedan # fichas en la reserva}}",
     "time": "Tiempo",
     "phaseReveal": "Elige un color y revela una ficha de la reserva.",
     "phaseClue": "Elige una de las fichas a elegir y pide una pista.",
