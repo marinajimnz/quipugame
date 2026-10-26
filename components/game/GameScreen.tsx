@@ -158,7 +158,7 @@ export function GameScreen({ gameId, userId }: { gameId: string; userId: string 
   return (
     <>
       {!online || isError ? <ConnectionBanner /> : null}
-      <main className="flex min-h-dvh flex-col gap-4 px-3 pb-44 pt-3">
+      <main className="flex min-h-pantalla flex-col gap-4 px-3 pb-44 pt-3">
         {finished ? (
           <GameOver state={state} labels={labels} gameId={gameId} userId={userId} />
         ) : (

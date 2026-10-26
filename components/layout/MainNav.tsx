@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { useState, type ReactNode } from 'react';
+import { useState, type CSSProperties, type ReactNode } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Sheet } from '@/components/ui/Sheet';
 import { useLiveGame } from '@/lib/game/liveGame';
@@ -92,7 +92,11 @@ export function MainNav({ children }: { children: ReactNode }) {
           })}
         </ul>
       </nav>
-      <div className="pb-[calc(3.5rem+env(safe-area-inset-bottom))]">
+      {/* --nav-h: alto de la barra; las pantallas lo restan de su alto mínimo (min-h-pantalla). */}
+      <div
+        style={{ '--nav-h': 'calc(3.5rem + env(safe-area-inset-bottom))' } as CSSProperties}
+        className="pb-[var(--nav-h)]"
+      >
         {children}
       </div>
 

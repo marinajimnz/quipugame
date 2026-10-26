@@ -25,7 +25,7 @@ export function OfflineScreen() {
   );
 
   return (
-    <main className="flex min-h-dvh flex-col justify-center gap-5 px-4 py-10">
+    <main className="flex min-h-pantalla flex-col justify-center gap-5 px-4 py-10">
       <h1 className="font-display text-4xl font-extrabold tracking-tight">{t('title')}</h1>
       <p>{t('body')}</p>
 

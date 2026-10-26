@@ -122,7 +122,7 @@ export function TutorialScreen() {
 
   if (id === 'done') {
     return (
-      <main className="flex min-h-dvh flex-col justify-center gap-6 px-4 py-10">
+      <main className="flex min-h-pantalla flex-col justify-center gap-6 px-4 py-10">
         <h1 className="text-center font-display text-4xl font-extrabold tracking-tight">{t('done.title')}</h1>
         <MySupport me={state.me} />
         <ul className="flex flex-col gap-2 rounded-3xl bg-espacio-claro p-4 leading-relaxed ring-1 ring-espacio-borde">
@@ -212,7 +212,7 @@ export function TutorialScreen() {
 
   return (
     <>
-      <main className={`flex min-h-dvh flex-col gap-4 px-3 ${showActions ? 'pb-72' : 'pb-8'}`}>
+      <main className={`flex min-h-pantalla flex-col gap-4 px-3 ${showActions ? 'pb-72' : 'pb-8'}`}>
         <div className="sticky top-0 z-20 -mx-3 flex flex-col gap-2 bg-espacio/95 px-3 pb-3 pt-3 backdrop-blur">
           <div className="flex items-center justify-between gap-3">
             <h1 className="font-display text-lg font-extrabold">{t('title')}</h1>

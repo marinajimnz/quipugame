@@ -37,7 +37,7 @@ export default async function ClasificacionPage() {
   );
 
   return (
-    <main className="flex min-h-dvh flex-col gap-4 px-4 py-8">
+    <main className="flex min-h-pantalla flex-col gap-4 px-4 py-8">
       <header className="flex flex-col gap-1">
         <h1 className="font-display text-4xl font-extrabold tracking-tight">{t('title')}</h1>
         <p className="text-sm text-crema-suave">{t('subtitle')}</p>
