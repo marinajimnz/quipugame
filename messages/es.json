@@ -400,15 +400,15 @@
       },
       "compare": {
         "title": "Comparar",
-        "body": "Toca la 55 y elige Comparar. Después toca tu ficha azul, la quinta, y pide la pista: sabrás si las dos tienen las mismas barras llenas."
+        "body": "Toca la 60 y elige Comparar. Después toca tu ficha azul, la quinta, y pide la pista: sabrás si las dos tienen las mismas barras llenas."
       },
       "compared": {
         "title": "Mismas barras",
-        "body": "La 55 ha quedado recta bajo tu ficha azul: eso significa que sí, las dos tienen las mismas barras llenas (una). Si hubiera quedado girada de lado, habría sido un no. Con esto ya puedes deducir mucho."
+        "body": "La 60 ha quedado recta bajo tu ficha azul: eso significa que sí, las dos tienen las mismas barras llenas (tres). Si hubiera quedado girada de lado, habría sido un no. Con esto ya puedes deducir mucho."
       },
       "deduce": {
         "title": "Deducir",
-        "body": "Piensa en tu ficha azul. Es mayor que 31 y tiene una barra llena: solo puede ser la 35 o la 45. Si fuera la 35, las otras cuatro no cabrían entre 31 y 35. En el tablero, toca tu ficha azul y apunta el 45."
+        "body": "Piensa en tu ficha azul. Es mayor que 31 y tiene tres barras llenas. De las fichas azules con tres barras, solo la 45 y la 60 son mayores que 31, y la 60 está a la vista: tiene que ser la 45. En el tablero, toca tu ficha azul y apunta el 45."
       },
       "deduced": {
         "title": "¡Bien visto!",

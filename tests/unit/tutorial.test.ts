@@ -55,7 +55,7 @@ describe('tutorial', () => {
     }
   });
 
-  it('la ficha azul es la que se compara y comparte puntos con la 55', () => {
-    expect(TILE_POINTS[55]).toBe(TILE_POINTS[SOLUTION[4]]);
+  it('la ficha azul es la que se compara y comparte barras con la 60', () => {
+    expect(TILE_POINTS[60]).toBe(TILE_POINTS[SOLUTION[4]]);
   });
 });

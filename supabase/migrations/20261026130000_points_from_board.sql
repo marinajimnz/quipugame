@@ -1,0 +1,72 @@
+-- La tabla de puntos pasa a ser la del tablero físico de Quinteto: los puntos de cada número se
+-- repiten 1, 2, 3 de cinco en cinco (1-5 → 1, 6-10 → 2, 11-15 → 3, 16-20 → 1, …). La anterior
+-- se había generado al azar y no coincidía en 37 de las 60 fichas.
+--
+-- Las respuestas de «Comparar» ya guardadas en partidas en curso se calcularon con la tabla vieja;
+-- las partidas nuevas usan ya la correcta. El equilibrio 4/4/4 por color se mantiene.
+
+update public.tile_definitions td
+   set points = v.points
+  from (values
+  (1, 1),
+  (2, 1),
+  (3, 1),
+  (4, 1),
+  (5, 1),
+  (6, 2),
+  (7, 2),
+  (8, 2),
+  (9, 2),
+  (10, 2),
+  (11, 3),
+  (12, 3),
+  (13, 3),
+  (14, 3),
+  (15, 3),
+  (16, 1),
+  (17, 1),
+  (18, 1),
+  (19, 1),
+  (20, 1),
+  (21, 2),
+  (22, 2),
+  (23, 2),
+  (24, 2),
+  (25, 2),
+  (26, 3),
+  (27, 3),
+  (28, 3),
+  (29, 3),
+  (30, 3),
+  (31, 1),
+  (32, 1),
+  (33, 1),
+  (34, 1),
+  (35, 1),
+  (36, 2),
+  (37, 2),
+  (38, 2),
+  (39, 2),
+  (40, 2),
+  (41, 3),
+  (42, 3),
+  (43, 3),
+  (44, 3),
+  (45, 3),
+  (46, 1),
+  (47, 1),
+  (48, 1),
+  (49, 1),
+  (50, 1),
+  (51, 2),
+  (52, 2),
+  (53, 2),
+  (54, 2),
+  (55, 2),
+  (56, 3),
+  (57, 3),
+  (58, 3),
+  (59, 3),
+  (60, 3)
+  ) as v(number, points)
+ where td.number = v.number;
