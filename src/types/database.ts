@@ -280,6 +280,7 @@ export type Database = {
           mode: Database["public"]["Enums"]["game_mode"]
           phase: Database["public"]["Enums"]["turn_phase"]
           revealed_tile: number | null
+          room_id: string | null
           started_at: string | null
           status: Database["public"]["Enums"]["game_status"]
           turn_deadline: string | null
@@ -296,6 +297,7 @@ export type Database = {
           mode: Database["public"]["Enums"]["game_mode"]
           phase?: Database["public"]["Enums"]["turn_phase"]
           revealed_tile?: number | null
+          room_id?: string | null
           started_at?: string | null
           status?: Database["public"]["Enums"]["game_status"]
           turn_deadline?: string | null
@@ -312,6 +314,7 @@ export type Database = {
           mode?: Database["public"]["Enums"]["game_mode"]
           phase?: Database["public"]["Enums"]["turn_phase"]
           revealed_tile?: number | null
+          room_id?: string | null
           started_at?: string | null
           status?: Database["public"]["Enums"]["game_status"]
           turn_deadline?: string | null
@@ -324,6 +327,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "tile_definitions"
             referencedColumns: ["number"]
+          },
+          {
+            foreignKeyName: "games_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["id"]
           },
           {
             foreignKeyName: "games_winner_fk"
@@ -403,16 +413,19 @@ export type Database = {
         Row: {
           joined_at: string
           profile_id: string
+          rematch_game_id: string | null
           room_id: string
         }
         Insert: {
           joined_at?: string
           profile_id: string
+          rematch_game_id?: string | null
           room_id: string
         }
         Update: {
           joined_at?: string
           profile_id?: string
+          rematch_game_id?: string | null
           room_id?: string
         }
         Relationships: [
@@ -421,6 +434,13 @@ export type Database = {
             columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "room_members_rematch_game_id_fkey"
+            columns: ["rematch_game_id"]
+            isOneToOne: false
+            referencedRelation: "games"
             referencedColumns: ["id"]
           },
           {
@@ -528,7 +548,6 @@ export type Database = {
       get_leaderboard: { Args: never; Returns: Json }
       get_my_active_game: { Args: never; Returns: string }
       get_queue_status: { Args: never; Returns: Json }
-      get_room_rematch: { Args: { p_game_id: string }; Returns: Json }
       get_room_by_code: {
         Args: { p_code: string }
         Returns: {
@@ -541,6 +560,7 @@ export type Database = {
           status: string
         }[]
       }
+      get_room_rematch: { Args: { p_game_id: string }; Returns: Json }
       is_participant: { Args: { p_game_id: string }; Returns: boolean }
       is_room_member: { Args: { p_room_id: string }; Returns: boolean }
       join_queue: { Args: never; Returns: undefined }
