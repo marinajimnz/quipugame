@@ -140,8 +140,7 @@
     },
     "over": {
       "won": "You won!",
-      "lost": "{name} won",
-      "wonByBot": "A bot won",
+      "lost": "Sorry... You lost.",
       "draw": "Draw: nobody won",
       "yourNumbers": "Your tiles were",
       "playAgain": "Play again",
