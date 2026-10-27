@@ -528,6 +528,7 @@ export type Database = {
       get_leaderboard: { Args: never; Returns: Json }
       get_my_active_game: { Args: never; Returns: string }
       get_queue_status: { Args: never; Returns: Json }
+      get_room_rematch: { Args: { p_game_id: string }; Returns: Json }
       get_room_by_code: {
         Args: { p_code: string }
         Returns: {
@@ -546,6 +547,8 @@ export type Database = {
       join_room: { Args: { p_code: string }; Returns: string }
       leave_queue: { Args: never; Returns: undefined }
       leave_room: { Args: { p_room_id: string }; Returns: undefined }
+      leave_room_game: { Args: { p_game_id: string }; Returns: undefined }
+      rematch_room: { Args: { p_game_id: string }; Returns: string }
       reveal_tile: {
         Args: { p_color: number; p_game_id: string }
         Returns: undefined

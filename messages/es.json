@@ -145,7 +145,12 @@
       "yourNumbers": "Tus fichas eran",
       "playAgain": "Jugar otra vez",
       "backHome": "Volver al inicio",
-      "eloChange": "{delta, plural, =0 {Tu ELO no cambia: {after}} other {{sign}{abs} de ELO: ahora {after}}}"
+      "eloChange": "{delta, plural, =0 {Tu ELO no cambia: {after}} other {{sign}{abs} de ELO: ahora {after}}}",
+      "leftRoom": "{name} ha salido de la sala.",
+      "rematchAlone": "Ya no queda nadie para jugar otra vez.",
+      "rematchWaiting": "Esperando a {names}…",
+      "rematchSent": "Esperando a los demás…",
+      "rematchError": "No se ha podido pedir otra partida. Inténtalo de nuevo."
     },
     "guestBadge": "Invitado",
     "verifiedBadge": "Verificado",

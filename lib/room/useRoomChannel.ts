@@ -1,13 +1,20 @@
 'use client';
 
 import { useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 
-/** Realtime de una sala: quién entra o sale y cuándo se inicia la partida. */
-export function useRoomChannel(roomId: string | undefined): boolean {
+/**
+ * Realtime de una sala: quién entra o sale y cuándo se inicia la partida. `onChange` se llama
+ * además en cada cambio (p. ej. para refrescar el estado de la revancha).
+ */
+export function useRoomChannel(roomId: string | undefined, onChange?: () => void): boolean {
   const queryClient = useQueryClient();
   const [connected, setConnected] = useState(false);
+  const onChangeRef = useRef(onChange);
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  });
 
   useEffect(() => {
     if (!roomId) return;
@@ -15,6 +22,7 @@ export function useRoomChannel(roomId: string | undefined): boolean {
     const invalidate = () => {
       void queryClient.invalidateQueries({ queryKey: ['room', roomId] });
       void queryClient.invalidateQueries({ queryKey: ['room-members', roomId] });
+      onChangeRef.current?.();
     };
 
     const channel = supabase

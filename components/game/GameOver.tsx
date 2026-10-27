@@ -4,16 +4,23 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useEffect, useId, useRef } from 'react';
 import { PracticeAgain } from '@/components/home/PracticeForm';
+import type { PlayerLabel } from '@/lib/game/playerLabel';
 import type { GameState } from '@/lib/game/types';
 import { Confetti } from './Confetti';
 import { EloChange } from './EloChange';
+import { RoomRematch } from './RoomRematch';
 import { MySupport } from './Support';
+
+const HOME =
+  'inline-flex min-h-11 items-center justify-center rounded-[22px] bg-espacio-borde px-5 text-base font-bold shadow-[0_5px_0_color-mix(in_oklab,var(--espacio-borde)_70%,black)] active:translate-y-0.5 disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crema';
 
 /**
  * Resultado de la partida en una ventana centrada sobre la partida desenfocada, con mis números
  * reales (el servidor ya me los entrega). Solo se sale con sus botones.
  */
-export function GameOver({ state, gameId, userId }: { state: GameState; gameId: string; userId: string }) {
+export function GameOver({
+  state, labels, gameId, userId,
+}: { state: GameState; labels: Map<string, PlayerLabel>; gameId: string; userId: string }) {
   const t = useTranslations('game.over');
   const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
@@ -44,13 +51,14 @@ export function GameOver({ state, gameId, userId }: { state: GameState; gameId: 
           <MySupport me={state.me} size={52} />
         </div>
         <div className="flex flex-col gap-4">
-          {state.game.mode === 'practice' ? <PracticeAgain bots={state.players.length} /> : null}
-          <Link
-            href="/"
-            className="inline-flex min-h-11 items-center justify-center rounded-[22px] bg-espacio-borde px-5 text-base font-bold shadow-[0_5px_0_color-mix(in_oklab,var(--espacio-borde)_70%,black)] active:translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crema"
-          >
-            {t('backHome')}
-          </Link>
+          {state.game.mode === 'private' ? (
+            <RoomRematch state={state} gameId={gameId} labels={labels} homeClassName={HOME} />
+          ) : (
+            <>
+              {state.game.mode === 'practice' ? <PracticeAgain bots={state.players.length} /> : null}
+              <Link href="/" className={HOME}>{t('backHome')}</Link>
+            </>
+          )}
         </div>
       </div>
     </dialog>
