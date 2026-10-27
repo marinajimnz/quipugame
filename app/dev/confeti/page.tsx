@@ -27,7 +27,7 @@ export default function ConfetiPage() {
       <button type="button" className="min-h-11 rounded-xl bg-espacio-borde px-5 font-bold" onClick={() => setRun({ winner: 'rival', n: Date.now() })}>
         Perder
       </button>
-      {run ? <GameOver key={run.n} state={fakeState(run.winner)} gameId="dev" userId="me" /> : null}
+      {run ? <GameOver key={run.n} state={fakeState(run.winner)} labels={new Map()} gameId="dev" userId="me" /> : null}
     </main>
   );
 }

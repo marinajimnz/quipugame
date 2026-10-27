@@ -145,7 +145,12 @@
       "yourNumbers": "Your tiles were",
       "playAgain": "Play again",
       "backHome": "Back to home",
-      "eloChange": "{delta, plural, =0 {Your ELO does not change: {after}} other {{sign}{abs} ELO: now {after}}}"
+      "eloChange": "{delta, plural, =0 {Your ELO does not change: {after}} other {{sign}{abs} ELO: now {after}}}",
+      "leftRoom": "{name} has left the room.",
+      "rematchAlone": "There is nobody left to play again with.",
+      "rematchWaiting": "Waiting for {names}…",
+      "rematchSent": "Waiting for the others…",
+      "rematchError": "Could not ask for another game. Please try again."
     },
     "guestBadge": "Guest",
     "verifiedBadge": "Verified",
