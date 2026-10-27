@@ -140,8 +140,7 @@
     },
     "over": {
       "won": "¡Has ganado!",
-      "lost": "Ha ganado {name}",
-      "wonByBot": "Ha ganado un bot",
+      "lost": "Lo siento... Has perdido.",
       "draw": "Empate: nadie ha ganado",
       "yourNumbers": "Tus fichas eran",
       "playAgain": "Jugar otra vez",
