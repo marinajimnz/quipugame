@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useId, useRef } from 'react';
 import { PracticeAgain } from '@/components/home/PracticeForm';
 import type { GameState } from '@/lib/game/types';
+import { Confetti } from './Confetti';
 import { EloChange } from './EloChange';
 import { MySupport } from './Support';
 
@@ -18,7 +19,8 @@ export function GameOver({ state, gameId, userId }: { state: GameState; gameId: 
   const titleId = useId();
   const winnerId = state.game.winner_player_id;
 
-  const headline = !winnerId ? t('draw') : winnerId === state.me.player_id ? t('won') : t('lost');
+  const outcome = !winnerId ? 'draw' : winnerId === state.me.player_id ? 'won' : 'lost';
+  const headline = t(outcome);
 
   useEffect(() => {
     const dialog = ref.current;
@@ -30,9 +32,11 @@ export function GameOver({ state, gameId, userId }: { state: GameState; gameId: 
       ref={ref}
       aria-labelledby={titleId}
       onCancel={(e) => e.preventDefault()}
-      className="m-auto w-[calc(100%-2rem)] max-w-[400px] rounded-3xl bg-espacio-claro p-5 text-crema ring-2 ring-acento backdrop:bg-espacio/50 backdrop:backdrop-blur-md motion-safe:animate-[panel-in_220ms_ease-out]"
+      className="m-auto w-[calc(100%-2rem)] max-w-[400px] rounded-3xl bg-espacio-claro p-5 text-crema ring-2 ring-acento backdrop:bg-espacio/50 backdrop:backdrop-blur-md"
     >
-      <div className="flex flex-col gap-5 text-center">
+      {/* Dentro del diálogo: es lo único que se pinta por encima de él (capa superior). */}
+      {outcome === 'won' ? <Confetti kind="win" /> : outcome === 'lost' ? <Confetti kind="lose" /> : null}
+      <div className="flex flex-col gap-5 text-center motion-safe:animate-[panel-in_220ms_ease-out]">
         <h1 id={titleId} className="text-balance font-display text-4xl font-extrabold">{headline}</h1>
         {state.game.mode === 'ranked' ? <EloChange gameId={gameId} userId={userId} /> : null}
         <div className="flex flex-col gap-2 rounded-2xl bg-espacio/70 p-3">
